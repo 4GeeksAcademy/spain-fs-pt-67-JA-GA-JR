@@ -1,0 +1,7 @@
+1 en models.py -> definir las tablas tomando com ejemplo lo que viene en la plantilla
+
+2. en admin.py voy a añadir las tablas a mi archivo (líneas 3 y a partir 13)
+
+3. en app.py crear los endpoints GET que se encargarán de entregar la info
+
+4. testear con Postman
