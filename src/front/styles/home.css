@@ -1,7 +1,57 @@
-/*
-    home.css: This website contains selectors only used in home.css
+/* RegisterForm.css */
 
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*/
+body {
+    background-color: #000; /* Fondo negro para el cuerpo */
+    color: #fff; /* Texto blanco para contrastar con el fondo negro */
+  }
+  
+  .container {
+    margin-top: 50px;
+  }
+  
+  .card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border: 2px solid #FFD700; /* Dorado */
+    background-color: #333; /* Fondo oscuro para la tarjeta */
+  }
+  
+  .card-body {
+    padding: 30px;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+    color: #FFD700; /* Dorado */
+  }
+  
+  .form-control {
+    border-radius: 5px;
+    border: 1px solid #444; /* Gris oscuro */
+    background-color: #222; /* Fondo oscuro para los campos de entrada */
+    color: #fff; /* Texto blanco en los campos de entrada */
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  .form-control::placeholder {
+    color: #aaa; /* Color de texto de los placeholders */
+  }
+  
+  .form-label {
+    color: #FFD700; /* Dorado para las etiquetas */
+  }
+  
+  .btn-primary {
+    background-color: #87ceeb; /* Azul cielo */
+    border-color: #729BF4.; /* Azul cielo */
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+  
+  .btn-primary:hover {
+    background-color: #00bfff; /* Azul más intenso */
+    border-color: #00bfff; /* Azul más intenso */
+  }
+  
