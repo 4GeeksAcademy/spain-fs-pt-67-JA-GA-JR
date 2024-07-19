@@ -19,6 +19,8 @@ cloudinary = "*"
 flask-admin = "*"
 typing-extensions = "*"
 pylance = "*"
+flask-jwt-extended = "*"
+timedelta = "*"
 
 [requires]
 python_version = "3.10"
