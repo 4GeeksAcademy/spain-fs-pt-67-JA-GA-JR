@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1150bbbbb496950002a7a0852e117fc4eeb865a763a2f5d4a19ae1d8c93c5853"
+            "sha256": "62c951d402e700ffbbef27de2025cb15f221c8bf4ca001eb54736bb95da08eab"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -78,6 +78,14 @@
             ],
             "index": "pypi",
             "version": "==4.0.1"
+        },
+        "flask-jwt-extended": {
+            "hashes": [
+                "sha256:63a28fc9731bcc6c4b8815b6f954b5904caa534fc2ae9b93b1d3ef12930dca95",
+                "sha256:9215d05a9413d3855764bcd67035e75819d23af2fafb6b55197eb5a3313fdfb2"
+            ],
+            "index": "pypi",
+            "version": "==4.6.0"
         },
         "flask-migrate": {
             "hashes": [
@@ -435,6 +443,14 @@
             "markers": "python_version >= '3.8'",
             "version": "==15.0.0"
         },
+        "pyjwt": {
+            "hashes": [
+                "sha256:57e28d156e3d5c10088e0c68abb90bfac3df82b40a71bd0daa20c65ccd5c23de",
+                "sha256:59127c392cc44c2da5bb3192169a91f429924e17aff6534d70fdc02ab3e04320"
+            ],
+            "markers": "python_version >= '3.7'",
+            "version": "==2.8.0"
+        },
         "pylance": {
             "hashes": [
                 "sha256:893f4d95bda9f676cacca91e51e5bd2e9c3714a01145f42091b1820027a47401",
@@ -574,6 +590,13 @@
             ],
             "index": "pypi",
             "version": "==2.0.31"
+        },
+        "timedelta": {
+            "hashes": [
+                "sha256:41c28b314de9cb6e4c95fcc9f4e3ecee435f2fc821a079cd9243be4783ac4cf4"
+            ],
+            "index": "pypi",
+            "version": "==2020.12.3"
         },
         "typing-extensions": {
             "hashes": [
