@@ -42,7 +42,7 @@ class Objetivo(db.Model):
     monto = db.Column(db.Integer, nullable=False)
     fecha_objetivo = db.Column(db.Date, nullable=True)
     cuota_mensual = db.Column(db.Integer, nullable=True)
-    usuarios_relacion = db.Column(db.Integer,db.ForeignKey(Usuarios.id, ondelete='CASCADE'), nullable=False)
+    usuarios_relacion = db.Column(db.Integer,db.ForeignKey(Usuarios.id, ondelete='CASCADE'))
 
     def serialize(self):
         return {
@@ -60,10 +60,10 @@ class Movimientos(db.Model):
     monto = db.Column(db.Integer, nullable=False)
     tipo_movimiento = db.Column(db.String(120), nullable=False)
     motivo = db.Column(db.String(120), nullable=False)
-    eventos_relacion = db.Column(db.Integer,db.ForeignKey(Eventos.id, ondelete='CASCADE'), nullable=False)
-    objetivo_relacion = db.Column(db.Integer,db.ForeignKey(Objetivo.id, ondelete='CASCADE'), nullable=False)
+    eventos_relacion = db.Column(db.Integer,db.ForeignKey(Eventos.id, ondelete='CASCADE'))
+    objetivo_relacion = db.Column(db.Integer,db.ForeignKey(Objetivo.id, ondelete='CASCADE'))
     fecha = db.Column(db.Date, nullable=True)
-    usuarios_relacion = db.Column(db.Integer,db.ForeignKey(Usuarios.id, ondelete='CASCADE'), nullable=False)
+    usuarios_relacion = db.Column(db.Integer,db.ForeignKey(Usuarios.id, ondelete='CASCADE'))
 
     def serialize(self):
         return {
@@ -86,7 +86,7 @@ class Alertas_programadas(db.Model):
     antelacion = db.Column(db.Integer, nullable=False)
     motivo = db.Column(db.String(120), nullable=False)
     fecha_esperada = db.Column(db.Date, nullable=False)
-    usuarios_relacion = db.Column(db.Integer,db.ForeignKey(Usuarios.id, ondelete='CASCADE'), nullable=False)
+    usuarios_relacion = db.Column(db.Integer,db.ForeignKey(Usuarios.id, ondelete='CASCADE'))
 
     def serialize(self):
         return {
