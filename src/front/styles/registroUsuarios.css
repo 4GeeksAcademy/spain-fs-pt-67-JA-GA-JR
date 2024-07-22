@@ -1,7 +1,7 @@
 
 
 body {
-    background-color: #000; 
+    background-color: #09475f; 
     color: #fff; 
   }
   
@@ -48,10 +48,12 @@ body {
     border-radius: 5px;
     font-size: 16px;
     padding: 10px 20px;
+    color: #000;
   }
   
   .btn-primary:hover {
-    background-color: #00bfff; 
-    border-color: #00bfff; 
+    background-color: #FFD700; 
+    border-color: black;
+    color: #000
   }
   
