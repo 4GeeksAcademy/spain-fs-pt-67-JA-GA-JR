@@ -39,11 +39,7 @@ export const Registro = () => {
 			const handleSubmit = (e) => {
 				e.preventDefault();
 				
-				// Validar que las contraseñas coincidan
-				if (formData.password !== formData.confirmPassword) {
-					alert("Las contraseñas no coinciden.");
-					return;
-				}
+				
 
         const validationErrors = validate();
         if (Object.keys(validationErrors).length > 0) {
