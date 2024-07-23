@@ -1,6 +1,9 @@
 import React, { startTransition, useContext, useState } from "react";
+import {createUser} from "../store/appContext"
+import { Context } from "../store/appContext";
 
 import "../../styles/home.css";
+import { jsx } from "react/jsx-runtime";
 export const Registro = () => {
     const [formData, setFormData] = useState({
         name: "",
@@ -11,7 +14,7 @@ export const Registro = () => {
       });
 
       const [errors, setErrors] = useState({}); 
-
+      const {actions} = useContext(Context)
 
           // judit Manejar cambios en los campos del formulario
           const handleChange = (e) => {
@@ -47,44 +50,13 @@ export const Registro = () => {
             return;
         }
 
-		
 		try {
-            const response = await fetch ('https://symmetrical-capybara-wrvrpg6wg96vc5wxw-3001.app.github.dev/', {
-                method: 'POST', 
-                headers: {
-                    'Content-Type' : 'application/json'
-                    },
-                    body : JSON.stringify({
-                        name : formData.name,
-                        phone: formData.phone,
-                        email: formData.email,
-                        password: formData.password
-                    })
-            });
-            if (!response.ok) {
-                throw new Error ('Error en la solicitud' + response.statusText );
-            }
-            const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-
-            const result = await response.json();
-
-        if (result.msg === 'Registro exitoso'){
-            alert ('Registro exitoso')
+            const result = await actions.createUser(formData);
+            console.log("usuario creado", result);
+        }catch(error){
+            console.log("error al crear el usuario", error)
         }
-        else {
-            alert('Hubo un problema con el registro')
-        }
-        }else{
-            const text = await response.text();
-            alert ('Error:' + text);
-        }
-    }
-        catch (error){
-            console.error('Error al enviar los datos:', error);
-            alert('Hubo un problema al enviar los datos');
-        }
-				console.log("Datos del formulario:", formData);
+		
 			};
     return (
       <div className="container mt-5">
