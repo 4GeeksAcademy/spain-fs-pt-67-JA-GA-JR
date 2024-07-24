@@ -109,7 +109,7 @@ def handle_eventos():
 @jwt_required()
 def create_usuarios():
     body = request.json
-    me = Usuarios(nombre=body["nombre"], telefono=body["telefono"], email=body["email"], password=body["password"], activado=body["activado"])
+    me = Usuarios(nombre=body["name"], telefono=body["phone"], email=body["email"], password=body["password"], activado=True)
     db.session.add(me)
     db.session.commit()
     response_body = {
@@ -214,7 +214,7 @@ def create_eventos():
     return jsonify(response_body), 200
 # Jorge -> fin de los POST
 
-# Jorge -> A partir de aquí los PUT
+# Jorge -> A partir de aquí los PUT por ID
 @api.route('/usuarios/<int:usuario_id>', methods=['PUT'])
 @jwt_required()
 def update_usuarios(usuario_id):
@@ -296,3 +296,63 @@ def update_eventos(evento_id):
     else:
         return jsonify({"msg": "Este evento no existe"}), 404
 # Jorge -> fin de los PUT
+
+# Jorge -> a partir de aquí los DELETE por ID
+@api.route('/usuarios/<int:usuario_id>', methods=['DELETE'])
+@jwt_required()
+def delete_usuario(usuario_id):
+    usuario = Usuarios.query.get(usuario_id)
+    if usuario:
+        Movimientos.query.filter_by(usuarios_relacion=usuario_id).delete()
+        Alertas_programadas.query.filter_by(usuarios_relacion=usuario_id).delete()
+        Objetivo.query.filter_by(usuarios_relacion=usuario_id).delete()
+        db.session.delete(usuario)
+        db.session.commit()
+        return jsonify({"msg": "El usuario y los elementos relacionados han sido eliminados"}), 200
+    else:
+        return jsonify({"msg": "El usuario no existe"}), 404
+
+@api.route('/movimientos/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_movimiento(id):
+    movimiento = Movimientos.query.get(id)
+    if not movimiento:
+        raise APIException('Movimiento no encontrado', status_code=404)
+    
+    db.session.delete(movimiento)
+    db.session.commit()
+    return jsonify({"message": "Movimiento eliminado"}), 200
+
+@api.route('/alertas_programadas/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_alerta_programada(id):
+    alerta_programada = Alertas_programadas.query.get(id)
+    if not alerta_programada:
+        raise APIException('Alerta programada no encontrada', status_code=404)
+    
+    db.session.delete(alerta_programada)
+    db.session.commit()
+    return jsonify({"message": "Alerta programada eliminada"}), 200
+
+@api.route('/objetivo/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_objetivo(id):
+    objetivo = Objetivo.query.get(id)
+    if not objetivo:
+        raise APIException('Objetivo no encontrado', status_code=404)
+    
+    db.session.delete(objetivo)
+    db.session.commit()
+    return jsonify({"message": "Objetivo eliminado"}), 200
+
+@api.route('/eventos/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_evento(id):
+    evento = Eventos.query.get(id)
+    if not evento:
+        raise APIException('Evento no encontrado', status_code=404)
+    
+    db.session.delete(evento)
+    db.session.commit()
+    return jsonify({"message": "Evento eliminado"}), 200
+# Jorge -> fin de los DELETE
