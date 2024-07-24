@@ -45,31 +45,7 @@ const injectContext = PassedComponent => {
 	return StoreWrapper;
 };
 
-export const createUser = async (formData) => {
-    try {
-        const response = await fetch('https://symmetrical-capybara-wrvrpg6wg96vc5wxw-3001.app.github.dev/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                name: formData.name,
-                phone: formData.phone,
-                email: formData.email,
-                password: formData.password
-            })
-        });
 
-        if (!response.ok) {
-            throw new Error('El usuario no ha sido creado correctamente');
-        }
-
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.log(error);
-    }
-};
 
 
 
