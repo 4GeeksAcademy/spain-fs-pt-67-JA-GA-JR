@@ -42,7 +42,6 @@
     background-color: #0056b3;
   }
   
-  /* Responsiveness */
   @media (max-width: 600px) {
     .formulario {
       padding: 10px;
