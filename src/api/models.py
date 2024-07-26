@@ -12,6 +12,7 @@ class Usuarios(db.Model):
     telefono = db.Column(db.Integer, unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
+    foto_perfil_url = db.Column(db.String(255), nullable=True)
     activado = db.Column(db.Boolean(), nullable=False, default=True)
 
     def __repr__(self):
@@ -22,7 +23,8 @@ class Usuarios(db.Model):
             "id": self.id,
             "nombre": self.nombre,
             "telefono": self.telefono,
-            "email": self.email
+            "email": self.email,
+            "foto_perfil_url": self.foto_perfil_url
             # do not serialize the password, its a security breach
         }
 
