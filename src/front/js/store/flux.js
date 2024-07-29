@@ -1,54 +1,65 @@
 const getState = ({ getStore, getActions, setStore }) => {
-	return {
-		store: {
-			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
-		},
-		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
-
-			getMessage: async () => {
-				try{
-					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
-					const data = await resp.json()
-					setStore({ message: data.message })
-					// don't forget to return something, that is how the async resolves
+    return {
+        store: {
+            message: null,
+            demo: [
+                {
+                    nombre: "judit",
+                    telefono: 123456789,
+                    email: "judit@gmail.com",
+                    password: 12345
+                }
+            ]
+        },
+        actions: {
+			createUser: async (formData) => {
+				try {
+					console.log(formData)
+					const response = await fetch(process.env.BACKEND_URL + "/api/usuarios", {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json' 
+						},
+						
+						body: JSON.stringify({
+							name: formData.name,
+							phone: formData.phone,
+							email: formData.email,
+							password: formData.password
+						})
+					});
+					
+			
+					if (!response.ok) {
+						throw new Error('El usuario no ha sido creado correctamente');
+					}
+					if (response.ok) {
+						alert('El usuario ha sido creado correctamente');
+					}
+			
+					const data = await response.json();
 					return data;
-				}catch(error){
-					console.log("Error loading message from backend", error)
+				} catch (error) {
+					console.error("Error al crear usuario", error);
 				}
 			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
+			
+				
+            
 
-				//reset the global store
-				setStore({ demo: demo });
-			}
-		}
-	};
+            getMessage: async () => {
+                try {
+                    const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
+                    const data = await resp.json();
+                    setStore({ message: data.message });
+                    return data;
+                } catch (error) {
+                    console.error("Error loading message from backend", error);
+                }
+            }
+        }
+    };
 };
 
 export default getState;
