@@ -1,10 +1,13 @@
 import React, { startTransition, useContext, useState } from "react";
-import {createUser} from "../store/appContext"
+import { useNavigate } from 'react-router-dom';
+
 import { Context } from "../store/appContext";
 
 import "../../styles/home.css";
 import { jsx } from "react/jsx-runtime";
 export const Registro = () => {
+
+  const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: "",
         phone: "",
@@ -53,6 +56,7 @@ export const Registro = () => {
 		try {
             const result = await actions.createUser(formData);
             console.log("usuario creado", result);
+            navigate('/home');
         }catch(error){
             console.log("error al crear el usuario", error)
         }
@@ -90,7 +94,7 @@ export const Registro = () => {
                 title="Ingrese su teléfono"
                 value={formData.phone}
                 onChange={handleChange}
-                autoComplete="tel"
+                autoComplete="phone"
               />
               {errors.phone && <div className="text-danger">{errors.phone}</div>}
             </div>

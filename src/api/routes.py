@@ -106,7 +106,7 @@ def handle_eventos():
 
 # Jorge -> A partir de aquí los POST
 @api.route('/usuarios', methods=['POST'])
-@jwt_required()
+
 def create_usuarios():
     body = request.json
     me = Usuarios(nombre=body["name"], telefono=body["phone"], email=body["email"], password=body["password"], activado=True)
