@@ -34,7 +34,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						throw new Error('El usuario no ha sido creado correctamente');
 					}
 					if (response.ok) {
-						throw new Error('El usuario ha sido creado correctamente');
+						alert('El usuario ha sido creado correctamente');
 					}
 			
 					const data = await response.json();
