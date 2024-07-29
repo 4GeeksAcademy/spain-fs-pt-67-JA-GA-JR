@@ -6,7 +6,11 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 from api.models import db, Usuarios, Movimientos, Alertas_programadas, Objetivo, Eventos
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 #from admin import setup_admin
+from config import cloudinary
 
 
 api = Blueprint('api', __name__)
@@ -106,7 +110,7 @@ def handle_eventos():
 
 # Jorge -> A partir de aquí los POST
 @api.route('/usuarios', methods=['POST'])
-@jwt_required()
+
 def create_usuarios():
     body = request.json
     me = Usuarios(nombre=body["name"], telefono=body["phone"], email=body["email"], password=body["password"], activado=True)
@@ -217,19 +221,32 @@ def create_eventos():
 # Jorge -> A partir de aquí los PUT por ID
 @api.route('/usuarios/<int:usuario_id>', methods=['PUT'])
 @jwt_required()
-def update_usuarios(usuario_id):
+def update_usuario(usuario_id):
     usuario = Usuarios.query.get(usuario_id)
-    if usuario:
-        body = request.json
-        usuario.nombre = body.get("nombre", usuario.nombre)
-        usuario.telefono = body.get("telefono", usuario.telefono)
-        usuario.email = body.get("email", usuario.email)
-        usuario.password = body.get("password", usuario.password)
-        usuario.activado = body.get("activado", usuario.activado)
+    if not usuario:
+        raise APIException("Usuario no encontrado", status_code=404)
+
+    data = request.form
+    if "foto_perfil" in request.files:
+        upload_result = cloudinary.uploader.upload(request.files["foto_perfil"])
+        foto_perfil_url = upload_result["secure_url"]
+        usuario.foto_perfil_url = foto_perfil_url
+    if "nombre" in data:
+        usuario.nombre = data["nombre"]
+    if "telefono" in data:
+        usuario.telefono = data["telefono"]
+    if "email" in data:
+        usuario.email = data["email"]
+    if "password" in data:
+        usuario.password = data["password"]
+
+    try:
         db.session.commit()
-        return jsonify({"msg": "Usuario actualizado", "data": usuario.serialize()}), 200
-    else:
-        return jsonify({"msg": "El usuario no existe"}), 404
+    except Exception as e:
+        db.session.rollback()
+        raise APIException(f"Error actualizando el usuario: {str(e)}, status_code=500")
+    
+    return jsonify(usuario.serialize()), 200
 
 @api.route('/movimientos/<int:movimiento_id>', methods=['PUT'])
 @jwt_required()
