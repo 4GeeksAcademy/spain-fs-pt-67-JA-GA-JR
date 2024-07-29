@@ -31,11 +31,13 @@ class Usuarios(db.Model):
 class Eventos(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(120), nullable=False)
-    
+    usuarios_relacion = db.Column(db.Integer, db.ForeignKey(Usuarios.id, ondelete='CASCADE'), nullable=False)
+
     def serialize(self):
         return {
             "id": self.id,
-            "nombre": self.nombre
+            "nombre": self.nombre,
+            "usuarios_relacion": self.usuarios_relacion
         }
     
 class Objetivo(db.Model):
