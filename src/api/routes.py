@@ -6,6 +6,7 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 from api.models import db, Usuarios, Movimientos, Alertas_programadas, Objetivo, Eventos
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
+from flask_migrate import Migrate
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
@@ -31,7 +32,7 @@ def login():
         return jsonify({"msg": "El usuario no existe"}), 401
     if password != usuarios_query.password:
         return jsonify({"msg": "La contraseña es incorrecta."}), 401
-    access_token = create_access_token(identity=email)
+    access_token = create_access_token(identity=usuarios_query.id)
     return jsonify(access_token=access_token), 200
     
 @api.route('/protected', methods=['GET'])
@@ -130,17 +131,15 @@ def create_usuarios():
 @api.route('/movimientos', methods=['POST'])
 @jwt_required()
 def create_movimientos():
+    user_id = get_jwt_identity()
     body = request.json
     eventos_relacion = body.get("eventos_relacion")
     objetivo_relacion = body.get("objetivo_relacion")
-    usuarios_relacion = int(body["usuarios_relacion"])
 
     if eventos_relacion and not Eventos.query.get(eventos_relacion):
         return jsonify({"msg": f"Eventos ID {eventos_relacion} does not exist"}), 400
     if objetivo_relacion and not Objetivo.query.get(objetivo_relacion):
         return jsonify({"msg": f"Objetivo ID {objetivo_relacion} does not exist"}), 400
-    if not Usuarios.query.get(usuarios_relacion):
-        return jsonify({"msg": f"Usuarios ID {usuarios_relacion} does not exist"}), 400
 
     try:
         me = Movimientos(
@@ -151,7 +150,7 @@ def create_movimientos():
             eventos_relacion=eventos_relacion,
             objetivo_relacion=objetivo_relacion,
             fecha=body["fecha"],
-            usuarios_relacion=usuarios_relacion
+            usuarios_relacion=user_id
         )
         db.session.add(me)
         db.session.commit()
@@ -171,6 +170,7 @@ def create_movimientos():
 @api.route('/alertas_programadas', methods=['POST'])
 @jwt_required()
 def create_alertas_programadas():
+    user_id = get_jwt_identity()
     body = request.json
     me = Alertas_programadas(
             nombre=body["nombre"],
@@ -179,7 +179,7 @@ def create_alertas_programadas():
             antelacion=body["antelacion"],
             motivo=body["motivo"],
             fecha_esperada=body["fecha_esperada"],
-            usuarios_relacion=body["usuarios_relacion"]
+            usuarios_relacion=user_id
             )
     db.session.add(me)
     db.session.commit()
@@ -192,8 +192,15 @@ def create_alertas_programadas():
 @api.route('/objetivo', methods=['POST'])
 @jwt_required()
 def create_objetivo():
+    user_id = get_jwt_identity()
     body = request.json
-    me = Objetivo(nombre=body["nombre"], monto=int(body["monto"]), fecha_objetivo=body["fecha_objetivo"], cuota_mensual=int(body["cuota_mensual"]), usuarios_relacion=body["usuarios_relacion"])
+    me = Objetivo(
+            nombre=body["nombre"],
+            monto=int(body["monto"]),
+            fecha_objetivo=body["fecha_objetivo"],
+            cuota_mensual=int(body["cuota_mensual"]),
+            usuarios_relacion=user_id
+        )
 
     db.session.add(me)
     db.session.commit()
@@ -203,11 +210,16 @@ def create_objetivo():
     }
     return jsonify(response_body), 200
 
+
 @api.route('/eventos', methods=['POST'])
 @jwt_required()
 def create_eventos():
+    user_id = get_jwt_identity()
     body = request.json
-    me = Eventos(nombre=body["nombre"])
+    me = Eventos(
+        nombre=body["nombre"],
+        usuarios_relacion=user_id
+    )
 
     db.session.add(me)
     db.session.commit()
@@ -222,6 +234,10 @@ def create_eventos():
 @api.route('/usuarios/<int:usuario_id>', methods=['PUT'])
 @jwt_required()
 def update_usuario(usuario_id):
+    user_id = get_jwt_identity()
+    if user_id != usuario_id:
+        return jsonify({"msg": "No tienes permiso para actualizar este usuario"}), 403
+
     usuario = Usuarios.query.get(usuario_id)
     if not usuario:
         raise APIException("Usuario no encontrado", status_code=404)
@@ -245,14 +261,15 @@ def update_usuario(usuario_id):
     except Exception as e:
         db.session.rollback()
         raise APIException(f"Error actualizando el usuario: {str(e)}, status_code=500")
-    
+
     return jsonify(usuario.serialize()), 200
 
 @api.route('/movimientos/<int:movimiento_id>', methods=['PUT'])
 @jwt_required()
 def update_movimientos(movimiento_id):
+    user_id = get_jwt_identity()
     movimiento = Movimientos.query.get(movimiento_id)
-    if movimiento:
+    if movimiento and movimiento.usuarios_relacion == user_id:
         body = request.json
         movimiento.nombre = body.get("nombre", movimiento.nombre)
         movimiento.monto = body.get("monto", movimiento.monto)
@@ -261,17 +278,17 @@ def update_movimientos(movimiento_id):
         movimiento.eventos_relacion= body.get("eventos_relacion", movimiento.eventos_relacion)
         movimiento.objetivo_relacion= body.get("objetivo_relacion", movimiento.objetivo_relacion)
         movimiento.fecha = body.get("fecha", movimiento.fecha)
-        movimiento.usuarios_relacion= body.get("usuarios_relacion", movimiento.usuarios_relacion)
         db.session.commit()
         return jsonify({"msg": "Movimiento actualizado", "data": movimiento.serialize()}), 200
     else:
-        return jsonify({"msg": "Esta transacción no existe"}), 404
+        return jsonify({"msg": "Esta transacción no existe o no tienes permiso para actualizarla"}), 404
 
 @api.route('/alertas_programadas/<int:alerta_id>', methods=['PUT'])
 @jwt_required()
 def update_alertas_programadas(alerta_id):
+    user_id = get_jwt_identity()
     alerta = Alertas_programadas.query.get(alerta_id)
-    if alerta:
+    if alerta and alerta.usuarios_relacion == user_id:
         body = request.json
         alerta.nombre = body.get("nombre", alerta.nombre)
         alerta.monto = body.get("monto", alerta.monto)
@@ -279,45 +296,49 @@ def update_alertas_programadas(alerta_id):
         alerta.antelacion = body.get("antelacion", alerta.antelacion)
         alerta.motivo = body.get("motivo", alerta.motivo)
         alerta.fecha_esperada = body.get("fecha_esperada", alerta.fecha_esperada)
-        alerta.usuarios_relacion= body.get("usuarios_relacion", alerta.usuarios_relacion)
         db.session.commit()
         return jsonify({"msg": "Alerta actualizada", "data": alerta.serialize()}), 200
     else:
-        return jsonify({"msg": "Esta alerta no existe"}), 404
+        return jsonify({"msg": "Esta alerta no existe o no tienes permiso para actualizarla"}), 404
 
 @api.route('/objetivo/<int:objetivo_id>', methods=['PUT'])
 @jwt_required()
 def update_objetivo(objetivo_id):
+    user_id = get_jwt_identity()
     objetivo = Objetivo.query.get(objetivo_id)
-    if objetivo:
+    if objetivo and objetivo.usuarios_relacion == user_id:
         body = request.json
         objetivo.nombre = body.get("nombre", objetivo.nombre)
         objetivo.monto = body.get("monto", objetivo.monto)
         objetivo.fecha_objetivo = body.get("fecha_objetivo", objetivo.fecha_objetivo)
         objetivo.cuota_mensual = body.get("cuota_mensual", objetivo.cuota_mensual)
-        objetivo.usuarios_relacion= body.get("usuarios_relacion", objetivo.usuarios_relacion)
         db.session.commit()
         return jsonify({"msg": "Objetivo actualizado", "data": objetivo.serialize()}), 200
     else:
-        return jsonify({"msg": "Esta objetivo no existe"}), 404
+        return jsonify({"msg": "Este objetivo no existe o no tienes permiso para actualizarlo"}), 404
     
 @api.route('/eventos/<int:evento_id>', methods=['PUT'])
 @jwt_required()
 def update_eventos(evento_id):
+    user_id = get_jwt_identity()
     evento = Eventos.query.get(evento_id)
-    if evento:
+    if evento and evento.usuarios_relacion == user_id:
         body = request.json
         evento.nombre = body.get("nombre", evento.nombre)
         db.session.commit()
         return jsonify({"msg": "Evento actualizado", "data": evento.serialize()}), 200
     else:
-        return jsonify({"msg": "Este evento no existe"}), 404
+        return jsonify({"msg": "Este evento no existe o no tienes permiso para actualizarlo"}), 404
 # Jorge -> fin de los PUT
 
 # Jorge -> a partir de aquí los DELETE por ID
 @api.route('/usuarios/<int:usuario_id>', methods=['DELETE'])
 @jwt_required()
 def delete_usuario(usuario_id):
+    user_id = get_jwt_identity()
+    if user_id != usuario_id:
+        return jsonify({"msg": "No tienes permiso para eliminar este usuario"}), 403
+
     usuario = Usuarios.query.get(usuario_id)
     if usuario:
         Movimientos.query.filter_by(usuarios_relacion=usuario_id).delete()
@@ -332,44 +353,48 @@ def delete_usuario(usuario_id):
 @api.route('/movimientos/<int:id>', methods=['DELETE'])
 @jwt_required()
 def delete_movimiento(id):
+    user_id = get_jwt_identity()
     movimiento = Movimientos.query.get(id)
-    if not movimiento:
-        raise APIException('Movimiento no encontrado', status_code=404)
-    
-    db.session.delete(movimiento)
-    db.session.commit()
-    return jsonify({"message": "Movimiento eliminado"}), 200
+    if movimiento and movimiento.usuarios_relacion == user_id:
+        db.session.delete(movimiento)
+        db.session.commit()
+        return jsonify({"message": "Movimiento eliminado"}), 200
+    else:
+        return jsonify({"msg": "Movimiento no encontrado o no tienes permiso para eliminarlo"}), 404
 
 @api.route('/alertas_programadas/<int:id>', methods=['DELETE'])
 @jwt_required()
 def delete_alerta_programada(id):
+    user_id = get_jwt_identity()
     alerta_programada = Alertas_programadas.query.get(id)
-    if not alerta_programada:
-        raise APIException('Alerta programada no encontrada', status_code=404)
-    
-    db.session.delete(alerta_programada)
-    db.session.commit()
-    return jsonify({"message": "Alerta programada eliminada"}), 200
+    if alerta_programada and alerta_programada.usuarios_relacion == user_id:
+        db.session.delete(alerta_programada)
+        db.session.commit()
+        return jsonify({"message": "Alerta programada eliminada"}), 200
+    else:
+        return jsonify({"msg": "Alerta programada no encontrada o no tienes permiso para eliminarla"}), 404
 
 @api.route('/objetivo/<int:id>', methods=['DELETE'])
 @jwt_required()
 def delete_objetivo(id):
+    user_id = get_jwt_identity()
     objetivo = Objetivo.query.get(id)
-    if not objetivo:
-        raise APIException('Objetivo no encontrado', status_code=404)
-    
-    db.session.delete(objetivo)
-    db.session.commit()
-    return jsonify({"message": "Objetivo eliminado"}), 200
+    if objetivo and objetivo.usuarios_relacion == user_id:
+        db.session.delete(objetivo)
+        db.session.commit()
+        return jsonify({"message": "Objetivo eliminado"}), 200
+    else:
+        return jsonify({"msg": "Objetivo no encontrado o no tienes permiso para eliminarlo"}), 404
 
 @api.route('/eventos/<int:id>', methods=['DELETE'])
 @jwt_required()
 def delete_evento(id):
+    user_id = get_jwt_identity()
     evento = Eventos.query.get(id)
-    if not evento:
-        raise APIException('Evento no encontrado', status_code=404)
-    
-    db.session.delete(evento)
-    db.session.commit()
-    return jsonify({"message": "Evento eliminado"}), 200
+    if evento and evento.usuarios_relacion == user_id:
+        db.session.delete(evento)
+        db.session.commit()
+        return jsonify({"message": "Evento eliminado"}), 200
+    else:
+        return jsonify({"msg": "Evento no encontrado o no tienes permiso para eliminarlo"}), 404
 # Jorge -> fin de los DELETE
