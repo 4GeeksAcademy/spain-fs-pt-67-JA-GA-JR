@@ -13,6 +13,7 @@ import { Footer } from "./component/footer";
 import { Registro } from "./pages/registroUsuario";
 import Formulario from "./pages/datosPerfilUsuario";
 import PerfilUsuario from "./pages/perfilUsuario";
+import { InicioSesion } from "./pages/inicioSesion";
 
 //create your first component
 const Layout = () => {
@@ -34,6 +35,7 @@ const Layout = () => {
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<PerfilUsuario />} path="/PerfilUsuario" />
                         <Route element={<Formulario />} path="/ModPerfilUsuario" />
+                        <Route element={<InicioSesion/>} path="/inicioSesion" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
