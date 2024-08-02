@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-
 import "../../styles/datosPerfilUsuario.css";
 
-function Formulario() {
+function Formulario({ usuarioId }) {
   const [nombreCompleto, setNombreCompleto] = useState('');
   const [imagenPerfil, setImagenPerfil] = useState(null);
   const [telefonoMovil, setTelefonoMovil] = useState('');
@@ -10,15 +9,46 @@ function Formulario() {
   const [contrasena, setContrasena] = useState('');
   const [verificarContrasena, setVerificarContrasena] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     if (contrasena !== verificarContrasena) {
       setError('Las contraseñas no coinciden');
       return;
     }
 
-    alert('Datos actualizados correctamente');
+    const formData = new FormData();
+    formData.append('nombre', nombreCompleto);
+    formData.append('telefono', telefonoMovil);
+    formData.append('email', email);
+    if (contrasena) formData.append('password', contrasena);
+    if (imagenPerfil) formData.append('foto_perfil', imagenPerfil);
+
+    setLoading(true);
+    try {
+      const response = await fetch(`/usuarios/${usuarioId}`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: formData,
+      });
+
+      const data = await response.json();
+      setLoading(false);
+
+      if (response.ok) {
+        alert('Datos actualizados correctamente');
+      } else {
+        setError(data.msg || 'Error al actualizar los datos');
+      }
+    } catch (error) {
+      setLoading(false);
+      setError('Error al actualizar los datos');
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -64,7 +94,6 @@ function Formulario() {
           type="password"
           value={contrasena}
           onChange={(e) => setContrasena(e.target.value)}
-          required
         />
       </div>
       <div className="form-group">
@@ -73,11 +102,10 @@ function Formulario() {
           type="password"
           value={verificarContrasena}
           onChange={(e) => setVerificarContrasena(e.target.value)}
-          required
         />
       </div>
       {error && <p className="error">{error}</p>}
-      <button type="submit">Modificar Datos</button>
+      {loading ? <p>Cargando...</p> : <button type="submit">Modificar Datos</button>}
     </form>
   );
 }
