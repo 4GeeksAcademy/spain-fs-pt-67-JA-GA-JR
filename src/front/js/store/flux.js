@@ -74,7 +74,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				
 				}
 				const data = await response.json();
-				localStorage.setItem('token', data.token);
+				console.log('Datos de la respuesta:', data);
+				const token = data.access_token;
+				if (!token) {
+					throw new Error('Token no recibido en la respuesta de inicio de sesión');
+				}
+		
+				localStorage.setItem('authToken', token);
 				return true;
 
 				
@@ -86,6 +92,58 @@ const getState = ({ getStore, getActions, setStore }) => {
 		
 			},
             
+
+
+
+
+			createTransaction: async (formData) => {
+				try {
+					const authToken = localStorage.getItem('authToken');
+            
+					
+					if (!authToken) {
+						throw new Error('Token de autenticación no encontrado.');
+					}
+		
+					const response = await fetch(process.env.BACKEND_URL + "/api/movimientos", {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${authToken}`  
+						},
+						
+						body: JSON.stringify({
+							nombre: formData.nombre,
+							monto: formData.monto,
+							tipo_movimiento: formData.tipo_movimiento,
+							motivo: formData.motivo,
+							eventos_relacion: formData.eventos_relacion,
+							objetivo_relacion: formData.objetivo_relacion,
+							fecha: formData.fecha,
+							usuarios_relacion: formData.usuarios_relacion
+
+
+
+
+						})
+					});
+					
+			
+					if (!response.ok) {
+						throw new Error('El movimiento no ha sido creado correctamente');
+					}
+					if (response.ok) {
+						alert('El movimiento ha sido creado correctamente');
+					}
+			
+					const data = await response.json();
+					return data;
+				} catch (error) {
+					console.error("Error al crear el movimiento", error);
+				}
+			},
+
+
 
             getMessage: async () => {
                 try {

@@ -13,7 +13,7 @@ import { Registro } from "./pages/registroUsuario";
 import Formulario from "./pages/datosPerfilUsuario";
 import PerfilUsuario from "./pages/perfilUsuario";
 import { InicioSesion } from "./pages/inicioSesion";
-
+import {IngresosGastos} from "./pages/ingresosGastos"
 //create your first component
 const Layout = () => {
     //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -33,6 +33,8 @@ const Layout = () => {
                         <Route element={<PerfilUsuario />} path="/PerfilUsuario" />
                         <Route element={<Formulario />} path="/ModPerfilUsuario" />
                         <Route element={<InicioSesion/>} path="/inicioSesion" />
+                        <Route element={<IngresosGastos/>} path="/ingresosGastos" />
+
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
