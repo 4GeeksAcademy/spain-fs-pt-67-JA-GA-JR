@@ -14,6 +14,8 @@ import Formulario from "./pages/datosPerfilUsuario";
 import PerfilUsuario from "./pages/perfilUsuario";
 import { InicioSesion } from "./pages/inicioSesion";
 import {IngresosGastos} from "./pages/ingresosGastos"
+import PrivateRoute from "./component/privateRoute";
+import { HomePerfil } from "./pages/homePerfil";
 //create your first component
 const Layout = () => {
     //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -28,12 +30,16 @@ const Layout = () => {
                 <ScrollToTop>
                     <Navbar />
                     <Routes>
-                        <Route element={<Home />} path="/" />
+                        <Route element={<Home />} path="/home" />
                         <Route element={<Registro />} path="/RegistroUsuarios" />
                         <Route element={<PerfilUsuario />} path="/PerfilUsuario" />
                         <Route element={<Formulario />} path="/ModPerfilUsuario" />
                         <Route element={<InicioSesion/>} path="/inicioSesion" />
-                        <Route element={<IngresosGastos/>} path="/ingresosGastos" />
+                        <Route path="/movimientos" element={<PrivateRoute element={<IngresosGastos />} />} />
+                        {/* <Route element={<IngresosGastos/>} path="/movimientos" /> */}
+                        <Route element={<HomePerfil/>} path="/homePerfil" />
+
+                         
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
