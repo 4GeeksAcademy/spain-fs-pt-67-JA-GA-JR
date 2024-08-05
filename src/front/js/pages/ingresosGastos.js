@@ -29,7 +29,6 @@ export const IngresosGastos = () => {
         if (!formData.nombre) newErrors.nombre = "Debes de ponerle un nombre al movimiento.";
         if (!formData.monto) newErrors.monto = "Es necesario especificar una cantidad concreta.";
         if (!formData.tipo_movimiento) newErrors.tipo_movimiento = "Es obligatorio que declares el tipo de movimiento que vas a hacer.";
-        // if (!formData.objetivo_relacion) newErrors.objetivo_relacion = "Debes de rellenar este campo con la razon del ingreso/ gasto.";
         if (!formData.fecha) newErrors.fecha = "La fecha es obligatoria.";
 
         return newErrors;
@@ -43,7 +42,6 @@ export const IngresosGastos = () => {
             return;
         }
 
-        console.log("Datos del formulario:", formData);
 
         const cleanedData = {  //judit copia los datos de formData a cleanData 
             ...formData,
@@ -53,14 +51,12 @@ export const IngresosGastos = () => {
 
         try {
             const result = await actions.createTransaction(cleanedData); //judit llama a la funcion createTransaction
-            console.log("movimiento creado", result);                   // judit con los datos limpios
             navigate('/homePerfil');
         }catch(error){
-            console.log("error al crear el movimiento", error)
+            throw new Error("Error al crear el movimiento");
         }
 		
 		
-        console.log('Formulario enviado', formData);
     };
 
     return (
@@ -138,7 +134,6 @@ export const IngresosGastos = () => {
                                         value={formData.objetivo_relacion}
                                         onChange={handleChange}
                                     />
-                                    {/* {error.objetivo_relacion && <div className="text-danger">{error.objetivo_relacion}</div>} */}
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="fecha" className="form-label">Fecha</label>

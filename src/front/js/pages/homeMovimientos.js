@@ -1,7 +1,7 @@
 import React from "react";
 import { MovimientosCard } from "./movimientosCard";
 
-export const HomePerfil = () => {
+export const HomeMovimientos = () => {
 
     
 

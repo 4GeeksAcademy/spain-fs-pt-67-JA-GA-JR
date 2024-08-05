@@ -15,7 +15,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 		actions: {
 			createUser: async (formData) => {
 				try {
-					console.log(formData)
 					const response = await fetch(process.env.BACKEND_URL + "/api/usuarios", {
 						method: 'POST',
 						headers: {
@@ -35,13 +34,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 						throw new Error('El usuario no ha sido creado correctamente');
 					}
 					if (response.ok) {
-						alert('El usuario ha sido creado correctamente');
 					}
 
 					const data = await response.json();
 					return data;
 				} catch (error) {
-					console.error("Error al crear usuario", error);
 				}
 			},
 
@@ -75,7 +72,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					}
 					const data = await response.json();
-					console.log('Datos de la respuesta:', data);
 					const token = data.access_token;
 					if (!token) {
 						throw new Error('Token no recibido en la respuesta de inicio de sesión');
@@ -88,7 +84,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 				} catch (error) {
-					console.error("Error al iniciar sesión", error);
 					setError(error.message);
 				}
 
@@ -119,19 +114,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 						body: JSON.stringify(formData)
 					});
-					const responseBody = await response.json();
+					const responseBody = await response.json(); //judit esto y
 
 					if (!response.ok) {
-						throw new Error(`El movimiento no ha sido creado correctamente: ${responseBody.msg || response.statusText}`);
+						throw new Error(`El movimiento no ha sido creado correctamente: ${responseBody.msg || response.statusText}`); // judit muy util para que me dijera el error concreto en la consola
 					}
 					if (response.ok) {
-						alert('El movimiento ha sido creado correctamente');
 					}
 
-					const data = await response.json();
-					return data;
+					
+					return responseBody;
 				} catch (error) {
-					console.error("Error al crear el movimiento", error);
 				}
 			},
 
@@ -153,11 +146,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 
 					const data = await response.json();
-					return data;
+					return data.data || [];
 				} catch (error) {
-					console.error('Error al obtener los movimientos:', error);
-					return Array.isArray(data) ? data : [];
-					throw error;
+					return  [];
+					
 				}
 			},
 
@@ -168,7 +160,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ message: data.message });
 					return data;
 				} catch (error) {
-					console.error("Error loading message from backend", error);
 				}
 			}
 		}

@@ -35,13 +35,10 @@ export const InicioSesion = () => {
         try {
             const success = await actions.login(email, password, setError);
             if (success) {
-                console.log("inicio de sesion correcto", success)
-                alert("Bienvenido");
                 const from = location.state?.from?.pathname || '/home';
                 navigate(from);
             }
         } catch (error) {
-            console.error("Error al iniciar sesión", error);
             setError({ general: "Error al iniciar sesión. Inténtalo de nuevo más tarde." });
         }
     };
