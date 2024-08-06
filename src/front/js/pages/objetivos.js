@@ -21,6 +21,8 @@ const handleInputChange =(e) => {
 };
 
 
+
+
 const handleAddGoal = async () => {
     const newGoal = {
         goalName,
@@ -39,6 +41,20 @@ const handleAddGoal = async () => {
     setAmount('');
     setExpectedDate('');
     setMonthlySavings('');
+};
+
+
+
+
+
+// judit calcular el tiempo necesario para ahorrar en base a lo que el cliente quiere aportar mensualmente
+const calculateMonthsToSave = (totalAmount, monthlySavings) => {
+  if (monthlySavings <= 0) {
+      return null; 
+  }
+  const months = totalAmount / monthlySavings;
+  
+  return Math.ceil(months);
 };
 
 
