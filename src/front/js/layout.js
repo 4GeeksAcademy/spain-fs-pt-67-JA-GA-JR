@@ -18,6 +18,7 @@ import PrivateRoute from "./component/privateRoute";
 import { HomeMovimientos } from "./pages/homeMovimientos";
 import { Objetivos } from "./pages/objetivos";
 
+import { CardObjetivos } from "./pages/objetivosCard";
 
 //create your first component
 const Layout = () => {
@@ -39,6 +40,8 @@ const Layout = () => {
                         <Route element={<Formulario />} path="/ModPerfilUsuario" />
                         <Route element={<InicioSesion/>} path="/inicioSesion" />
                         <Route element={<Objetivos/>} path="/objetivos" />
+                        <Route element={<CardObjetivos/>} path="/objetivoscard" />
+
                         <Route path="/movimientos" element={<PrivateRoute element={<IngresosGastos />} />} />
                         <Route path="/homeMovimientos" element={<PrivateRoute element={<HomeMovimientos />} />} />
                         <Route element={<h1>Not found!</h1>} />
