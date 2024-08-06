@@ -156,11 +156,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 			
 			postGoal: async (newGoal) => {
 				try {
+
+						const authToken = localStorage.getItem('authToken');
+	
+	
+						if (!authToken) {
+							throw new Error('Token de autenticación no encontrado.');
+						}
+	
+						
                     const resp = await fetch(process.env.BACKEND_URL + "/api/objetivo", {
 					method: 'POST',
 					headers: {
 					  'Content-Type': 'application/json',
-					   'Authorization': `Bearer ${authtoken}`
+					  'Authorization': `Bearer ${authToken}`
+					   
 					},
 
 					body: JSON.stringify(newGoal),
