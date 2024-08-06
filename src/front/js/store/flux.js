@@ -153,6 +153,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			
+			postGoal: async (newGoal) => {
+				try {
+                    const resp = await fetch(process.env.BACKEND_URL + "/api/objetivo", {
+					method: 'POST',
+					headers: {
+					  'Content-Type': 'application/json',
+					   'Authorization': `Bearer ${authtoken}`
+					},
+
+					body: JSON.stringify(newGoal),
+				});
+
+				if (!resp.ok) {
+					throw new Error('Error al crear el objetivo');
+				  };
+
+                    const data = await resp.json();
+                    return data;
+
+                } catch (error) {
+                    console.error("Error al crear el objetivo", error);
+                }
+			},
 			getMessage: async () => {
 				try {
 					const resp = await fetch(process.env.BACKEND_URL + "/api/hello");

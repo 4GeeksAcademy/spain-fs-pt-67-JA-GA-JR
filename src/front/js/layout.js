@@ -16,6 +16,9 @@ import { InicioSesion } from "./pages/inicioSesion";
 import {IngresosGastos} from "./pages/ingresosGastos"
 import PrivateRoute from "./component/privateRoute";
 import { HomeMovimientos } from "./pages/homeMovimientos";
+import { Objetivos } from "./pages/objetivos";
+
+
 //create your first component
 const Layout = () => {
     //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -35,13 +38,9 @@ const Layout = () => {
                         <Route element={<PerfilUsuario />} path="/PerfilUsuario" />
                         <Route element={<Formulario />} path="/ModPerfilUsuario" />
                         <Route element={<InicioSesion/>} path="/inicioSesion" />
+                        <Route element={<Objetivos/>} path="/objetivos" />
                         <Route path="/movimientos" element={<PrivateRoute element={<IngresosGastos />} />} />
                         <Route path="/homeMovimientos" element={<PrivateRoute element={<HomeMovimientos />} />} />
-                        
-                        
-
-                         
-
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
