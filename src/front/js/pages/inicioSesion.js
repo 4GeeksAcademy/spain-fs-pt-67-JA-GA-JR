@@ -1,7 +1,7 @@
 
 
 import React, { useState, useContext } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Context } from "../store/appContext";
 
 export const InicioSesion = () => {
@@ -9,8 +9,9 @@ export const InicioSesion = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState({});
     const navigate = useNavigate();
-    const { actions } = useContext(Context);
-    
+    const { actions} = useContext(Context);
+    const location = useLocation();
+
     const handleChange = (e) => {
         const { id, value } = e.target;
         if (id === 'email') setEmail(value);
@@ -33,13 +34,11 @@ export const InicioSesion = () => {
         }
         try {
             const success = await actions.login(email, password, setError);
-        if (success) {
-            console.log("inicio de sesion correcto", success)
-            alert("Bienvenido");
-            navigate('/home');
-        }
+            if (success) {
+                const from = location.state?.from?.pathname || '/home';
+                navigate(from);
+            }
         } catch (error) {
-            console.error("Error al iniciar sesión", error);
             setError({ general: "Error al iniciar sesión. Inténtalo de nuevo más tarde." });
         }
     };

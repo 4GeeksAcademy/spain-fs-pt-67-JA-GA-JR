@@ -31,6 +31,7 @@ const injectContext = PassedComponent => {
 			 * store, en su lugar usa acciones, como esta:
 			 **/
 			state.actions.getMessage(); // <---- llamando a esta función desde las acciones en flux.js
+			
 		}, []);
 
 		// El valor inicial para el contexto ya no es null, sino el estado actual de este componente,

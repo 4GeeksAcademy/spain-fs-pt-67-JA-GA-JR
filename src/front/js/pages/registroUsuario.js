@@ -1,4 +1,4 @@
-import React, { startTransition, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
 import { Context } from "../store/appContext";
@@ -55,10 +55,10 @@ export const Registro = () => {
 
 		try {
             const result = await actions.createUser(formData);
-            console.log("usuario creado", result);
             navigate('/home');
         }catch(error){
-            console.log("error al crear el usuario", error)
+          throw new Error("Error al crear el usuario");
+          
         }
 		
 			};

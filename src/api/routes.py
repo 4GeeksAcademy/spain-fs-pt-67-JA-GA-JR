@@ -140,7 +140,7 @@ def create_movimientos():
         return jsonify({"msg": f"Eventos ID {eventos_relacion} does not exist"}), 400
     if objetivo_relacion and not Objetivo.query.get(objetivo_relacion):
         return jsonify({"msg": f"Objetivo ID {objetivo_relacion} does not exist"}), 400
-
+    print(user_id)
     try:
         me = Movimientos(
             nombre=body["nombre"],
