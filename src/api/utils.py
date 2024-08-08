@@ -1,4 +1,6 @@
 from flask import jsonify, url_for
+from datetime import datetime, timedelta
+import bcrypt
 
 class APIException(Exception):
     status_code = 400
@@ -39,3 +41,15 @@ def generate_sitemap(app):
         <p>Start working on your project by following the <a href="https://start.4geeksacademy.com/starters/full-stack" target="_blank">Quick Start</a></p>
         <p>Remember to specify a real endpoint path like: </p>
         <ul style="text-align: left;">"""+links_html+"</ul></div>"
+
+# Jorge -> A partir de aquí lo relativo a RESET PASSWORD, funciones auxiliares para mantener el código organizado
+from datetime import datetime, timedelta
+import bcrypt
+
+def generate_reset_token(user):
+    user.reset_token = bcrypt.gensalt().decode()
+    user.token_expiration = datetime.utcnow() + timedelta(hours=1)
+
+def verify_reset_token(user, token):
+    return user.reset_token == token and user.token_expiration > datetime.utcnow()
+# Jorge -> fin de lo relativo a RESET PASSWORD

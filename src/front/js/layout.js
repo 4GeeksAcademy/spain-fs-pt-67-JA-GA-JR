@@ -16,6 +16,10 @@ import { InicioSesion } from "./pages/inicioSesion";
 import {IngresosGastos} from "./pages/ingresosGastos"
 import PrivateRoute from "./component/privateRoute";
 import { HomeMovimientos } from "./pages/homeMovimientos";
+// Jorge -> aquí importo las rutas para RESET PASSWORD
+import ForgotPassword from "./pages/ForgotPassword";
+import NewPassword from "./pages/NewPassword";
+
 //create your first component
 const Layout = () => {
     //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -37,11 +41,8 @@ const Layout = () => {
                         <Route element={<InicioSesion/>} path="/inicioSesion" />
                         <Route path="/movimientos" element={<PrivateRoute element={<IngresosGastos />} />} />
                         <Route path="/homeMovimientos" element={<PrivateRoute element={<HomeMovimientos />} />} />
-                        
-                        
-
-                         
-
+                        <Route element={<ForgotPassword />} path="/forgot-password" />
+                        <Route element={<NewPassword />} path="/reset_password/:token" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />

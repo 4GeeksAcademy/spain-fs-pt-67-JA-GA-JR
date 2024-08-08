@@ -2,6 +2,8 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, ForeignKey, Enum, Integer, String, Date
 from sqlalchemy.orm import relationship, declarative_base
 from sqlalchemy import create_engine
+from datetime import datetime, timedelta
+import bcrypt
 
 
 db = SQLAlchemy()
@@ -14,6 +16,8 @@ class Usuarios(db.Model):
     password = db.Column(db.String(80), unique=False, nullable=False)
     foto_perfil_url = db.Column(db.String(255), nullable=True)
     activado = db.Column(db.Boolean(), nullable=False, default=True)
+    reset_token = db.Column(db.String(120), nullable=True)
+    token_expiration = db.Column(db.DateTime, nullable=True)
 
     def __repr__(self):
         return '<Usuario %r>' % self.id
@@ -27,6 +31,13 @@ class Usuarios(db.Model):
             "foto_perfil_url": self.foto_perfil_url
             # do not serialize the password, its a security breach
         }
+    
+    def generate_reset_token(self):
+        self.reset_token = bcrypt.gensalt().decode()
+        self.token_expiration = datetime.utcnow() + timedelta(hours=1)
+
+    def verify_reset_token(self, token):
+        return self.reset_token == token and self.token_expiration > datetime.utcnow()
 
 class Eventos(db.Model):
     id = db.Column(db.Integer, primary_key=True)

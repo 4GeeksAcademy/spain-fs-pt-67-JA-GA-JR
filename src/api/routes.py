@@ -1,18 +1,20 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import Flask, request, jsonify, url_for, Blueprint
+import bcrypt
+from flask import request, jsonify, Blueprint
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, create_refresh_token
-from api.models import db, Usuarios, Movimientos, Alertas_programadas, Objetivo, Eventos
-from api.utils import generate_sitemap, APIException
+from werkzeug.security import generate_password_hash, check_password_hash
+from .models import db, Usuarios, Movimientos, Alertas_programadas, Objetivo, Eventos
+from .utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_migrate import Migrate
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
-#from admin import setup_admin
 from config import cloudinary
-
+# Jorge -> aquí lo relativo a RESET PASSWORD
+from config import send_reset_email
 
 api = Blueprint('api', __name__)
 
@@ -42,6 +44,34 @@ def protected():
     return jsonify(logged_in_as=current_user()), 200
 
 # Jorge -> Fin del login y autenticación con JWT + token
+# Jorge -> Inicio de RESET PASSWORD
+@api.route('/forgot_password', methods=['POST'])  # Añadir ruta para forgot_password
+def forgot_password():
+    data = request.get_json()
+    email = data.get('email')
+    user = Usuarios.query.filter_by(email=email).first()
+    if user:
+        user.generate_reset_token()
+        db.session.commit()
+        send_reset_email(user) # Jorge -> función para enviar el correo, viene de config.py
+        return jsonify({"msg": "Correo de restablecimiento enviado"}), 200
+    else:
+        return jsonify({"msg": "Usuario no encontrado"}), 404
+
+@api.route('/reset_password/<token>', methods=['POST'])
+def reset_password(token):
+    data = request.get_json()
+    user = Usuarios.query.filter_by(reset_token=token).first()
+    if user and user.verify_reset_token(token):
+        new_password = data.get('password')
+        user.password = generate_password_hash(new_password)
+        user.reset_token = None
+        user.token_expiration = None
+        db.session.commit()
+        return jsonify({"msg": "Contraseña restablecida"}), 200
+    else:
+        return jsonify({"msg": "Token inválido o expirado"}), 400
+# Jorge -> FIN DE RESET PASSWORD
 
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
@@ -111,7 +141,6 @@ def handle_eventos():
 
 # Jorge -> A partir de aquí los POST
 @api.route('/usuarios', methods=['POST'])
-
 def create_usuarios():
     body = request.json
     me = Usuarios(nombre=body["name"], telefono=body["phone"], email=body["email"], password=body["password"], activado=True)
