@@ -169,15 +169,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 					method: 'POST',
 					headers: {
 					  'Content-Type': 'application/json',
-					  'Authorization': `Bearer ${authToken}`
+					  'Authorization': `Bearer ${authToken}`,
+					  
 					   
 					},
+					// mode: 'no-cors',
 
 					body: JSON.stringify(newGoal),
+
 				});
+				console.log(localStorage.getItem('authToken'));
 
 				if (!resp.ok) {
-					throw new Error('Error al crear el objetivo');
+					const errorData = await resp.text();
+					throw new Error(`Error al crear el objetivo: ${resp.statusText}. ${errorData}`);
 				  };
 
                     const data = await resp.json();
@@ -185,6 +190,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
                 } catch (error) {
                     console.error("Error al crear el objetivo", error);
+					throw error;
                 }
 			},
 			getMessage: async () => {

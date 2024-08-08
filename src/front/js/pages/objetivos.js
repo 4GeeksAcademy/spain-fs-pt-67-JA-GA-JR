@@ -1,4 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom'; 
 import "../../styles/objetivos.css";
 import { Context } from "../store/appContext";
 
@@ -8,6 +9,14 @@ export const Objetivos = () => {
     const [expectedDate, setExpectedDate] = useState('');
     const [monthlySavings, setMonthlySavings] = useState('');
     const { actions } = useContext(Context);
+    const navigate = useNavigate(); 
+
+    let isMounted = true;
+    useEffect(() => {
+      return () => {
+          isMounted = false;
+      };
+  }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -16,7 +25,7 @@ export const Objetivos = () => {
         if (name === "expectedDate") setExpectedDate(value);
         if (name === "monthlySavings") setMonthlySavings(value);
     };
- //judt convierte elobjetoen un array de arrays y si es un string quita los espacios y si no hay espacios devuelve null
+
     const cleanData = (data) => {
         const cleaned = {};
         for (const [key, value] of Object.entries(data)) {
@@ -29,24 +38,25 @@ export const Objetivos = () => {
         return cleaned;
     };
 
-    const handleAddGoal = async () => {
+    const handleAddGoal = async () => { // Asegúrate de que esta función sea async
         const newGoal = {
             nombre: goalName,
             monto: parseFloat(amount) || null,
-            fecha_objetivo : expectedDate,
+            fecha_objetivo: expectedDate,
             cuota_mensual: parseFloat(monthlySavings) || null,
         };
 
         const cleanedData = cleanData(newGoal);
-        console.log('Datos del objetivo despues de limpieza:', cleanedData);
+        console.log('Datos del objetivo después de limpieza:', cleanedData);
 
         try {
-            const result = await actions.postGoal(cleanedData);
+            const result = await actions.postGoal(cleanedData); // Usa await dentro de una función async
             if (result) {
                 console.log("Objetivo creado con éxito:", result);
+                navigate('/objetivoscard'); // Redirige a la página de objetivos
             }
 
-         
+            // Limpia los campos después de la creación
             setGoalName('');
             setAmount('');
             setExpectedDate('');
