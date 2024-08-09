@@ -1,0 +1,57 @@
+body {
+    background-color: #09475f;
+    color: #fff;
+  }
+  
+  .container {
+    margin-top: 50px;
+  }
+  
+  .card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border: 2px solid #FFD700;
+    background-color: #333;
+  }
+  
+  .card-body {
+    padding: 30px;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+    color: #FFD700;
+  }
+  
+  .form-control {
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #222;
+    color: #fff;
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  .form-control::placeholder {
+    color: #aaa;
+  }
+  
+  .form-label {
+    color: #FFD700;
+  }
+  
+  .btn-primary {
+    background-color: #87ceeb;
+    border-color: #729BF4;
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 10px 20px;
+    color: #000;
+  }
+  
+  .btn-primary:hover {
+    background-color: #FFD700;
+    border-color: black;
+    color: #000;
+  }
+  

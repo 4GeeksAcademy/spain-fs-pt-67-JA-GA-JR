@@ -1,0 +1,67 @@
+body {
+    background-color: #09475f; 
+    color: #fff; 
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border: 2px solid #FFD700; 
+    background-color: #333; 
+    margin: 20px; 
+}
+
+.card-body {
+    padding: 30px;
+}
+
+.card-title {
+    margin-bottom: 20px;
+    color: #FFD700; 
+    font-size: 1.5em;
+}
+
+.card-description {
+    color: #aaa;
+    font-size: 1.1em;
+}
+
+.goals-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espacio entre tarjetas */
+}
+
+.goal-item {
+    border: 2px solid #FFD700; 
+    background-color: #09475f; 
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    color: #fff;
+}
+
+.card-text {
+    margin: 10px 0;
+}
+
+.no-goals {
+    color: #aaa;
+}
+
+.total-available {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #FFD700; 
+}
+
+.btn-primary {
+    background-color: #FFD700;
+    border: none;
+    color: #09475f;
+}
+
+.btn-primary:hover {
+    background-color: #f5c542;
+    color: #09475f;
+}
