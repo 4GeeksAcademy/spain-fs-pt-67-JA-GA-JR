@@ -38,7 +38,7 @@ export const Objetivos = () => {
         return cleaned;
     };
 
-    const handleAddGoal = async () => { // Asegúrate de que esta función sea async
+    const handleAddGoal = async () => { 
         const newGoal = {
             nombre: goalName,
             monto: parseFloat(amount) || null,
@@ -50,13 +50,13 @@ export const Objetivos = () => {
         console.log('Datos del objetivo después de limpieza:', cleanedData);
 
         try {
-            const result = await actions.postGoal(cleanedData); // Usa await dentro de una función async
+            const result = await actions.postGoal(cleanedData); 
             if (result) {
                 console.log("Objetivo creado con éxito:", result);
-                navigate('/objetivoscard'); // Redirige a la página de objetivos
+                navigate('/objetivoshome'); 
             }
 
-            // Limpia los campos después de la creación
+           
             setGoalName('');
             setAmount('');
             setExpectedDate('');

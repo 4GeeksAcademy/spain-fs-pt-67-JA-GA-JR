@@ -10,7 +10,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					email: "judit@gmail.com",
 					password: 12345
 				}
-			]
+			],
+			goals: []
 		},
 		actions: {
 			createUser: async (formData) => {
@@ -193,6 +194,36 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
                 }
 			},
+
+
+
+			getGoal: async () => {
+				try {
+					const authToken = localStorage.getItem('authToken');
+
+					const response = await fetch(`${process.env.BACKEND_URL}/api/objetivo`, {
+						method: 'GET',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${authToken}`
+						}
+					});
+
+
+					if (!response.ok) {
+						throw new Error('Error al obtener todos tus objetivos');
+					}
+
+					const data = await response.json();
+					setStore({ goals: data.data || [] });
+                } catch (error) {
+                    console.error('Error al obtener los objetivos:', error);
+                    setStore({ goals: [] });
+                }
+            },
+
+
+
 			getMessage: async () => {
 				try {
 					const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
