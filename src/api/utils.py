@@ -1,6 +1,8 @@
 from flask import jsonify, url_for
 from datetime import datetime, timedelta
 import bcrypt
+import random
+import string
 
 class APIException(Exception):
     status_code = 400
@@ -40,9 +42,13 @@ def generate_sitemap(app):
         <p>API HOST: <script>document.write('<input style="padding: 5px; width: 300px" type="text" value="'+window.location.href+'" />');</script></p>
         <p>Start working on your project by following the <a href="https://start.4geeksacademy.com/starters/full-stack" target="_blank">Quick Start</a></p>
         <p>Remember to specify a real endpoint path like: </p>
-        <ul style="text-align: left;">"""+links_html+"</ul></div>"
+        <ul style="text-align: left;">"""+links_html+"</ul></div>"""
 
 # Jorge -> A partir de aquí lo relativo a RESET PASSWORD, funciones auxiliares para mantener el código organizado
+# Parámetro length: Define la longitud de la contraseña generada. Por defecto es de 12 caracteres pero se puedes cambiar.
+# Caracteres utilizados: La contraseña se genera utilizando una combinación de letras mayúsculas, minúsculas, dígitos y caracteres especiales.
+# random.choice(characters): Selecciona aleatoriamente un carácter.
+# join: Une todos los caracteres seleccionados en una string que forma la contraseña.
 from datetime import datetime, timedelta
 import bcrypt
 
@@ -52,4 +58,11 @@ def generate_reset_token(user):
 
 def verify_reset_token(user, token):
     return user.reset_token == token and user.token_expiration > datetime.utcnow()
+
+# Jorge -> función para generar una contraseña aleatoria
+def generate_random_password(length=12):
+    characters = string.ascii_letters + string.digits + string.punctuation
+    random_password = ''.join(random.choice(characters) for i in range(length))
+    return random_password
+
 # Jorge -> fin de lo relativo a RESET PASSWORD
