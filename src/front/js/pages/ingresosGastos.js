@@ -51,7 +51,7 @@ export const IngresosGastos = () => {
 
         try {
             const result = await actions.createTransaction(cleanedData); //judit llama a la funcion createTransaction
-            navigate('/homePerfil');
+            navigate('/homeMovimientos');
         }catch(error){
             throw new Error("Error al crear el movimiento");
         }

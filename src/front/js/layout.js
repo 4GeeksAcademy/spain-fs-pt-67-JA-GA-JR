@@ -2,11 +2,8 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
-
 import { Home } from "./pages/home";
-
 import injectContext from "./store/appContext";
-
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import { Registro } from "./pages/registroUsuario";
@@ -16,9 +13,10 @@ import { InicioSesion } from "./pages/inicioSesion";
 import {IngresosGastos} from "./pages/ingresosGastos"
 import PrivateRoute from "./component/privateRoute";
 import { HomeMovimientos } from "./pages/homeMovimientos";
-// Jorge -> aquí importo las rutas para RESET PASSWORD
 import ForgotPassword from "./pages/ForgotPassword";
-import NewPassword from "./pages/NewPassword";
+import { Objetivos } from "./pages/objetivos";
+import { CardObjetivos } from "./pages/objetivosCard";
+import { HomeObjetivos } from "./pages/homeObjetivos";
 
 //create your first component
 const Layout = () => {
@@ -39,10 +37,13 @@ const Layout = () => {
                         <Route element={<PerfilUsuario />} path="/PerfilUsuario" />
                         <Route element={<Formulario />} path="/ModPerfilUsuario" />
                         <Route element={<InicioSesion/>} path="/inicioSesion" />
+                        {/* <Route element={<Objetivos/>} path="/objetivos" /> */}
+                        <Route element={<CardObjetivos/>} path="/objetivoscard" />
                         <Route path="/movimientos" element={<PrivateRoute element={<IngresosGastos />} />} />
                         <Route path="/homeMovimientos" element={<PrivateRoute element={<HomeMovimientos />} />} />
                         <Route element={<ForgotPassword />} path="/forgot-password" />
-                        <Route element={<NewPassword />} path="/reset_password/:token" />
+                        <Route path="/objetivos" element={<PrivateRoute element={<Objetivos />} />} />
+                        <Route path="/objetivoshome"  element={<HomeObjetivos />} />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
