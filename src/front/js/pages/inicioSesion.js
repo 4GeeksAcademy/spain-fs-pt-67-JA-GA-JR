@@ -1,5 +1,3 @@
-
-
 import React, { useState, useContext } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Context } from "../store/appContext";
@@ -9,7 +7,7 @@ export const InicioSesion = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState({});
     const navigate = useNavigate();
-    const { actions} = useContext(Context);
+    const { actions } = useContext(Context);
     const location = useLocation();
 
     const handleChange = (e) => {
@@ -78,6 +76,9 @@ export const InicioSesion = () => {
                                     Iniciar Sesión
                                 </button>
                             </form>
+                            <div className="text-center mt-3">
+                                <a href="/forgot-password">Olvidé mi contraseña</a>
+                            </div>
                         </div>
                     </div>
                 </div>

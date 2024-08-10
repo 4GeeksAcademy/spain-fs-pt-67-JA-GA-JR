@@ -21,6 +21,12 @@ typing-extensions = "*"
 pylance = "*"
 flask-jwt-extended = "*"
 timedelta = "*"
+bcrypt = "*"
+sendgrid = "*"
+google-auth = "*"
+google-auth-oauthlib = "*"
+google-auth-httplib2 = "*"
+google-api-python-client = "*"
 
 [requires]
 python_version = "3.10"
