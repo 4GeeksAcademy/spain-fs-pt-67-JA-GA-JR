@@ -27,10 +27,10 @@ const ForgotPassword = () => {
             });
             const data = await response.json();
             if (response.ok) {
-                setMessage("Se ha enviado un correo para restablecer tu contraseña.");
+                setMessage("Por favor revisa tu correo, te hemos enviado un mensaje con lo necesario.");
                 setTimeout(() => {
                     navigate('/inicioSesion');
-                }, 3000); // Redirigir después de 3 segundos
+                }, 5000); // Redirigir después de 3 segundos
             } else {
                 setError("No se encontró una cuenta con ese correo electrónico.");
             }
