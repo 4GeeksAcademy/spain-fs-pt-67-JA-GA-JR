@@ -8,7 +8,6 @@ import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import { Registro } from "./pages/registroUsuario";
 import Formulario from "./pages/datosPerfilUsuario";
-import PerfilUsuario from "./pages/perfilUsuario";
 import { InicioSesion } from "./pages/inicioSesion";
 import {IngresosGastos} from "./pages/ingresosGastos"
 import PrivateRoute from "./component/privateRoute";
@@ -34,7 +33,7 @@ const Layout = () => {
                     <Routes>
                         <Route element={<Home />} path="/home" />
                         <Route element={<Registro />} path="/RegistroUsuarios" />
-                        <Route element={<PerfilUsuario />} path="/PerfilUsuario" />
+                        
                         <Route element={<Formulario />} path="/ModPerfilUsuario" />
                         <Route element={<InicioSesion/>} path="/inicioSesion" />
                         {/* <Route element={<Objetivos/>} path="/objetivos" /> */}

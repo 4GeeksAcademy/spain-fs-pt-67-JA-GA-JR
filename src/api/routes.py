@@ -70,7 +70,7 @@ def reset_password():
     msg = Message(subject='Restablecimiento de contraseña', 
                   sender='jmailtrap@demomailtrap.com', 
                   recipients=[user.email])
-    msg.body = f'Tu nueva contraseña es: {new_password}'
+    msg.body = f'¡Hola! Tu nueva contraseña es: {new_password}. Ya puedes regresar a nuestra página y utilizarla para hacer login. ¡Saludos del equipo de KuentasKlaras!'
     mail.send(msg)
     
     return jsonify({"success": True, "message": "Contraseña restablecida exitosamente"}), 200
