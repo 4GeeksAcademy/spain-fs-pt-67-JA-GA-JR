@@ -2,11 +2,8 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
-
 import { Home } from "./pages/home";
-
 import injectContext from "./store/appContext";
-
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import { Registro } from "./pages/registroUsuario";
@@ -16,8 +13,8 @@ import { InicioSesion } from "./pages/inicioSesion";
 import {IngresosGastos} from "./pages/ingresosGastos"
 import PrivateRoute from "./component/privateRoute";
 import { HomeMovimientos } from "./pages/homeMovimientos";
+import ForgotPassword from "./pages/ForgotPassword";
 import { Objetivos } from "./pages/objetivos";
-
 import { CardObjetivos } from "./pages/objetivosCard";
 import { HomeObjetivos } from "./pages/homeObjetivos";
 
@@ -42,14 +39,11 @@ const Layout = () => {
                         <Route element={<InicioSesion/>} path="/inicioSesion" />
                         {/* <Route element={<Objetivos/>} path="/objetivos" /> */}
                         <Route element={<CardObjetivos/>} path="/objetivoscard" />
-
                         <Route path="/movimientos" element={<PrivateRoute element={<IngresosGastos />} />} />
                         <Route path="/homeMovimientos" element={<PrivateRoute element={<HomeMovimientos />} />} />
+                        <Route element={<ForgotPassword />} path="/forgot-password" />
                         <Route path="/objetivos" element={<PrivateRoute element={<Objetivos />} />} />
                         <Route path="/objetivoshome"  element={<HomeObjetivos />} />
-
-                        
-                        
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />

@@ -1,18 +1,19 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import Flask, request, jsonify, url_for, Blueprint
+import bcrypt
+from flask import request, jsonify, Blueprint
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, create_refresh_token
-from api.models import db, Usuarios, Movimientos, Alertas_programadas, Objetivo, Eventos
-from api.utils import generate_sitemap, APIException
+from werkzeug.security import generate_password_hash, check_password_hash
+from .models import db, Usuarios, Movimientos, Alertas_programadas, Objetivo, Eventos
+from .utils import generate_sitemap, APIException, generate_random_password
 from flask_cors import CORS
 from flask_migrate import Migrate
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
-#from admin import setup_admin
 from config import cloudinary
-
+from flask_mail import Message  # Jorge -> Importamos Message de Flask-Mail
 
 api = Blueprint('api', __name__)
 
@@ -28,10 +29,14 @@ def login():
     email = request.json.get('email', None)
     password = request.json.get('password', None)
     usuarios_query = Usuarios.query.filter_by(email=email).first()
+    
     if usuarios_query is None:
         return jsonify({"msg": "El usuario no existe"}), 401
-    if password != usuarios_query.password:
+    
+    # Jorge -> y aquí verificamos si la contraseña introducida coincide con el hash almacenado en la BBDD
+    if not bcrypt.checkpw(password.encode('utf-8'), usuarios_query.password.encode('utf-8')):
         return jsonify({"msg": "La contraseña es incorrecta."}), 401
+    
     access_token = create_access_token(identity=usuarios_query.id)
     return jsonify(access_token=access_token), 200
     
@@ -42,6 +47,34 @@ def protected():
     return jsonify(logged_in_as=current_user()), 200
 
 # Jorge -> Fin del login y autenticación con JWT + token
+# Jorge -> Inicio de RESET PASSWORD
+@api.route("/reset-password", methods=["PUT"])
+def reset_password():
+    from app import mail  # Jorge -> Importamos mail dentro de la función para evitar circular imports
+
+    data = request.json
+    user = Usuarios.query.filter_by(email=data.get("email")).first()
+    
+    if not user:
+        return jsonify({"success": False, "message": "Usuario no encontrado"}), 404
+    
+    # Jorge -> Generamos una nueva contraseña aleatoria
+    new_password = generate_random_password()
+    
+    # Jorge -> Hasheamos la nueva contraseña antes de guardarla en la base de datos
+    hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+    user.password = hashed_password
+    db.session.commit()
+
+    # Jorge -> Enviamos la nueva contraseña por correo electrónico usando Mailtrap
+    msg = Message(subject='Restablecimiento de contraseña', 
+                  sender='jmailtrap@demomailtrap.com', 
+                  recipients=[user.email])
+    msg.body = f'Tu nueva contraseña es: {new_password}'
+    mail.send(msg)
+    
+    return jsonify({"success": True, "message": "Contraseña restablecida exitosamente"}), 200
+# Jorge -> FIN DE RESET PASSWORD
 
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
@@ -111,16 +144,24 @@ def handle_eventos():
 
 # Jorge -> A partir de aquí los POST
 @api.route('/usuarios', methods=['POST'])
-
 def create_usuarios():
     body = request.json
-    me = Usuarios(nombre=body["name"], telefono=body["phone"], email=body["email"], password=body["password"], activado=True)
+    # Jorge -> Hasheamos la contraseña antes de almacenarla
+    hashed_password = bcrypt.hashpw(body["password"].encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+    me = Usuarios(
+        nombre=body["name"], 
+        telefono=body["phone"], 
+        email=body["email"], 
+        password=hashed_password,  # Guardamos la contraseña hasheada
+        activado=True
+    )
     db.session.add(me)
     db.session.commit()
     response_body = {
         "msg": "Ok",
         "id": me.id
-    }
+    }   
     return jsonify(response_body), 200
 
 # Jorge -> Este POST de /movimientos es diferente porque tiene varios casos de uso:
@@ -194,13 +235,25 @@ def create_alertas_programadas():
 def create_objetivo():
     user_id = get_jwt_identity()
     body = request.json
+
+    # Jorge -> Si 'fecha_objetivo' o 'cuota_mensual' no están presentes en el body, se interpreta como None
+    fecha_objetivo = body.get("fecha_objetivo")
+    cuota_mensual = body.get("cuota_mensual")
+
+    # Jorge -> ahora validamos que 'cuota_mensual' solo se convierta a int si NO es None
+    if cuota_mensual is not None and cuota_mensual != 'None':
+        cuota_mensual = int(cuota_mensual)
+    else:
+        cuota_mensual = None
+
+    # Jorge -> Ahora creamos el objetivo con los valores que se introduzcan o None para los opcionales
     me = Objetivo(
-            nombre=body["nombre"],
-            monto=int(body["monto"]),
-            fecha_objetivo=body["fecha_objetivo"],
-            cuota_mensual=int(body["cuota_mensual"]),
-            usuarios_relacion=user_id
-        )
+        nombre=body["nombre"],
+        monto=int(body["monto"]),
+        fecha_objetivo=fecha_objetivo,
+        cuota_mensual=cuota_mensual,
+        usuarios_relacion=user_id
+    )
 
     db.session.add(me)
     db.session.commit()
@@ -209,7 +262,6 @@ def create_objetivo():
         "id": me.id
     }
     return jsonify(response_body), 200
-
 
 @api.route('/eventos', methods=['POST'])
 @jwt_required()
@@ -254,7 +306,8 @@ def update_usuario(usuario_id):
     if "email" in data:
         usuario.email = data["email"]
     if "password" in data:
-        usuario.password = data["password"]
+        # Jorge -> hasheamos la nueva contraseña antes de guardarla en la bbdd
+        usuario.password = bcrypt.hashpw(data["password"].encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
     try:
         db.session.commit()
