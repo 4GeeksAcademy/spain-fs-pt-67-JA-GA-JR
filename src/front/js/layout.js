@@ -16,6 +16,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import { Objetivos } from "./pages/objetivos";
 import { CardObjetivos } from "./pages/objetivosCard";
 import { HomeObjetivos } from "./pages/homeObjetivos";
+import { Eventos } from "./pages/eventos";
 
 //create your first component
 const Layout = () => {
@@ -43,6 +44,8 @@ const Layout = () => {
                         <Route element={<ForgotPassword />} path="/forgot-password" />
                         <Route path="/objetivos" element={<PrivateRoute element={<Objetivos />} />} />
                         <Route path="/objetivoshome"  element={<HomeObjetivos />} />
+                        <Route element={<Eventos/>} path="/eventos" />
+
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />

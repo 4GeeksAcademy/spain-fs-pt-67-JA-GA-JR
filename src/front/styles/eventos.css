@@ -1,0 +1,60 @@
+/* Estilos para el formulario */
+.form-container {
+    margin-top: 50px;
+  }
+  
+  .form-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border: 2px solid #FFD700;
+    background-color: #333;
+  }
+  
+  .form-card-body {
+    padding: 30px;
+  }
+  
+  .form-heading {
+    margin-bottom: 20px;
+    color: #FFD700;
+  }
+  
+  .form-control {
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #222;
+    color: #fff;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .form-control::placeholder {
+    color: #aaa;
+  }
+  
+  .form-label {
+    color: #FFD700;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .btn-primary {
+    background-color: #87ceeb;
+    border-color: #729BF4;
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 10px 20px;
+    color: #000;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .btn-primary:hover {
+    background-color: #FFD700;
+    border-color: black;
+    color: #000;
+  }
+  

@@ -222,6 +222,57 @@ const getState = ({ getStore, getActions, setStore }) => {
                 }
             },
 
+		 postEvent : async (eventData) => {
+				try {
+				  const authToken = localStorage.getItem('authToken');
+				  
+				  const response = await fetch(`${process.env.BACKEND_URL}/api/eventos`, {
+					method: 'POST',
+					headers: {
+					  'Content-Type': 'application/json',
+					  'Authorization': `Bearer ${authToken}`
+					},
+					body: JSON.stringify(eventData)
+				  });
+			  
+				  if (!response.ok) {
+					const errorData = await response.json();
+					throw new Error(`Error ${response.status}: ${errorData.message || 'Error desconocido'}`);
+				  }
+			  
+				  return response.json();
+				} catch (error) {
+				  console.error("Error al crear el evento", error);
+				  throw error;
+				}
+			  },
+
+			  postAlert : async (alertData) => {
+				try {
+				  const authToken = localStorage.getItem('authToken');
+				  
+				  const response = await fetch(`${process.env.BACKEND_URL}/api/alertas_programadas`, {
+					method: 'POST',
+					headers: {
+					  'Content-Type': 'application/json',
+					  'Authorization': `Bearer ${authToken}`
+					},
+					body: JSON.stringify(alertData)
+				  });
+			  
+				  if (!response.ok) {
+					const errorData = await response.json();
+					throw new Error(`Error ${response.status}: ${errorData.message || 'Error desconocido'}`);
+				  }
+			  
+				  return response.json();
+				} catch (error) {
+				  console.error("Error al crear la alerta", error);
+				  throw error;
+				}
+			  },
+
+
 
 
 			getMessage: async () => {
