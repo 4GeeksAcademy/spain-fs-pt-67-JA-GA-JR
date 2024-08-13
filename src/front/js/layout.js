@@ -7,9 +7,10 @@ import injectContext from "./store/appContext";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import { Registro } from "./pages/registroUsuario";
-import Formulario from "./pages/datosPerfilUsuario";
+import ModificarPerfilUsuario from "./pages/modificarPerfilUsuario";
 import { InicioSesion } from "./pages/inicioSesion";
-import {IngresosGastos} from "./pages/ingresosGastos"
+import PerfilUsuario from "./pages/perfilUsuario";
+import { IngresosGastos } from "./pages/ingresosGastos"
 import PrivateRoute from "./component/privateRoute";
 import { HomeMovimientos } from "./pages/homeMovimientos";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -17,10 +18,7 @@ import { Objetivos } from "./pages/objetivos";
 import { CardObjetivos } from "./pages/objetivosCard";
 import { HomeObjetivos } from "./pages/homeObjetivos";
 
-//create your first component
 const Layout = () => {
-    //the basename is used when your project is published in a subdirectory and not in the root of the domain
-    // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
     const basename = process.env.BASENAME || "";
 
     if (!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL />;
@@ -31,18 +29,17 @@ const Layout = () => {
                 <ScrollToTop>
                     <Navbar />
                     <Routes>
-                        <Route element={<Home />} path="/home" />
+                    <Route element={<Home />} path="/home" />
                         <Route element={<Registro />} path="/RegistroUsuarios" />
-                        
-                        <Route element={<Formulario />} path="/ModPerfilUsuario" />
-                        <Route element={<InicioSesion/>} path="/inicioSesion" />
-                        {/* <Route element={<Objetivos/>} path="/objetivos" /> */}
-                        <Route element={<CardObjetivos/>} path="/objetivoscard" />
+                        <Route path="/perfilUsuario" element={<PrivateRoute element={<PerfilUsuario />} />} />
+                        <Route path="/modificarPerfilUsuario" element={<PrivateRoute element={<ModificarPerfilUsuario />} />} />
+                        <Route element={<InicioSesion />} path="/inicioSesion" />
+                        <Route element={<CardObjetivos />} path="/objetivoscard" />
                         <Route path="/movimientos" element={<PrivateRoute element={<IngresosGastos />} />} />
                         <Route path="/homeMovimientos" element={<PrivateRoute element={<HomeMovimientos />} />} />
                         <Route element={<ForgotPassword />} path="/forgot-password" />
                         <Route path="/objetivos" element={<PrivateRoute element={<Objetivos />} />} />
-                        <Route path="/objetivoshome"  element={<HomeObjetivos />} />
+                        <Route path="/objetivoshome" element={<HomeObjetivos />} />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
