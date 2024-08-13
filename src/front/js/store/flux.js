@@ -123,7 +123,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (response.ok) {
 					}
 
-					
+
 					return responseBody;
 				} catch (error) {
 				}
@@ -149,50 +149,50 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await response.json();
 					return data.data || [];
 				} catch (error) {
-					return  [];
-					
+					return [];
+
 				}
 			},
 
-			
+
 			postGoal: async (newGoal) => {
 				try {
 
-						const authToken = localStorage.getItem('authToken');
-	
-	
-						if (!authToken) {
-							throw new Error('Token de autenticación no encontrado.');
-						}
-	
-						
-                    const resp = await fetch(process.env.BACKEND_URL + "/api/objetivo", {
-					method: 'POST',
-					headers: {
-					  'Content-Type': 'application/json',
-					  'Authorization': `Bearer ${authToken}`,
-					  
-					   
-					},
-					// mode: 'no-cors',
+					const authToken = localStorage.getItem('authToken');
 
-					body: JSON.stringify(newGoal),
 
-				});
-				console.log(localStorage.getItem('authToken'));
+					if (!authToken) {
+						throw new Error('Token de autenticación no encontrado.');
+					}
 
-				if (!resp.ok) {
-					const errorData = await resp.text();
-					throw new Error(`Error al crear el objetivo: ${resp.statusText}. ${errorData}`);
-				  };
 
-                    const data = await resp.json();
-                    return data;
+					const resp = await fetch(process.env.BACKEND_URL + "/api/objetivo", {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${authToken}`,
 
-                } catch (error) {
-                    console.error("Error al crear el objetivo", error);
+
+						},
+						// mode: 'no-cors',
+
+						body: JSON.stringify(newGoal),
+
+					});
+					console.log(localStorage.getItem('authToken'));
+
+					if (!resp.ok) {
+						const errorData = await resp.text();
+						throw new Error(`Error al crear el objetivo: ${resp.statusText}. ${errorData}`);
+					};
+
+					const data = await resp.json();
+					return data;
+
+				} catch (error) {
+					console.error("Error al crear el objetivo", error);
 					throw error;
-                }
+				}
 			},
 
 
@@ -216,63 +216,77 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					const data = await response.json();
 					setStore({ goals: data.data || [] });
-                } catch (error) {
-                    console.error('Error al obtener los objetivos:', error);
-                    setStore({ goals: [] });
-                }
-            },
-
-		 postEvent : async (eventData) => {
-				try {
-				  const authToken = localStorage.getItem('authToken');
-				  
-				  const response = await fetch(`${process.env.BACKEND_URL}/api/eventos`, {
-					method: 'POST',
-					headers: {
-					  'Content-Type': 'application/json',
-					  'Authorization': `Bearer ${authToken}`
-					},
-					body: JSON.stringify(eventData)
-				  });
-			  
-				  if (!response.ok) {
-					const errorData = await response.json();
-					throw new Error(`Error ${response.status}: ${errorData.message || 'Error desconocido'}`);
-				  }
-			  
-				  return response.json();
 				} catch (error) {
-				  console.error("Error al crear el evento", error);
-				  throw error;
+					console.error('Error al obtener los objetivos:', error);
+					setStore({ goals: [] });
 				}
-			  },
+			},
 
-			  postAlert : async (alertData) => {
+			postEvent : async (eventData) => {
 				try {
-				  const authToken = localStorage.getItem('authToken');
-				  
-				  const response = await fetch(`${process.env.BACKEND_URL}/api/alertas_programadas`, {
-					method: 'POST',
-					headers: {
-					  'Content-Type': 'application/json',
-					  'Authorization': `Bearer ${authToken}`
-					},
-					body: JSON.stringify(alertData)
-				  });
-			  
-				  if (!response.ok) {
-					const errorData = await response.json();
-					throw new Error(`Error ${response.status}: ${errorData.message || 'Error desconocido'}`);
-				  }
-			  
-				  return response.json();
+					const authToken = localStorage.getItem('authToken');
+			
+					const response = await fetch(`${process.env.BACKEND_URL}/api/eventos`, {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${authToken}`
+						},
+						body: JSON.stringify(eventData)
+					});
+			
+					console.log('Tipo de response:', typeof response);
+					console.log('response:', response);
+			
+					if (!response.ok) {
+						const errorText = await response.text(); // Use text() to get the response
+						console.error(`Error ${response.status}:`, errorText);
+						throw new Error(`Error ${response.status}: ${errorText || 'Error desconocido'}`);
+					}
+			
+					const jsonResponse = await response.json(); // Correctly parse JSON
+					console.log('Respuesta JSON:', jsonResponse);
+					return jsonResponse;
+			
 				} catch (error) {
-				  console.error("Error al crear la alerta", error);
-				  throw error;
+					console.error('Error al crear el evento', error);
+					throw error;
 				}
-			  },
-
-
+			},
+			
+			postAlert : async (alertData) => {
+				try {
+					const authToken = localStorage.getItem('authToken');
+			
+					const response = await fetch(`${process.env.BACKEND_URL}/api/alertas_programadas`, {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${authToken}`
+						},
+						body: JSON.stringify(alertData)
+					});
+			
+					console.log('Tipo de response:', typeof response);
+					console.log('response:', response);
+			
+					if (!response.ok) {
+						const errorText = await response.text(); // Use text() to get the response
+						console.error(`Error ${response.status}:`, errorText);
+						throw new Error(`Error ${response.status}: ${errorText || 'Error desconocido'}`);
+					}
+			
+					const jsonResponse = await response.json(); // Correctly parse JSON
+					console.log('Respuesta JSON:', jsonResponse);
+					return jsonResponse;
+			
+				} catch (error) {
+					console.error('Error al crear la alerta', error);
+					throw error;
+				}
+			},
+			
+			
 
 
 			getMessage: async () => {
