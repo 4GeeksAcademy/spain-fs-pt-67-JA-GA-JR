@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Context } from "../store/appContext";
 
@@ -7,8 +7,15 @@ export const InicioSesion = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState({});
     const navigate = useNavigate();
-    const { actions } = useContext(Context);
+    const { store, actions } = useContext(Context);  // Añadido store para acceder al authToken
     const location = useLocation();
+
+    useEffect(() => {
+        // Si el token está presente, redirigir a /home
+        if (store.authToken || localStorage.getItem('authToken')) {
+            navigate('/home');
+        }
+    }, [store.authToken, navigate]);
 
     const handleChange = (e) => {
         const { id, value } = e.target;

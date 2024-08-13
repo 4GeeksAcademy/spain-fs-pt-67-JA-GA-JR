@@ -53,39 +53,39 @@ const getState = ({ getStore, getActions, setStore }) => {
                         setError('Por favor, ingresa tu correo electrónico y contraseña.');
                         return false;
                     }
-            
+
                     const formData = new FormData();
                     formData.append('email', email);
                     formData.append('password', password);
-            
+
                     const response = await fetch(process.env.BACKEND_URL + "/api/login", {
                         method: 'POST',
                         body: formData
                     });
-            
+
                     if (!response.ok) {
                         const errorData = await response.json();
                         const errorMessage = errorData.message || 'Email o contraseña incorrectos';
                         setError({ general: errorMessage });
                         return false;
                     }
-            
+
                     const data = await response.json();
                     const token = data.access_token;
                     if (!token) {
                         throw new Error('Token no recibido en la respuesta de inicio de sesión');
                     }
-            
+
                     localStorage.setItem('authToken', token);
                     setStore({ user: data.user, authToken: token });
                     return true;
-            
+
                 } catch (error) {
                     setError(error.message);
                     return false;
                 }
             },
-            
+
             logout: () => {
                 localStorage.removeItem('authToken');
                 setStore({ user: null, authToken: null });
@@ -212,33 +212,30 @@ const getState = ({ getStore, getActions, setStore }) => {
                 try {
                     const store = getStore();
                     const authToken = store.authToken || localStorage.getItem('authToken');
-                    
+
                     if (!store.user && authToken) {
-                        console.log("Fetching user data from API...");
                         const response = await fetch(process.env.BACKEND_URL + "/api/usuario", {
                             method: 'GET',
                             headers: {
                                 'Authorization': `Bearer ${authToken}`
                             }
                         });
-            
+
                         if (!response.ok) {
                             throw new Error('Error al obtener los datos del usuario');
                         }
-            
+
                         const data = await response.json();
-                        console.log("User data fetched from API:", data);
-            
                         setStore({ user: data.data }); // Jorge -> Almacenamos los datos del usuario en el store
                         return { ok: true, data: data.data };
                     }
-                    
+
                     return { ok: true, data: store.user };
                 } catch (error) {
                     console.error('Error al obtener el usuario:', error);
                     return { ok: false, data: null };
                 }
-            },            
+            },
 
             updateUsuario: async (userId, formData) => {
                 try {

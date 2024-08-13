@@ -9,7 +9,6 @@ const PerfilUsuario = () => {
 
     useEffect(() => {
         if (!store.user && store.authToken) {
-            console.log("Fetching user data...");
             actions.getUsuario().then(result => {
                 if (!result.ok) {
                     setError('Error al obtener los datos del usuario');
@@ -20,6 +19,10 @@ const PerfilUsuario = () => {
 
     const handleModificarDatos = () => {
         navigate('/modificarPerfilUsuario');
+    };
+
+    const handleVolverInicio = () => {
+        navigate('/home');
     };
 
     return (
@@ -37,6 +40,9 @@ const PerfilUsuario = () => {
                     <p>Teléfono: {store.user.telefono}</p>
                     <button className="perfil-boton" onClick={handleModificarDatos}>
                         Modificar mis datos
+                    </button>
+                    <button className="perfil-boton" onClick={handleVolverInicio}>
+                        Volver a Inicio
                     </button>
                 </div>
             ) : (
