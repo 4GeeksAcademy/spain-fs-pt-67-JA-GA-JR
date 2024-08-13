@@ -26,8 +26,8 @@ current_user = Usuarios.__name__
 
 @api.route('/login', methods=['POST'])
 def login():
-    email = request.json.get('email', None)
-    password = request.json.get('password', None)
+    email = request.form.get('email', None)
+    password = request.form.get('password', None)
     usuarios_query = Usuarios.query.filter_by(email=email).first()
     
     if usuarios_query is None:
@@ -46,7 +46,7 @@ def protected():
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user()), 200
 
-# Jorge -> Fin del login y autenticación con JWT + token
+# Jorge -> Fin del login y autenticación con JWT + token + bcrypt + hash
 # Jorge -> Inicio de RESET PASSWORD
 @api.route("/reset-password", methods=["PUT"])
 def reset_password():
@@ -85,7 +85,7 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
-# Jorge -> A partir de aquí los métodos GET ALL con rutas protegidas para todos los endpoints
+# Jorge -> A partir de aquí los métodos GET con rutas protegidas para todos los endpoints
 @api.route('/usuarios', methods=['GET'])
 @jwt_required()
 def handle_usuarios():
@@ -96,6 +96,21 @@ def handle_usuarios():
         "data": usuarios_serialized
     }
     return jsonify(response_body), 200
+
+@api.route('/usuario', methods=['GET'])
+@jwt_required()
+def get_usuario():
+    user_id = get_jwt_identity()  # Jorge-> esto es para obtener el ID del usuario a partir del token
+    usuario = Usuarios.query.get(user_id)
+
+    if not usuario:
+        return jsonify({"msg": "Usuario no encontrado"}), 404
+
+    return jsonify({
+        "msg": "OK",
+        "data": usuario.serialize()
+    }), 200
+
 
 @api.route('/movimientos', methods=['GET'])
 @jwt_required()
@@ -140,7 +155,7 @@ def handle_eventos():
         "data": eventos_serialized
     }
     return jsonify(response_body), 200
-# Jorge -> fin de los GET ALL
+# Jorge -> fin de los GET
 
 # Jorge -> A partir de aquí los POST
 @api.route('/usuarios', methods=['POST'])
@@ -153,7 +168,7 @@ def create_usuarios():
         nombre=body["name"], 
         telefono=body["phone"], 
         email=body["email"], 
-        password=hashed_password,  # Guardamos la contraseña hasheada
+        password=hashed_password,  # Jorge -> Guardamos la contraseña hasheada
         activado=True
     )
     db.session.add(me)
