@@ -243,11 +243,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 						console.error(`Error ${response.status}:`, errorText);
 						throw new Error(`Error ${response.status}: ${errorText || 'Error desconocido'}`);
 					}
+					return response; 
 			
-					const jsonResponse = await response.json(); // Correctly parse JSON
-					console.log('Respuesta JSON:', jsonResponse);
-					return jsonResponse;
-			
+					
 				} catch (error) {
 					console.error('Error al crear el evento', error);
 					throw error;

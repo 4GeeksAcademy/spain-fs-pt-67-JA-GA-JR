@@ -17,6 +17,7 @@ import { Objetivos } from "./pages/objetivos";
 import { CardObjetivos } from "./pages/objetivosCard";
 import { HomeObjetivos } from "./pages/homeObjetivos";
 import { Eventos } from "./pages/eventos";
+import { HomeEventos } from "./pages/homeEventos";
 
 //create your first component
 const Layout = () => {
@@ -45,7 +46,8 @@ const Layout = () => {
                         <Route path="/objetivos" element={<PrivateRoute element={<Objetivos />} />} />
                         <Route path="/objetivoshome"  element={<HomeObjetivos />} />
                         {/* <Route element={<Eventos/>} path="/eventos" /> */}
-                        <Route path="/eventos" element={<PrivateRoute element={<Eventos />} />} />
+                        {/* <Route path="/eventos" element={<PrivateRoute element={<Eventos />} />} />
+                        <Route path="/homeEventos" element={<PrivateRoute element={<HomeEventos />} />} /> */}
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
