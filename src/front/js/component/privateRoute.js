@@ -8,6 +8,7 @@ const PrivateRoute = ({ element }) => {
     const authToken = store.authToken || localStorage.getItem('authToken');
     const [loading, setLoading] = useState(true);  // Jorge -> estado para gestionar que se carguen los datos del usuario que inició sesión
 
+
     useEffect(() => {
         let isMounted = true; // Jorge -> coprobación para evitar loop.
 
@@ -37,12 +38,20 @@ const PrivateRoute = ({ element }) => {
     if (loading) {
         return <div>Cargando usuario...</div>;  // Jorge -> Mostrar un mensaje de carga mientras se obtienen los datos del usuario
     }
-
     if (authToken && store.user) {
         return element;
     }
 
     return <Navigate to="/inicioSesion" state={{ from: location }} />;
 };
-
 export default PrivateRoute;
+
+
+
+
+
+
+
+
+
+
