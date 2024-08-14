@@ -37,13 +37,11 @@ const Layout = () => {
                         <Route element={<PerfilUsuario />} path="/PerfilUsuario" />
                         <Route element={<Formulario />} path="/ModPerfilUsuario" />
                         <Route element={<InicioSesion/>} path="/inicioSesion" />
-                        {/* <Route element={<Objetivos/>} path="/objetivos" /> */}
-                        <Route element={<CardObjetivos/>} path="/objetivoscard" />
+                        <Route path="/objetivos" element={<PrivateRoute element={<Objetivos />} />} />
+                        <Route path="/homeObjetivos" element={<PrivateRoute element={<HomeObjetivos />} />} />
                         <Route path="/movimientos" element={<PrivateRoute element={<IngresosGastos />} />} />
                         <Route path="/homeMovimientos" element={<PrivateRoute element={<HomeMovimientos />} />} />
                         <Route element={<ForgotPassword />} path="/forgot-password" />
-                        <Route path="/objetivos" element={<PrivateRoute element={<Objetivos />} />} />
-                        <Route path="/objetivoshome"  element={<HomeObjetivos />} />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
