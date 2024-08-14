@@ -20,7 +20,7 @@ ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})  # Tratando de solucionar error de CORS, así permite cualquier origen
+CORS(app, resources={r"/*": {"origins": "*"}})  # Jorge -> Tratando de solucionar error de CORS, así permite cualquier origen
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=30)
 app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=30)
 JWTManager(app)
