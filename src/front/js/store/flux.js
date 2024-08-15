@@ -11,7 +11,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					password: 12345
 				}
 			],
-			goals: []
+			goals: [],
+			events: []
 		},
 		actions: {
 			createUser: async (formData) => {
@@ -252,6 +253,36 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			
+
+			getEvents: async () => {
+					try {
+						const authToken = localStorage.getItem('authToken');
+	
+						const response = await fetch(`${process.env.BACKEND_URL}/api/eventos`, {
+							method: 'GET',
+							headers: {
+								'Content-Type': 'application/json',
+								'Authorization': `Bearer ${authToken}`
+							}
+						});
+	
+	
+						if (!response.ok) {
+							throw new Error('Error al obtener todos tus eventos');
+						}
+	
+						const data = await response.json();
+						setStore(prevStore => ({
+							...prevStore,
+							events: data.data || [] // Actualiza el estado con los eventos
+						}));
+					} catch (error) {
+						return [];
+	
+					}
+				},
+
+
 			postAlert : async (alertData) => {
 				try {
 					const authToken = localStorage.getItem('authToken');
