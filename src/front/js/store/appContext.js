@@ -10,7 +10,7 @@ export const Context = React.createContext(null);
 // https://github.com/4GeeksAcademy/react-hello-webapp/blob/master/src/js/layout.js#L35
 const injectContext = PassedComponent => {
 	const StoreWrapper = props => {
-		
+
 		const [state, setState] = useState(
 			getState({
 				getStore: () => state.store,
@@ -30,8 +30,17 @@ const injectContext = PassedComponent => {
 			 * Debes hacer tus solicitudes ajax o fetch aquí. No uses setState() para guardar datos en el
 			 * store, en su lugar usa acciones, como esta:
 			 **/
+			const token = localStorage.getItem('authToken'); // Jorge -> intento de solución de carga de Objetivos.
+			if (token) {
+				state.actions.setAuthToken(token);
+				console.log("AuthToken establecido en el store desde localStorage:", token);
+			} else {
+				console.log("No se encontró un authToken en localStorage.");
+			}
+			console.log("Estado inicial en StoreWrapper:", state);
+
 			state.actions.getMessage(); // <---- llamando a esta función desde las acciones en flux.js
-			
+
 		}, []);
 
 		// El valor inicial para el contexto ya no es null, sino el estado actual de este componente,
@@ -45,10 +54,5 @@ const injectContext = PassedComponent => {
 	};
 	return StoreWrapper;
 };
-
-
-
-
-
 
 export default injectContext;

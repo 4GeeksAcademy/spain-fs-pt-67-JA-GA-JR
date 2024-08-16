@@ -1,8 +1,6 @@
 import React from "react";
 import { CardObjetivos } from "./objetivosCard";
-
 export const HomeObjetivos =  () => {
-
 return (
         <div className="container">
       
@@ -10,6 +8,4 @@ return (
       
     </div>
     );
-
-
 }
