@@ -53,7 +53,7 @@ export const Objetivos = () => {
             const result = await actions.postGoal(cleanedData); 
             if (result) {
                 console.log("Objetivo creado con éxito:", result);
-                navigate('/objetivoshome'); 
+                navigate('/homeObjetivos'); 
             }
 
            

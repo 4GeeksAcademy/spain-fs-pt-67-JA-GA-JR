@@ -1,61 +1,83 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Context } from "../store/appContext";
+import React, { useState, useEffect } from "react";
 import "../../styles/cardObjetivos.css";
-
-
-
 
 export const CardObjetivos = () => {
     const [showMore, setShowMore] = useState(false);
-    const { store, actions } = useContext(Context);
+    const [goals, setGoals] = useState([]);  // Almacena los objetivos localmente en este componente
+    const [authToken, setAuthToken] = useState(null);
 
+    // useEffect para obtener el authToken desde localStorage
     useEffect(() => {
-        actions.getGoal(); // judit llama a la función para obtener los objetivos
-    }, [actions]);
+        const token = localStorage.getItem('authToken');
+        console.log("useEffect: authToken desde localStorage", token);
+        if (token) {
+            setAuthToken(token);
+        }
+    }, []);
+
+    // useEffect para obtener los objetivos cuando authToken esté disponible
+    useEffect(() => {
+        if (authToken) {
+            console.log("useEffect: authToken presente, llamando a getGoals");
+            getGoals(authToken);
+        } else {
+            console.log("useEffect: authToken no presente");
+        }
+    }, [authToken]);
+
+    // Función para obtener los objetivos desde el backend
+    const getGoals = async (token) => {
+        console.log("getGoals: Ejecutando función getGoals con token", token);
+        try {
+            const response = await fetch(`${process.env.BACKEND_URL}/api/objetivo`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            console.log("getGoals: Estado de la respuesta:", response.status);
+
+            if (!response.ok) {
+                throw new Error('Error al obtener los objetivos');
+            }
+
+            const data = await response.json();
+            console.log("getGoals: Objetivos obtenidos:", data.data);
+            setGoals(data.data || []);
+        } catch (error) {
+            console.error('Error al obtener los objetivos:', error);
+        }
+    };
 
     const handleToggleShowMore = () => {
         setShowMore(!showMore);
     };
 
-    const goals = store.goals || [];
-
-    // judit calcula el total disponible sumando los montos de los objetivos
     const totalAvailable = goals.reduce((acc, goal) => acc + (goal.monto || 0), 0);
 
-    // judit calcula el numero de meses restantes hasta una fecha futura especifica.
     const calculateMonthsUntilDate = (expectedDate) => {
         const today = new Date();
         const endDate = new Date(expectedDate);
-    
+
         if (isNaN(endDate.getTime())) {
-            return null; 
+            return null;
         }
-    
-        // judit calcular la diferencia en meses
+
         const yearsDifference = endDate.getFullYear() - today.getFullYear();
         const monthsDifference = endDate.getMonth() - today.getMonth();
         const totalMonths = (yearsDifference * 12) + monthsDifference;
-    
+
         return totalMonths < 0 ? 0 : totalMonths;
     };
-    
 
-    // judit calcula el numero de meses necesarios para ahorrar una cantidad 
-    //total dada, dado un monto de ahorro mensual.
     const calculateMonthsToSave = (totalAmount, monthlySavings) => {
-        // Verifica si el monto de ahorro mensual es menor o igual a cero
         if (monthlySavings <= 0) {
-            return null; // Si el monto de ahorro mensual es inválido, retorna null
+            return null;
         }
-    
-        // Calcula el número de meses necesarios para ahorrar el monto total
         const months = totalAmount / monthlySavings;
-        
-        // Retorna el número de meses redondeado hacia arriba
         return Math.ceil(months);
     };
-    
-    
 
     return (
         <div className="card card-main">
@@ -93,7 +115,7 @@ export const CardObjetivos = () => {
                         {showMore ? "Ver menos" : "Ver más"}
                     </button>
                 </div>
-                <p className="total-available"><strong>Total disponible:</strong> {goals.reduce((acc, goal) => acc + goal.monto, 0).toFixed(2)} EUR</p>
+                <p className="total-available"><strong>Total disponible:</strong> {totalAvailable.toFixed(2)} EUR</p>
             </div>
         </div>
     );

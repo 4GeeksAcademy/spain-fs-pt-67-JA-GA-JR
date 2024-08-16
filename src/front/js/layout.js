@@ -15,7 +15,6 @@ import PrivateRoute from "./component/privateRoute";
 import { HomeMovimientos } from "./pages/homeMovimientos";
 import ForgotPassword from "./pages/ForgotPassword";
 import { Objetivos } from "./pages/objetivos";
-import { CardObjetivos } from "./pages/objetivosCard";
 import { HomeObjetivos } from "./pages/homeObjetivos";
 // Jorge -> Este es un componente interno que manejará ScrollToTop y la ubicación
 const LayoutWithScroll = () => {
@@ -36,7 +35,7 @@ const LayoutWithScroll = () => {
                 <Route path="/movimientos" element={<PrivateRoute element={<IngresosGastos />} />} />
                 <Route path="/homeMovimientos" element={<PrivateRoute element={<HomeMovimientos />} />} />
                 <Route element={<ForgotPassword />} path="/forgot-password" />
-               <Route path="/objetivos" element={<PrivateRoute element={<Objetivos />} />} />
+                <Route path="/objetivos" element={<PrivateRoute element={<Objetivos />} />} />
                 <Route path="/homeObjetivos" element={<PrivateRoute element={<HomeObjetivos />} />} />
                 <Route element={<h1>Not found!</h1>} />
             </Routes>
