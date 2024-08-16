@@ -15,7 +15,7 @@ export const InicioSesion = () => {
         if (store.authToken || localStorage.getItem('authToken')) {
             navigate('/home');
         }
-    }, [store.authToken, navigate]);
+    }, [ navigate]);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
