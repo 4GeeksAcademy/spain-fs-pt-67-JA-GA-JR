@@ -6,7 +6,7 @@ export const CardObjetivos = () => {
     const [goals, setGoals] = useState([]);  // Almacena los objetivos localmente en este componente
     const [authToken, setAuthToken] = useState(null);
 
-    // useEffect para obtener el authToken desde localStorage
+    // Jorge -> useEffect para obtener el authToken desde localStorage
     useEffect(() => {
         const token = localStorage.getItem('authToken');
         console.log("useEffect: authToken desde localStorage", token);
@@ -15,7 +15,7 @@ export const CardObjetivos = () => {
         }
     }, []);
 
-    // useEffect para obtener los objetivos cuando authToken esté disponible
+    // Jorge -> useEffect para obtener los objetivos cuando authToken esté disponible
     useEffect(() => {
         if (authToken) {
             console.log("useEffect: authToken presente, llamando a getGoals");
@@ -25,7 +25,7 @@ export const CardObjetivos = () => {
         }
     }, [authToken]);
 
-    // Función para obtener los objetivos desde el backend
+    // Jorge -> Función para obtener los objetivos desde el backend
     const getGoals = async (token) => {
         console.log("getGoals: Ejecutando función getGoals con token", token);
         try {

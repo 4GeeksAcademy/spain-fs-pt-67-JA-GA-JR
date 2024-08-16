@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from "../store/appContext";
+import "../../styles/modificarPerfilUsuario.css";
 
 const ModificarPerfilUsuario = () => {
     const [formData, setFormData] = useState({
@@ -93,6 +94,7 @@ const ModificarPerfilUsuario = () => {
             {error && <p className="text-danger">{error}</p>}
             {message && <p className="text-success">{message}</p>}
             <form onSubmit={handleSubmit}>
+                <h2>Modifica tus datos</h2>
                 <div>
                     <label>Nombre</label>
                     <input
@@ -133,7 +135,7 @@ const ModificarPerfilUsuario = () => {
                     />
                 </div>
                 <button type="submit" disabled={loading}>
-                    {loading ? 'Guardando...' : 'Guardar Cambios'}
+                    {loading ? 'Guardando...' : 'Guardar cambios'}
                 </button>
             </form>
         </div>

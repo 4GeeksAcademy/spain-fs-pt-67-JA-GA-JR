@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from "../store/appContext";
+import "../../styles/perfilUsuario.css"
 
 const PerfilUsuario = () => {
     const [error, setError] = useState('');

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
+import "../../styles/navbar.css"
 
 export const Navbar = () => {
     const { actions } = useContext(Context);
@@ -12,7 +13,7 @@ export const Navbar = () => {
     };
 
     return (
-        <nav className="navbar navbar-light bg-light">
+        <nav className="navbar">
             <div className="container">
                 <Link to="/home">
                     <span className="navbar-brand mb-0 h1">KuentasKlaras</span>

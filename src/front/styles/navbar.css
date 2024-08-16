@@ -1,0 +1,66 @@
+.navbar {
+    background-color: #333; /* Fondo oscuro */
+    color: #f1f1ec; /* Texto claro */
+    padding: 15px 20px; /* Espaciado interno */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9); /* Sombra suave */
+    
+}
+
+.navbar-brand {
+    color: #c3c31a; /* Color del texto de la marca */
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+
+}
+
+.navbar-brand:hover {
+    color: #09475f; /* Color del texto de la marca al pasar el cursor */
+}
+
+.ml-auto .dropdown-toggle {
+    background-color: #c3c31a; /* Fondo del botón Mi Perfil */
+    color: #09475f; /* Color del texto */
+    border: 2px solid #09475f; /* Borde del botón */
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.ml-auto .dropdown-toggle:hover {
+    background-color: #09475f; /* Fondo del botón al pasar el cursor */
+    color: #ecf0f1; /* Texto del botón al pasar el cursor */
+}
+
+.dropdown-menu {
+    background-color: #b49706; /* Fondo del menú desplegable */
+    border: 2px solid #b49706; /* Borde del menú */
+    border-radius: 5px;
+}
+
+.dropdown-item {
+    color: #011118; /* Texto de las opciones del menú */
+    padding: 10px 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #09475f; /* Fondo de las opciones al pasar el cursor */
+    color: #ecf0f1; /* Texto de las opciones al pasar el cursor */
+}
+
+.btn-danger {
+    background-color: #c0392b; /* Fondo del botón Cerrar Sesión */
+    color: #ecf0f1; /* Color del texto */
+    border: 2px solid #09475f; /* Borde del botón */
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-left: 15px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #e74c3c; /* Fondo del botón al pasar el cursor */
+    color: #011118; /* Texto del botón al pasar el cursor */
+}

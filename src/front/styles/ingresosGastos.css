@@ -1,0 +1,88 @@
+body {
+    background-color: #333333; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    color: #87ceeb; 
+}
+
+.ingresos-gastos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0 15px; 
+}
+
+.card {
+    background-color: #161616; /* Fondo del card */
+    padding: 10px;
+    border-radius: 5px; /* Bordes redondeados */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.9); /* Sombra suave */
+    width: 100%;
+    max-width: 500px;
+    color: #87ceeb;
+}
+
+.card h2 {
+    color: #c3c31a; /* Color del título */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.card .form-label {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: #b49706; /* Color del label */
+}
+
+.card input[type="text"],
+.card input[type="number"],
+.card input[type="date"],
+.card select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 2px solid #09475f; /* Borde de los campos */
+    background-color: #09475f; /* Fondo de los campos */
+    color: #ecf0f1; /* Color del texto */
+    font-size: 1.1rem;
+}
+
+.card input[type="text"]::placeholder,
+.card input[type="number"]::placeholder,
+.card input[type="date"]::placeholder,
+.card select::placeholder {
+    color: #95a5a6; /* Placeholder gris */
+}
+
+.card button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #c3c31a; /* Color del botón */
+    color: #09475f; 
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: 2px solid #09475f;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.card button[type="submit"]:hover {
+    background-color: #09a30e; /* Color del botón al hacer hover */
+    color: #011118;
+}
+
+.text-danger {
+    color: #d9534f; /* Rojo para mensajes de error */
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 600px) {
+    .card {
+        padding: 20px;
+        width: 90%;
+    }
+}
