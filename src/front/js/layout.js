@@ -16,11 +16,13 @@ import { HomeMovimientos } from "./pages/homeMovimientos";
 import ForgotPassword from "./pages/ForgotPassword";
 import { Objetivos } from "./pages/objetivos";
 import { HomeObjetivos } from "./pages/homeObjetivos";
+import { PrivacyPolicy } from "./pages/PrivacyPolicy";
+
 // Jorge -> Este es un componente interno que manejará ScrollToTop y la ubicación
 const LayoutWithScroll = () => {
     const location = useLocation();
     // Jorge ->  Listado de rutas en las que NO queremos mostrar el Navbar
-    const noNavbarRoutes = ["/inicioSesion", "/RegistroUsuarios", "/forgot-password"];
+    const noNavbarRoutes = ["/inicioSesion", "/RegistroUsuarios", "/forgot-password", "/privacy-policy"];
     // Jorge -> Determinar si la ruta actual está en la lista
     const showNavbar = !noNavbarRoutes.includes(location.pathname);
     return (
@@ -37,6 +39,7 @@ const LayoutWithScroll = () => {
                 <Route element={<ForgotPassword />} path="/forgot-password" />
                 <Route path="/objetivos" element={<PrivateRoute element={<Objetivos />} />} />
                 <Route path="/homeObjetivos" element={<PrivateRoute element={<HomeObjetivos />} />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />  {/* Nueva ruta */}
                 <Route element={<h1>Not found!</h1>} />
             </Routes>
             <Footer />

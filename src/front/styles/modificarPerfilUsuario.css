@@ -1,0 +1,89 @@
+body {
+    background-color: #2c3e50; /* Fondo oscuro */
+    color: #ecf0f1; /* Texto claro */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
+
+.modificar-perfil-usuario {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0 15px; /* Padding para hacer la vista responsiva */
+}
+
+.modificar-perfil-usuario form {
+    background-color: #b49706; /* Fondo del formulario */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9); /* Sombra suave */
+    width: 100%;
+    max-width: 500px;
+}
+
+.modificar-perfil-usuario h2 {
+    color: #011118; /* Color del título */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.modificar-perfil-usuario label {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: #161616;
+}
+
+.modificar-perfil-usuario input[type="text"],
+.modificar-perfil-usuario input[type="email"],
+.modificar-perfil-usuario input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 2px solid #161616; /* Borde gris */
+    background-color: #09475f; /* Fondo de los campos */
+    color: #ecf0f1;
+    font-size: 1.1rem;
+}
+
+.modificar-perfil-usuario input[type="text"]::placeholder,
+.modificar-perfil-usuario input[type="email"]::placeholder {
+    color: #95a5a6; /* Placeholder gris */
+}
+
+.modificar-perfil-usuario button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #2c3e50; /* Color del botón */
+    color: #00ec14; /*texto boton*/
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: 2px solid #011118;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.modificar-perfil-usuario button[type="submit"]:hover {
+    background-color: #09a30e; /* Color del botón al hacer hover */
+    color: #011118
+}
+
+.text-danger {
+    color: #e74c3c; /* Rojo para mensajes de error */
+    margin-bottom: 20px;
+}
+
+.text-success {
+    color: #2ecc71; /* Verde para mensajes de éxito */
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 600px) {
+    .modificar-perfil-usuario form {
+        padding: 20px;
+        width: 90%;
+    }
+}
