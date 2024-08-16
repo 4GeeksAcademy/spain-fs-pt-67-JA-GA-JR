@@ -12,14 +12,51 @@ const getState = ({ getStore, getActions, setStore }) => {
                     password: 12345
                 }
             ],
-            goals: []
+            goals: []  // Aquí almacenaremos los objetivos
         },
         actions: {
             setStore: (updatedStore) => {
+                console.log("setStore: updatedStore:", updatedStore);
                 setStore({
                     ...getStore(),
                     ...updatedStore
                 });
+            },
+
+            setAuthToken: (token) => {
+                setStore({ authToken: token });
+                console.log("setAuthToken: authToken establecido en el store:", token);
+            },
+
+            // Función para obtener los objetivos desde el backend
+            getGoals: async () => {
+                console.log("getGoals: Ejecutando función getGoals");
+                try {
+                    const authToken = getStore().authToken || localStorage.getItem('authToken');
+                    console.log("getGoals: authToken:", authToken);
+                    if (!authToken) {
+                        throw new Error("Token de autenticación no encontrado");
+                    }
+
+                    const response = await fetch(`${process.env.BACKEND_URL}/api/objetivo`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${authToken}`
+                        }
+                    });
+
+                    console.log("getGoals: Estado de la respuesta:", response.status);
+
+                    if (!response.ok) {
+                        throw new Error('Error al obtener los objetivos');
+                    }
+
+                    const data = await response.json();
+                    console.log("getGoals: Objetivos obtenidos:", data.data);
+                    setStore({ goals: data.data || [] });
+                } catch (error) {
+                    console.error('Error al obtener los objetivos:', error);
+                }
             },
 
             createUser: async (formData) => {
@@ -170,30 +207,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                 } catch (error) {
                     console.error("Error al crear el objetivo:", error);
                     throw error;
-                }
-            },
-
-            getGoal: async () => {
-                try {
-                    const authToken = localStorage.getItem('authToken');
-
-                    const response = await fetch(`${process.env.BACKEND_URL}/api/objetivo`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${authToken}`
-                        }
-                    });
-
-                    if (!response.ok) {
-                        throw new Error('Error al obtener todos tus objetivos');
-                    }
-
-                    const data = await response.json();
-                    setStore({ goals: data.data || [] });
-                } catch (error) {
-                    console.error('Error al obtener los objetivos:', error);
-                    setStore({ goals: [] });
                 }
             },
 
