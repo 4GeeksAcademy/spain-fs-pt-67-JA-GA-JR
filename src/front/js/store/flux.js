@@ -116,10 +116,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 						body: JSON.stringify(formData)
 					});
-					const responseBody = await response.json(); //judit esto y
+					const responseBody = await response.json(); 
 
 					if (!response.ok) {
-						throw new Error(`El movimiento no ha sido creado correctamente: ${responseBody.msg || response.statusText}`); // judit muy util para que me dijera el error concreto en la consola
+						throw new Error(`El movimiento no ha sido creado correctamente: ${responseBody.msg || response.statusText}`); 
 					}
 					if (response.ok) {
 					}
@@ -175,7 +175,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 						},
-						// mode: 'no-cors',
+						
 
 						body: JSON.stringify(newGoal),
 
@@ -195,42 +195,42 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
 				}
 			},
-    
-            setStore: (updatedStore) => {
-                console.log("setStore: updatedStore:", updatedStore);
-                setStore({
-                    ...getStore(),
-                    ...updatedStore
-                });
-            },
 
-            setAuthToken: (token) => {
-                setStore({ authToken: token });
-                console.log("setAuthToken: authToken establecido en el store:", token);
-            },
+			setStore: (updatedStore) => {
+				console.log("setStore: updatedStore:", updatedStore);
+				setStore({
+					...getStore(),
+					...updatedStore
+				});
+			},
 
-            // Función para obtener los objetivos desde el backend
-            getGoals: async () => {
-                console.log("getGoals: Ejecutando función getGoals");
-                try {
-                    const authToken = getStore().authToken || localStorage.getItem('authToken');
-                    console.log("getGoals: authToken:", authToken);
-                    if (!authToken) {
-                        throw new Error("Token de autenticación no encontrado");
-                    }
+			setAuthToken: (token) => {
+				setStore({ authToken: token });
+				console.log("setAuthToken: authToken establecido en el store:", token);
+			},
 
-                    const response = await fetch(`${process.env.BACKEND_URL}/api/objetivo`, {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': `Bearer ${authToken}`
-                        }
-                    });
+			// Función para obtener los objetivos desde el backend
+			getGoals: async () => {
+				console.log("getGoals: Ejecutando función getGoals");
+				try {
+					const authToken = getStore().authToken || localStorage.getItem('authToken');
+					console.log("getGoals: authToken:", authToken);
+					if (!authToken) {
+						throw new Error("Token de autenticación no encontrado");
+					}
 
-                    console.log("getGoals: Estado de la respuesta:", response.status);
+					const response = await fetch(`${process.env.BACKEND_URL}/api/objetivo`, {
+						method: 'GET',
+						headers: {
+							'Authorization': `Bearer ${authToken}`
+						}
+					});
 
-                    if (!response.ok) {
-                        throw new Error('Error al obtener los objetivos');
-                    }
+					console.log("getGoals: Estado de la respuesta:", response.status);
+
+					if (!response.ok) {
+						throw new Error('Error al obtener los objetivos');
+					}
 
 					if (!response.ok) {
 						throw new Error('Error al obtener todos tus objetivos');
@@ -244,10 +244,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			postEvent : async (eventData) => {
+			postEvent: async (eventData) => {
 				try {
 					const authToken = localStorage.getItem('authToken');
-			
 					const response = await fetch(`${process.env.BACKEND_URL}/api/eventos`, {
 						method: 'POST',
 						headers: {
@@ -256,58 +255,48 @@ const getState = ({ getStore, getActions, setStore }) => {
 						},
 						body: JSON.stringify(eventData)
 					});
-			
 					console.log('Tipo de response:', typeof response);
 					console.log('response:', response);
-			
 					if (!response.ok) {
-						const errorText = await response.text(); // Use text() to get the response
+						const errorText = await response.text(); 
 						console.error(`Error ${response.status}:`, errorText);
 						throw new Error(`Error ${response.status}: ${errorText || 'Error desconocido'}`);
 					}
-					return response; 
-			
-					
+					return response;
 				} catch (error) {
 					console.error('Error al crear el evento', error);
 					throw error;
 				}
 			},
-			
 
 			getEvents: async () => {
-					try {
-						const authToken = localStorage.getItem('authToken');
-	
-						const response = await fetch(`${process.env.BACKEND_URL}/api/eventos`, {
-							method: 'GET',
-							headers: {
-								'Content-Type': 'application/json',
-								'Authorization': `Bearer ${authToken}`
-							}
-						});
-	
-	
-						if (!response.ok) {
-							throw new Error('Error al obtener todos tus eventos');
-						}
-	
-						const data = await response.json();
-						setStore(prevStore => ({
-							...prevStore,
-							events: data.data || [] // Actualiza el estado con los eventos
-						}));
-					} catch (error) {
-						return [];
-	
-					}
-				},
-
-
-			postAlert : async (alertData) => {
 				try {
 					const authToken = localStorage.getItem('authToken');
-			
+					const response = await fetch(`${process.env.BACKEND_URL}/api/eventos`, {
+						method: 'GET',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${authToken}`
+						}
+					});
+					if (!response.ok) {
+						throw new Error('Error al obtener todos tus eventos');
+					}
+					const data = await response.json();
+					setStore(prevStore => ({
+						...prevStore,
+						events: data.data || [] // Actualiza el estado con los eventos
+					}));
+				} catch (error) {
+					return [];
+				}
+			},
+
+
+			postAlert: async (alertData) => {
+				try {
+					const authToken = localStorage.getItem('authToken');
+
 					const response = await fetch(`${process.env.BACKEND_URL}/api/alertas_programadas`, {
 						method: 'POST',
 						headers: {
@@ -316,245 +305,245 @@ const getState = ({ getStore, getActions, setStore }) => {
 						},
 						body: JSON.stringify(alertData)
 					});
-			
+
 					console.log('Tipo de response:', typeof response);
 					console.log('response:', response);
-			
+
 					if (!response.ok) {
 						const errorText = await response.text(); // Use text() to get the response
 						console.error(`Error ${response.status}:`, errorText);
 						throw new Error(`Error ${response.status}: ${errorText || 'Error desconocido'}`);
 					}
-			
+
 					const jsonResponse = await response.json(); // Correctly parse JSON
 					console.log('Respuesta JSON:', jsonResponse);
 					return jsonResponse;
-			
+
 				} catch (error) {
 					console.error('Error al crear la alerta', error);
 					throw error;
 				}
 			},
-			
-			
-               
-            
 
-            createUser: async (formData) => {
-                try {
-                    const response = await fetch(process.env.BACKEND_URL + "/api/usuarios", {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            name: formData.name,
-                            phone: formData.phone,
-                            email: formData.email,
-                            password: formData.password
-                        })
-                    });
 
-                    if (!response.ok) {
-                        throw new Error('El usuario no ha sido creado correctamente');
-                    }
-                    const data = await response.json();
-                    return data;
-                } catch (error) {
-                    console.error("Error al crear el usuario:", error);
-                }
-            },
 
-            login: async (email, password, setError) => {
-                try {
-                    if (!email || !password) {
-                        setError('Por favor, ingresa tu correo electrónico y contraseña.');
-                        return false;
-                    }
 
-                    const formData = new FormData();
-                    formData.append('email', email);
-                    formData.append('password', password);
 
-                    const response = await fetch(process.env.BACKEND_URL + "/api/login", {
-                        method: 'POST',
-                        body: formData
-                    });
+			createUser: async (formData) => {
+				try {
+					const response = await fetch(process.env.BACKEND_URL + "/api/usuarios", {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							name: formData.name,
+							phone: formData.phone,
+							email: formData.email,
+							password: formData.password
+						})
+					});
 
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        const errorMessage = errorData.message || 'Email o contraseña incorrectos';
-                        setError({ general: errorMessage });
-                        return false;
-                    }
+					if (!response.ok) {
+						throw new Error('El usuario no ha sido creado correctamente');
+					}
+					const data = await response.json();
+					return data;
+				} catch (error) {
+					console.error("Error al crear el usuario:", error);
+				}
+			},
 
-                    const data = await response.json();
-                    const token = data.access_token;
-                    if (!token) {
-                        throw new Error('Token no recibido en la respuesta de inicio de sesión');
-                    }
+			login: async (email, password, setError) => {
+				try {
+					if (!email || !password) {
+						setError('Por favor, ingresa tu correo electrónico y contraseña.');
+						return false;
+					}
 
-                    localStorage.setItem('authToken', token);
-                    setStore({ user: data.user, authToken: token });
-                    return true;
+					const formData = new FormData();
+					formData.append('email', email);
+					formData.append('password', password);
 
-                } catch (error) {
-                    setError(error.message);
-                    return false;
-                }
-            },
+					const response = await fetch(process.env.BACKEND_URL + "/api/login", {
+						method: 'POST',
+						body: formData
+					});
 
-            logout: () => {
-                localStorage.removeItem('authToken');
-                setStore({ user: null, authToken: null });
-            },
+					if (!response.ok) {
+						const errorData = await response.json();
+						const errorMessage = errorData.message || 'Email o contraseña incorrectos';
+						setError({ general: errorMessage });
+						return false;
+					}
 
-            createTransaction: async (formData) => {
-                try {
-                    const authToken = localStorage.getItem('authToken');
+					const data = await response.json();
+					const token = data.access_token;
+					if (!token) {
+						throw new Error('Token no recibido en la respuesta de inicio de sesión');
+					}
 
-                    if (!authToken) {
-                        throw new Error('Token de autenticación no encontrado.');
-                    }
+					localStorage.setItem('authToken', token);
+					setStore({ user: data.user, authToken: token });
+					return true;
 
-                    const response = await fetch(process.env.BACKEND_URL + "/api/movimientos", {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${authToken}`
-                        },
-                        body: JSON.stringify(formData)
-                    });
+				} catch (error) {
+					setError(error.message);
+					return false;
+				}
+			},
 
-                    const responseBody = await response.json();
+			logout: () => {
+				localStorage.removeItem('authToken');
+				setStore({ user: null, authToken: null });
+			},
 
-                    if (!response.ok) {
-                        throw new Error(`El movimiento no ha sido creado correctamente: ${responseBody.msg || response.statusText}`);
-                    }
-                    return responseBody;
-                } catch (error) {
-                    console.error("Error al crear el movimiento:", error);
-                }
-            },
+			createTransaction: async (formData) => {
+				try {
+					const authToken = localStorage.getItem('authToken');
 
-            getMovement: async () => {
-                try {
-                    const authToken = localStorage.getItem('authToken');
+					if (!authToken) {
+						throw new Error('Token de autenticación no encontrado.');
+					}
 
-                    const response = await fetch(`${process.env.BACKEND_URL}/api/movimientos`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${authToken}`
-                        }
-                    });
+					const response = await fetch(process.env.BACKEND_URL + "/api/movimientos", {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${authToken}`
+						},
+						body: JSON.stringify(formData)
+					});
 
-                    if (!response.ok) {
-                        throw new Error('Error al obtener todos tus movimientos');
-                    }
+					const responseBody = await response.json();
 
-                    const data = await response.json();
-                    return data.data || [];
-                } catch (error) {
-                    console.error("Error al obtener los movimientos:", error);
-                    return [];
-                }
-            },
+					if (!response.ok) {
+						throw new Error(`El movimiento no ha sido creado correctamente: ${responseBody.msg || response.statusText}`);
+					}
+					return responseBody;
+				} catch (error) {
+					console.error("Error al crear el movimiento:", error);
+				}
+			},
 
-            postGoal: async (newGoal) => {
-                try {
-                    const authToken = localStorage.getItem('authToken');
+			getMovement: async () => {
+				try {
+					const authToken = localStorage.getItem('authToken');
 
-                    if (!authToken) {
-                        throw new Error('Token de autenticación no encontrado.');
-                    }
+					const response = await fetch(`${process.env.BACKEND_URL}/api/movimientos`, {
+						method: 'GET',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${authToken}`
+						}
+					});
 
-                    const response = await fetch(process.env.BACKEND_URL + "/api/objetivo", {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${authToken}`
-                        },
-                        body: JSON.stringify(newGoal)
-                    });
+					if (!response.ok) {
+						throw new Error('Error al obtener todos tus movimientos');
+					}
 
-                    if (!response.ok) {
-                        const errorData = await response.text();
-                        throw new Error(`Error al crear el objetivo: ${response.statusText}. ${errorData}`);
-                    };
+					const data = await response.json();
+					return data.data || [];
+				} catch (error) {
+					console.error("Error al obtener los movimientos:", error);
+					return [];
+				}
+			},
 
-                    const data = await response.json();
-                    return data;
-                } catch (error) {
-                    console.error("Error al crear el objetivo:", error);
-                    throw error;
-                }
-            },
+			postGoal: async (newGoal) => {
+				try {
+					const authToken = localStorage.getItem('authToken');
 
-            getMessage: async () => {
-                try {
-                    const response = await fetch(process.env.BACKEND_URL + "/api/hello");
-                    const data = await response.json();
-                    setStore({ message: data.message });
-                    return data;
-                } catch (error) {
-                    console.error("Error al obtener el mensaje:", error);
-                }
-            },
+					if (!authToken) {
+						throw new Error('Token de autenticación no encontrado.');
+					}
 
-            getUsuario: async () => {
-                try {
-                    const store = getStore();
-                    const authToken = store.authToken || localStorage.getItem('authToken');
+					const response = await fetch(process.env.BACKEND_URL + "/api/objetivo", {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${authToken}`
+						},
+						body: JSON.stringify(newGoal)
+					});
 
-                    if (!store.user && authToken) {
-                        const response = await fetch(process.env.BACKEND_URL + "/api/usuario", {
-                            method: 'GET',
-                            headers: {
-                                'Authorization': `Bearer ${authToken}`
-                            }
-                        });
+					if (!response.ok) {
+						const errorData = await response.text();
+						throw new Error(`Error al crear el objetivo: ${response.statusText}. ${errorData}`);
+					};
 
-                        if (!response.ok) {
-                            throw new Error('Error al obtener los datos del usuario');
-                        }
+					const data = await response.json();
+					return data;
+				} catch (error) {
+					console.error("Error al crear el objetivo:", error);
+					throw error;
+				}
+			},
 
-                        const data = await response.json();
-                        setStore({ user: data.data }); // Jorge -> Almacenamos los datos del usuario en el store
-                        return { ok: true, data: data.data };
-                    }
+			getMessage: async () => {
+				try {
+					const response = await fetch(process.env.BACKEND_URL + "/api/hello");
+					const data = await response.json();
+					setStore({ message: data.message });
+					return data;
+				} catch (error) {
+					console.error("Error al obtener el mensaje:", error);
+				}
+			},
 
-                    return { ok: true, data: store.user };
-                } catch (error) {
-                    console.error('Error al obtener el usuario:', error);
-                    return { ok: false, data: null };
-                }
-            },
+			getUsuario: async () => {
+				try {
+					const store = getStore();
+					const authToken = store.authToken || localStorage.getItem('authToken');
 
-            updateUsuario: async (userId, formData) => {
-                try {
-                    const authToken = localStorage.getItem('authToken');
-                    const response = await fetch(process.env.BACKEND_URL + `/api/usuarios/${userId}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Authorization': `Bearer ${authToken}`
-                        },
-                        body: formData
-                    });
+					if (!store.user && authToken) {
+						const response = await fetch(process.env.BACKEND_URL + "/api/usuario", {
+							method: 'GET',
+							headers: {
+								'Authorization': `Bearer ${authToken}`
+							}
+						});
 
-                    if (!response.ok) {
-                        throw new Error('Error al actualizar los datos del usuario');
-                    }
+						if (!response.ok) {
+							throw new Error('Error al obtener los datos del usuario');
+						}
 
-                    const data = await response.json();
-                    return { ok: true, data };
-                } catch (error) {
-                    console.error('Error al actualizar el usuario:', error);
-                    return { ok: false, data: null };
-                }
-            },
-        }
-    };
+						const data = await response.json();
+						setStore({ user: data.data }); // Jorge -> Almacenamos los datos del usuario en el store
+						return { ok: true, data: data.data };
+					}
+
+					return { ok: true, data: store.user };
+				} catch (error) {
+					console.error('Error al obtener el usuario:', error);
+					return { ok: false, data: null };
+				}
+			},
+
+			updateUsuario: async (userId, formData) => {
+				try {
+					const authToken = localStorage.getItem('authToken');
+					const response = await fetch(process.env.BACKEND_URL + `/api/usuarios/${userId}`, {
+						method: 'PUT',
+						headers: {
+							'Authorization': `Bearer ${authToken}`
+						},
+						body: formData
+					});
+
+					if (!response.ok) {
+						throw new Error('Error al actualizar los datos del usuario');
+					}
+
+					const data = await response.json();
+					return { ok: true, data };
+				} catch (error) {
+					console.error('Error al actualizar el usuario:', error);
+					return { ok: false, data: null };
+				}
+			},
+		}
+	};
 };
 
 export default getState;

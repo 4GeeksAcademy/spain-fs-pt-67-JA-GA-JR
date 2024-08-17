@@ -15,7 +15,7 @@ export const CardObjetivos = () => {
         }
     }, []);
 
-    // useEffect para obtener los objetivos cuando authToken esté disponible
+    // judit useEffect para obtener los objetivos cuando authToken esté disponible
     useEffect(() => {
         if (authToken) {
             console.log("useEffect: authToken presente, llamando a getGoals");
@@ -25,7 +25,7 @@ export const CardObjetivos = () => {
         }
     }, [authToken]);
 
-    // Función para obtener los objetivos desde el backend
+    // judit función para obtener los objetivos desde el backend
     const getGoals = async (token) => {
         console.log("getGoals: Ejecutando función getGoals con token", token);
         try {
@@ -115,7 +115,6 @@ export const CardObjetivos = () => {
                         {showMore ? "Ver menos" : "Ver más"}
                     </button>
                 </div>
-                <p className="total-available"><strong>Total disponible:</strong> {totalAvailable.toFixed(2)} EUR</p>
             </div>
         </div>
     );

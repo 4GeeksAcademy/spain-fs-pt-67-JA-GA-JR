@@ -92,7 +92,7 @@ export const Eventos = () => {
     <div className="form-container">
       <div className="form-card">
         <div className="form-card-body">
-          <h2 className="form-heading">Formulario de Eventos y Recordatorio de Pagos</h2>
+          <h2 className="form-heading">Crear un nuevo Eventos</h2>
           <form onSubmit={handleSubmit}>
             <div>
               <label htmlFor="nombre" className="form-label">Título del Evento/Pago:</label>

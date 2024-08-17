@@ -7,11 +7,10 @@ export const InicioSesion = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState({});
     const navigate = useNavigate();
-    const { store, actions } = useContext(Context);  // Añadido store para acceder al authToken
+    const { store, actions } = useContext(Context);  
     const location = useLocation();
 
     useEffect(() => {
-        // Si el token está presente, redirigir a /home
         if (store.authToken || localStorage.getItem('authToken')) {
             navigate('/home');
         }
