@@ -13,7 +13,8 @@ html, body {
     background-color: #333; /* Fondo oscuro */
     color: #ecf0f1; /* Texto claro */
     padding: 20px 0; /* Espaciado interno */
-    position: relative;
+    position: absolute;
+    bottom: 0;
     width: 100%;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.9); /* Sombra en la parte superior */
     text-align: center; /* Centra el contenido del footer */
