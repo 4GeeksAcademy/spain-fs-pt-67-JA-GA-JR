@@ -43,8 +43,8 @@ body {
     padding: 10px;
     margin-bottom: 20px;
     border-radius: 5px;
-    border: 2px solid #09475f; /* Borde de los campos */
-    background-color: #09475f; /* Fondo de los campos */
+    /*border: 2px solid #09475f; /* Borde de los campos */
+    /*background-color: #09475f; /* Fondo de los campos */
     color: #ecf0f1; /* Color del texto */
     font-size: 1.1rem;
 }
