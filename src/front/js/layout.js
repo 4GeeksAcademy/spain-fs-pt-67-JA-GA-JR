@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
+import LandingPage from "./pages/LandingPage";
 import { Home } from "./pages/home";
 import injectContext from "./store/appContext";
 import { Navbar } from "./component/navbar";
@@ -22,13 +23,14 @@ import { PrivacyPolicy } from "./pages/PrivacyPolicy";
 const LayoutWithScroll = () => {
     const location = useLocation();
     // Jorge ->  Listado de rutas en las que NO queremos mostrar el Navbar
-    const noNavbarRoutes = ["/inicioSesion", "/RegistroUsuarios", "/forgot-password", "/privacy-policy"];
+    const noNavbarRoutes = ["/inicioSesion", "/RegistroUsuarios", "/forgot-password", "/privacy-policy", "/"];
     // Jorge -> Determinar si la ruta actual está en la lista
     const showNavbar = !noNavbarRoutes.includes(location.pathname);
     return (
         <ScrollToTop location={location}>
             {showNavbar && <Navbar />}
             <Routes>
+                <Route element={<LandingPage />} path="/" />
                 <Route element={<Home />} path="/home" />
                 <Route element={<Registro />} path="/RegistroUsuarios" />
                 <Route path="/perfilUsuario" element={<PrivateRoute element={<PerfilUsuario />} />} />

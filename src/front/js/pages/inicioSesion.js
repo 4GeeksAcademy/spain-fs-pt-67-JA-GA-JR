@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Context } from "../store/appContext";
+import "../../styles/registroUsuarios.css";
 
 export const InicioSesion = () => {
     const [email, setEmail] = useState('');

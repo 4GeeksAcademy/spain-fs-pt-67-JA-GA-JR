@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Context } from "../store/appContext";
 
-import "../../styles/home.css";
+import "../../styles/registroUsuarios.css";
 import { jsx } from "react/jsx-runtime";
 export const Registro = () => {
 

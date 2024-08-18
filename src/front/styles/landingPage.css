@@ -1,0 +1,51 @@
+.container-fluid {
+    padding: 0;
+    background-color: #333;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #c3c31a;
+}
+
+h3 {
+    font-size: 1.76rem;
+    color: #00ec14;
+}
+
+p {
+    font-size: 1.27rem;
+    color: #fff;
+}
+
+.card {
+    border: 2px solid #c3c31a;
+    background-color: #127ea9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+}
+
+.card-title {
+    color: #09475f;
+}
+
+button.btn-primary {
+    background-color: #c3c31a;
+    border-color: #c3c31a;
+}
+
+button.btn-primary:hover {
+    background-color: #3cd321e4;
+    border-color: #c3c31a;
+}
+
+button.btn-secondary {
+    background-color: #127ea9;
+    border-color: #127ea9;
+}
+
+button.btn-secondary:hover {
+    background-color: #FFD700; 
+    border-color: black;
+    color: #000;
+}
