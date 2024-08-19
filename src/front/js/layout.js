@@ -46,7 +46,7 @@ const LayoutWithScroll = () => {
                 <Route path="/eventos" element={<PrivateRoute element={<Eventos />} />} />
                 <Route path="/homeEventos" element={<PrivateRoute element={<HomeEventos/>} />} />
                 <Route path="/alertas" element={<PrivateRoute element={<Alertas/>} />} />
-                <Route path="/homealertas" element={<PrivateRoute  element={<HomeAlertas/>} />} />
+                <Route path="/homealertas" element={<HomeAlertas/>} />
                 
                 <Route element={<h1>Not found!</h1>} />
             </Routes>
