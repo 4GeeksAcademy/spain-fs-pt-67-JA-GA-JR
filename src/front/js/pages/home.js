@@ -3,6 +3,7 @@ import { HomeMovimientos } from './homeMovimientos';
 import { HomeObjetivos } from './homeObjetivos';
 import { HomeEventos } from './homeEventos';
 import { useNavigate } from 'react-router-dom';
+import { HomeAlertas } from './homeAlertas';
 
 export const Home = () => {
     const navigate = useNavigate();
@@ -27,6 +28,13 @@ export const Home = () => {
 
     const handleSeeMoreEvents = () => {
         navigate('/homeEventos');
+    };
+
+    const createAlert = () => {
+        navigate('/alertas');
+    };
+    const handleSeeMoreAlerts = () => {
+        navigate('/homeAlertas');
     };
 
     return (
@@ -56,6 +64,16 @@ export const Home = () => {
                         <HomeEventos />
                         <button className="btn-primary" onClick={handleSeeMoreEvents}>Ir a la pagina principal de eventos</button>
                         <button className="btn-primary" onClick={createEvent}>Crear un nuevo evento</button>
+                   
+                   </div>
+                   </div>
+
+                   <div className="home-section alerts-section card">
+                    <div className="card-body">
+                        <h2 className="card-title">Alertas programadas</h2>
+                        <HomeAlertas />
+                        <button className="btn-primary" onClick={handleSeeMoreAlerts}>Ir a la pagina principal de alertas programadas</button>
+                        <button className="btn-primary" onClick={createAlert}>Crear una nueva alertas programadas</button>
                    
                    </div>
                 </div>

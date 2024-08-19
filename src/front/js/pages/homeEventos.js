@@ -2,41 +2,54 @@ import React, { useEffect, useContext, useState } from 'react';
 import { Context } from '../store/appContext'; // Asegúrate de que la ruta al contexto sea correcta
 
 export const HomeEventos = () => {
-    const { store, actions } = useContext(Context);
-    const [showMore, setShowMore] = useState(false);
-    const [isMounted, setIsMounted] = useState(true);
+   
 
-    const events = store.events;
+  const {store, actions } = useContext(Context)
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showMore, setShowMore] = useState(false);
 
-    useEffect(() => {
-        // judit indicar que el componente está montado
-        setIsMounted(true);
 
-        // judit llamar a la acción para obtener los eventos
-        actions.getEvents();
 
-        // judit función de limpieza para indicar que el componente ya no está montado
-        return () => {
-            setIsMounted(false);
-        };
-    }, []);
 
-    const handleToggleShowMore = () => {
+
+
+
+
+  useEffect(() => {
+
+    let isMounted = true; //judit  verificar si el componente sigue montado
+
+    const fetchEvents = async () => {
+      try {
+        const data = await actions.getEvents();
         if (isMounted) {
-            setShowMore(!showMore);
+          setEvents(data);
+          setLoading(false);
         }
+      } catch (err) {
+        if (isMounted) {
+          setError(err.message);
+          setLoading(false);
+        }
+      }
     };
 
-    if (!events || !Array.isArray(events) || events.length === 0) {
-        return (
-            <div className="card card-main">
-                <div className="card-body text-center">
-                    <h1 className="card-title">Eventos</h1>
-                    <p className="no-events">No hay eventos pendientes.</p>
-                </div>
-            </div>
-        );
-    }
+    fetchEvents()
+
+    return () => {
+      isMounted = false;
+    };
+
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
+ const handleToggleShowMore = () => {
+        setShowMore(prevShowMore => !prevShowMore);
+    };
 
     return (
         <div className="card card-main">
@@ -59,5 +72,6 @@ export const HomeEventos = () => {
                 </div>
             </div>
         </div>
+        
     );
 };

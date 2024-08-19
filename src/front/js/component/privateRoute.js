@@ -6,33 +6,47 @@ const PrivateRoute = ({ element }) => {
     const { store, actions } = useContext(Context);
     const location = useLocation();
     const authToken = store.authToken || localStorage.getItem('authToken');
-    const [loading, setLoading] = useState(!store.user);  // Jorge -> estado inicial depende de si el usuario ya está en el store
+    const [loading, setLoading] = useState(true);
+
+    console.log('AuthToken:', authToken);
+    console.log('Store User:', store.user);
 
     useEffect(() => {
-        if (authToken && !store.user) {
-            actions.getUsuario()
-                .then((response) => {
+        const fetchUser = async () => {
+            if (authToken && !store.user) {
+                try {
+                    console.log("Fetching user data...");
+                    const response = await actions.getUsuario();
                     if (response.ok && response.data) {
-                        actions.setStore({ user: response.data });  // Jorge -> revisamos que store.user se actualiza correctamente, medida de seguridad por un flux bastante complicado durante etapa de desarrollo.
+                        console.log("User data fetched successfully:", response.data);
+                        actions.setStore({ user: response.data });
+                    } else {
+                        console.error("Failed to fetch user data:", response);
                     }
-                })
-                .catch((error) => {
+                } catch (error) {
                     console.error("Error fetching user data:", error);
-                })
-                .finally(() => setLoading(false));  // Jorge -> Aseguramos que el estado de carga se actualiza independientemente del resultado
+                }
+            }
+            setLoading(false);
+        };
+
+        // Only fetch user if authToken is present
+        if (authToken) {
+            fetchUser();
         } else {
-            setLoading(false);  // Jorge -> Si ya tenemos el usuario o no hay authToken, dejamos de cargar
+            setLoading(false);
         }
-    }, [authToken, store.user, actions]);
+    }, [authToken, store.user]); // Dependencies: authToken, store.user, actions
 
     if (loading) {
-        return <div>Cargando usuario...</div>;  // Jorge -> Mostrar un mensaje de carga mientras se obtienen los datos del usuario
+        return <div>Cargando usuario...</div>;  // Show loading state
     }
 
     if (authToken && store.user) {
-        return element;
+        return element;  // Render the requested component if authenticated
     }
 
+    console.log("Redirecting to /inicioSesion");
     return <Navigate to="/inicioSesion" state={{ from: location }} />;
 };
 

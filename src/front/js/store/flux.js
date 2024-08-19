@@ -209,7 +209,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log("setAuthToken: authToken establecido en el store:", token);
 			},
 
-			// Función para obtener los objetivos desde el backend
+			
 			getGoals: async () => {
 				console.log("getGoals: Ejecutando función getGoals");
 				try {
@@ -272,6 +272,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getEvents: async () => {
 				try {
 					const authToken = localStorage.getItem('authToken');
+					console.log('Auth Token:', authToken);
 					const response = await fetch(`${process.env.BACKEND_URL}/api/eventos`, {
 						method: 'GET',
 						headers: {
@@ -280,15 +281,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 						}
 					});
 					if (!response.ok) {
-						throw new Error('Error al obtener todos tus eventos');
+						throw new Error('Error al obtener los eventos');
 					}
 					const data = await response.json();
+					
 					setStore(prevStore => ({
 						...prevStore,
-						events: data.data || [] // Actualiza el estado con los eventos
+						events: data.data || [] // Actualiza `store.alerts` con los datos o un array vacío
 					}));
+					
+					return data.data || []; // Retorna los datos o un array vacío
 				} catch (error) {
-					return [];
+					console.error('Error al obtener los eventos:', error);
+					return []; // Retorna un array vacío en caso de error
 				}
 			},
 
@@ -296,7 +301,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			postAlert: async (alertData) => {
 				try {
 					const authToken = localStorage.getItem('authToken');
-
+					if (!authToken) {
+						throw new Error('No se encontró el token de autenticación.');
+					}
+			
 					const response = await fetch(`${process.env.BACKEND_URL}/api/alertas_programadas`, {
 						method: 'POST',
 						headers: {
@@ -304,27 +312,46 @@ const getState = ({ getStore, getActions, setStore }) => {
 							'Authorization': `Bearer ${authToken}`
 						},
 						body: JSON.stringify(alertData)
+						
 					});
 
-					console.log('Tipo de response:', typeof response);
-					console.log('response:', response);
-
-					if (!response.ok) {
-						const errorText = await response.text(); // Use text() to get the response
-						console.error(`Error ${response.status}:`, errorText);
-						throw new Error(`Error ${response.status}: ${errorText || 'Error desconocido'}`);
+					if (!response || typeof response.json !== 'function') {
+						throw new Error('La respuesta no es del tipo esperado');
 					}
-
-					const jsonResponse = await response.json(); // Correctly parse JSON
-					console.log('Respuesta JSON:', jsonResponse);
-					return jsonResponse;
-
+			
+					return response;
 				} catch (error) {
-					console.error('Error al crear la alerta', error);
+					console.error('Error en la solicitud:', error);
 					throw error;
 				}
 			},
-
+			getAlerts: async () => {
+    try {
+        const authToken = localStorage.getItem('authToken');
+        console.log('Auth Token:', authToken);
+        const response = await fetch(`${process.env.BACKEND_URL}/api/alertas_programadas`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Error al obtener las alertas');
+        }
+        const data = await response.json();
+        
+        setStore(prevStore => ({
+            ...prevStore,
+            alerts: data.data || [] // Actualiza `store.alerts` con los datos o un array vacío
+        }));
+        
+        return data.data || []; // Retorna los datos o un array vacío
+    } catch (error) {
+        console.error('Error al obtener las alertas:', error);
+        return []; // Retorna un array vacío en caso de error
+    }
+},
 
 
 
