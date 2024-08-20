@@ -9,14 +9,14 @@ export const InicioSesion = () => {
     const [error, setError] = useState({});
     const [isChecked, setIsChecked] = useState(false); // Nueva variable de estado para la casilla de verificación
     const navigate = useNavigate();
-    const { store, actions } = useContext(Context);  
+    const { store, actions } = useContext(Context);  // Añadido store para acceder al authToken
     const location = useLocation();
 
     useEffect(() => {
         if (store.authToken || localStorage.getItem('authToken')) {
             navigate('/home');
         }
-    }, [navigate]);
+    }, [ ]);
 
     const handleChange = (e) => {
         const { id, value } = e.target;

@@ -17,6 +17,12 @@ import { HomeMovimientos } from "./pages/homeMovimientos";
 import ForgotPassword from "./pages/ForgotPassword";
 import { Objetivos } from "./pages/objetivos";
 import { HomeObjetivos } from "./pages/homeObjetivos";
+import { Eventos } from "./pages/eventos";
+import { HomeEventos } from "./pages/homeEventos";
+import { Alertas } from "./pages/alertas";
+import { HomeAlertas } from "./pages/homeAlertas";
+
+//create your first component
 import { PrivacyPolicy } from "./pages/PrivacyPolicy";
 
 // Jorge -> Este es un componente interno que manejará ScrollToTop y la ubicación
@@ -41,6 +47,11 @@ const LayoutWithScroll = () => {
                 <Route element={<ForgotPassword />} path="/forgot-password" />
                 <Route path="/objetivos" element={<PrivateRoute element={<Objetivos />} />} />
                 <Route path="/homeObjetivos" element={<PrivateRoute element={<HomeObjetivos />} />} />
+                <Route path="/eventos" element={<PrivateRoute element={<Eventos />} />} />
+                <Route path="/homeEventos" element={<PrivateRoute element={<HomeEventos/>} />} />
+                <Route path="/alertas" element={<PrivateRoute element={<Alertas/>} />} />
+                <Route path="/homealertas"  element={<PrivateRoute element={<HomeAlertas/>} />} />
+                
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />  {/* Nueva ruta */}
                 <Route element={<h1>Not found!</h1>} />
             </Routes>
