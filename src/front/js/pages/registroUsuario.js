@@ -1,8 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Context } from "../store/appContext";
-import "../../styles/registroUsuarios.css";
-import { jsx } from "react/jsx-runtime";
 export const Registro = () => {
 
   const navigate = useNavigate();
@@ -140,7 +138,7 @@ export const Registro = () => {
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <button type="submit" className="btn btn-success btn-block w-50 me-1">Registrar</button>
-                                    <button type="button" className="btn btn-warning btn-block w-50 ms-1" onClick={handleBackToLogin}>Volver a inicio sesión</button>
+                                    <button type="button" className="btn btn-danger btn-block w-50 ms-1" onClick={handleBackToLogin}>Volver a inicio sesión</button>
                                 </div>
                             </form>
                         </div>

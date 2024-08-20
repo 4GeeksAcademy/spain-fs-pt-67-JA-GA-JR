@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
-import "../../styles/navbar.css"
+
 
 export const Navbar = () => {
     const { actions } = useContext(Context);
@@ -16,7 +16,7 @@ export const Navbar = () => {
         <nav className="navbar">
             <div className="container">
                 <Link to="/home">
-                    <span className="navbar-brand mb-0 h1">KuentasKlaras</span>
+                    <span className="navbar-brand mb-0 h1">KuentasKlaras®</span>
                 </Link>
                 <div className="ml-auto d-flex align-items-center">
                     {/* Jorge -> Menú desplegable para perfil de usuario */}

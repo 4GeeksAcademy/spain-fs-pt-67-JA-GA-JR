@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom'; 
-import "../../styles/objetivos.css";
 import { Context } from "../store/appContext";
 
 export const Objetivos = () => {
@@ -119,7 +118,7 @@ export const Objetivos = () => {
                                 onChange={handleInputChange}
                             />
                         </div>
-                        <button type="button" className="btn btn-primary" onClick={handleAddGoal}>Agregar Objetivo</button>
+                        <button type="submit" className="btn btn-primary" onClick={handleAddGoal}>Agregar Objetivo</button>
                     </form>
                 </div>
             </div>

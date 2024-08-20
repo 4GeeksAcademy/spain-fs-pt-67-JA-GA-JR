@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from "../store/appContext";
-import "../../styles/perfilUsuario.css"
+
 
 const PerfilUsuario = () => {
     const [error, setError] = useState('');
@@ -42,10 +42,10 @@ const PerfilUsuario = () => {
                     <h2>{store.user.nombre}</h2>
                     <p>Email: {store.user.email}</p>
                     <p>Teléfono: {store.user.telefono}</p>
-                    <button className="perfil-boton" onClick={handleModificarDatos}>
+                    <button className="btn btn-primary" onClick={handleModificarDatos}>
                         Modificar mis datos
                     </button>
-                    <button className="perfil-boton" onClick={handleVolverInicio}>
+                    <button className="btn btn-danger" onClick={handleVolverInicio}>
                         Volver a Inicio
                     </button>
                 </div>
