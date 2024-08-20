@@ -13,11 +13,10 @@ export const InicioSesion = () => {
     const location = useLocation();
 
     useEffect(() => {
-        // Si el token está presente, redirigir a /home
         if (store.authToken || localStorage.getItem('authToken')) {
             navigate('/home');
         }
-    }, [navigate]);
+    }, [ ]);
 
     const handleChange = (e) => {
         const { id, value } = e.target;

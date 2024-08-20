@@ -30,20 +30,19 @@ const PrivateRoute = ({ element }) => {
             setLoading(false);
         };
 
-        // Only fetch user if authToken is present
         if (authToken) {
             fetchUser();
         } else {
             setLoading(false);
         }
-    }, [authToken, store.user]); // Dependencies: authToken, store.user, actions
+    }, []);
 
     if (loading) {
-        return <div>Cargando usuario...</div>;  // Show loading state
+        return <div>Cargando usuario...</div>;
     }
 
     if (authToken && store.user) {
-        return element;  // Render the requested component if authenticated
+        return element;  
     }
 
     console.log("Redirecting to /inicioSesion");

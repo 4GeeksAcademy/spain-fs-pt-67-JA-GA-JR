@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 export const Alertas = () => {
-  console.log('componente Alertas montado' );
+    console.log('componente Alertas montado');
     const [formData, setFormData] = useState({
         nombre: '',
         fecha_esperada: '',
@@ -15,7 +15,7 @@ export const Alertas = () => {
 
     const [errors, setErrors] = useState({});
     const { actions } = useContext(Context);
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -56,7 +56,7 @@ export const Alertas = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Formulario enviado');
-    
+
         if (validateForm()) {
             try {
                 // Preparar datos para el endpoint de eventos
@@ -68,24 +68,24 @@ export const Alertas = () => {
                     antelacion: parseInt(formData.antelacion, 10),
                     motivo: formData.motivo
                 };
-    
+
                 // Enviar datos usando la función postAlert del contexto
                 const response = await actions.postAlert(alertData);
-                navigate('/homealertas'); 
+                navigate('/homealertas');
                 // Verifica el objeto de respuesta
                 console.log(response);
-    
+
                 // Asegúrate de que no se ha usado ya el cuerpo de la respuesta
                 if (!response.ok) {
                     // Extraer detalles del error del servidor
                     const errorData = await response.json();
                     throw new Error(`Error ${response.status}: ${errorData.msg || 'Error desconocido'}`);
                 }
-    
+
                 // Extraer datos en formato JSON sólo si es necesario
                 const responseData = await response.json();
                 console.log('Datos de la respuesta:', responseData);
-    
+
                 // Limpiar el formulario después de un envío exitoso
                 setFormData({
                     nombre: '',
@@ -95,16 +95,16 @@ export const Alertas = () => {
                     antelacion: '1d',
                     motivo: ''
                 });
-    
+
                 alert('Alerta creada correctamente!');
-            
+
             } catch (error) {
                 console.error('Error al enviar la alerta:', error);
                 alert(`Error al enviar la alerta: ${error.message}`);
             }
         }
     };
-    
+
 
     return (
         <div className="form-container">
@@ -179,18 +179,16 @@ export const Alertas = () => {
                         </div>
 
                         <div>
-                            <label htmlFor="antelacion" className="form-label">Antelación:</label>
-                            <select
+                            <label htmlFor="antelacion" className="form-label">Antelación (debe de ser en días):</label>
+                            <input
                                 id="antelacion"
                                 name="antelacion"
+                                type="number"
                                 className="form-control"
                                 value={formData.antelacion}
                                 onChange={handleChange}
-                            >
-                                <option value="1d">1 día antes</option>
-                                <option value="3d">3 días antes</option>
-                                <option value="1w">1 semana antes</option>
-                            </select>
+                                min="0"
+                            />
                         </div>
 
                         <button type="submit" className="btn-primary">Guardar</button>
