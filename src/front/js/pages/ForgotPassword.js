@@ -30,7 +30,7 @@ const ForgotPassword = () => {
                 setMessage("Por favor revisa tu correo, te hemos enviado un mensaje con lo necesario.");
                 setTimeout(() => {
                     navigate('/inicioSesion');
-                }, 5000); // Redirigir después de 3 segundos
+                }, 5000); // Redirigir después de 5 segundos
             } else {
                 setError("No se encontró una cuenta con ese correo electrónico.");
             }
@@ -45,12 +45,12 @@ const ForgotPassword = () => {
                 <div className="col-md-6">
                     <div className="card">
                         <div className="card-body">
-                            <h2 className="text-center">Restablecer Contraseña</h2>
+                            <h2 className="text-center">Restablecer contraseña</h2>
                             {message && <div className="alert alert-success">{message}</div>}
                             {error && <div className="alert alert-danger">{error}</div>}
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-3">
-                                    <label htmlFor="email" className="form-label">Correo Electrónico</label>
+                                    <label htmlFor="email" className="form-label">Introduce tu correo electrónico:</label>
                                     <input 
                                         type="email" 
                                         className="form-control" 
@@ -60,7 +60,7 @@ const ForgotPassword = () => {
                                     />
                                 </div>
                                 <button type="submit" className="btn btn-primary btn-block">
-                                    Enviar Correo de Restablecimiento
+                                    Enviar correo de restablecimiento
                                 </button>
                             </form>
                             <div className="text-center mt-3">

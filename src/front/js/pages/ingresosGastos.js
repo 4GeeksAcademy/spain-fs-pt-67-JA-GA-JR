@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from "../store/appContext";
-import "../../styles/ingresosGastos.css"
+
 
 
 export const IngresosGastos = () => {
@@ -147,7 +147,7 @@ export const IngresosGastos = () => {
                                     />
                                     {error.fecha && <div className="text-danger">{error.fecha}</div>}
                                 </div>
-                                {/* se desactiva la opción de asociar el usuario. 
+                                {/* Jorge -> se desactiva la opción de asociar el usuario. 
                                 //Esta funcionalidad es para la opción de gastos compartidos, no realizada en el proyecto final
                                 <div className="mb-3">
                                     <label htmlFor="usuarios_relacion" className="form-label">Usuario Relacionado</label>

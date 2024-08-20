@@ -4,7 +4,6 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -27,51 +26,18 @@
     z-index: 1;
 }
 
-h1 {
+.landingh1 {
     font-size: 2.5rem;
     color: #c3c31a;
     margin-top: 30px;
 }
 
-h3 {
+.landingh3{
     font-size: 1.76rem;
     color: #00ec14;
 }
 
-p {
+.landingp {
     font-size: 1.50rem;
     color: #fff;
-}
-
-.card {
-    border: 2px solid #c3c31a;
-    background-color: #127ea9;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.9);
-    margin-top: 30px;
-}
-
-button.btn-primary {
-    background-color: #c3c31a;
-    border-color: #c3c31a;
-    font-size: 1.30rem;
-}
-
-button.btn-primary:hover {
-    background-color: #3cd321e4;
-    border-color: #c3c31a;
-    font-size: 1.45rem;
-}
-
-button.btn-secondary {
-    background-color: #127ea9;
-    border-color: #127ea9;
-    font-size: 1.30rem;
-}
-
-button.btn-secondary:hover {
-    background-color: #FFD700; 
-    border-color: black;
-    color: #000;
-    font-size: 1.45rem;
 }
