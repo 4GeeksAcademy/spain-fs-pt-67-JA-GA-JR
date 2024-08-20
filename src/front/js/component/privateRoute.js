@@ -41,10 +41,9 @@ const PrivateRoute = ({ element }) => {
         return <div>Cargando usuario...</div>;
     }
 
-    if (authToken && store.user) {
-        return element;  
+    if (authToken) {
+        return element;  // Render the requested component if authenticated
     }
-
     console.log("Redirecting to /inicioSesion");
     return <Navigate to="/inicioSesion" state={{ from: location }} />;
 };

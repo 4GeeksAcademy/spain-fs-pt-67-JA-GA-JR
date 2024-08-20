@@ -10,19 +10,18 @@ export const HomeAlertas = () => {
   const [showMore, setShowMore] = useState(false);
 
   // Función para solicitar permiso de notificación
-  const requestNotificationPermission = () => {
-    console.log('Solicitando permiso de notificación...');
-    if (Notification.permission === 'default') {
-      Notification.requestPermission().then(permission => {
-        console.log('Permiso recibido:', permission);
-        if (permission === 'granted') {
-          console.log('Permiso concedido para mostrar notificaciones.');
-        } else {
-          console.log('Permiso denegado para mostrar notificaciones.');
-        }
-      });
+  const requestNotificationPermission = async () => {
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+        console.log('Permiso concedido para mostrar notificaciones.');
+    } else {
+        console.log('Permiso denegado para mostrar notificaciones.');
     }
-  };
+};
+
+// Llama a esta función cuando inicies tu aplicación o cuando sea relevante
+requestNotificationPermission();
+
   
 
   // Función para mostrar notificaciones
@@ -31,7 +30,7 @@ export const HomeAlertas = () => {
     if (Notification.permission === 'granted') {
       const notification = new Notification(title, {
         body: body,
-        icon: '/docs/assets/bell-regular.svg'
+       
       });
       notification.onclick = () => {
         window.focus(); // Opcional: hace que la ventana del navegador reciba el foco
