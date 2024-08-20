@@ -1,3 +1,184 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
+/*Jorge -> Aquí lo relativo al BODY de manera común para todas las vistas*/
+body {
+    background-color: #333;
+}
+
+/*Jorge -> Aquí lo relativo a los BOTONES + Menús desplegables*/
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #fcd513; /* Color del botón submit */
+    color: #011118; /*texto boton*/
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: 2px solid #011118;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+    background-color: #38f83e; /* Color del botón submit al hacer hover */
+    color: #011118
+}
+
+.ml-auto .dropdown-toggle {
+    background-color: #c3c31a; /* Fondo del botón Mi Perfil */
+    color: #09475f; /* Color del texto */
+    border: 2px solid #09475f; /* Borde del botón */
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.ml-auto .dropdown-toggle:hover {
+    background-color: #09475f; /* Fondo del botón al pasar el cursor */
+    color: #ecf0f1; /* Texto del botón al pasar el cursor */
+}
+
+.dropdown-menu {
+    background-color: #b49706; /* Fondo del menú desplegable */
+    border: 2px solid #b49706; /* Borde del menú */
+    border-radius: 5px;
+}
+
+.dropdown-item {
+    color: #011118; /* Texto de las opciones del menú */
+    padding: 10px 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #09475f; /* Fondo de las opciones al pasar el cursor */
+    color: #ecf0f1; /* Texto de las opciones al pasar el cursor */
+}
+
+.btn-danger {
+    background-color: #c0392b; /* Fondo del botón Cerrar Sesión */
+    color: #ecf0f1; /* Color del texto */
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: 2px solid #09475f; /* Borde del botón */
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #e74c3c; /* Fondo del botón al pasar el cursor */
+    color: #011118; /* Texto del botón al pasar el cursor */
+}
+
+.btn-primary { /*Normalmente se utiliza para botones secundarios, que no sean submit*/
+    background-color: #09475f;
+    padding: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: 2px solid #011118;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    border-color: #011118;
+    color: #FFD700;
+}
+  
+.btn-primary:hover {
+    background-color: #FFD700; 
+    border-color: 011118;
+    color: #000
+}
+
+/*Jorge -> Aquí lo relativo a los FORMS, que no sean botones*/
+.form-label {
+    color: #FFD700; 
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #FFD700; 
+    background-color: #09475f; 
+    color: #fff; 
+    padding: 10px;
+    font-size: 16px;
+}
+
+/*Jorge -> Aquí lo relativo a CARDS, que no sean botones*/
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+    border: 2px solid #09475f; 
+    background-color: #4b5646;
+    color: #ecf0f1;
+    font-size: 1.2rem;
+    min-height: 375px;
+    margin: 5px;
+  }
+
+/*Jorge -> Vista perfil de usuario excepto botones*/
+.perfil-usuario {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.perfil-detalles {
+    background-color: #161616; /* Fondo para el card */
+    padding: 30px;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.9); /* Sombra suave */
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+.perfil-imagen {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%; /* Imagen redonda */
+    object-fit: cover; /* Ajuste de imagen */
+    margin-bottom: 20px;
+    border: 5px solid #09475f; /* Borde de imagen */
+}
+
+.perfil-detalles h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #c3c31a; /*Título*/
+}
+
+.perfil-detalles p {
+    font-size: 1.2rem;
+    color: #127ea9; /* Texto informativo */
+    margin-bottom: 15px;
+}
+
+/*Jorge -> A partir de aquí Navbar, excepto botones y dropdown*/
+.navbar {
+    background-color: #333; /* Fondo oscuro */
+    color: #f1f1ec; /* Texto claro */
+    padding: 15px 20px; /* Espaciado interno */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9); /* Sombra suave */
+    
+}
+
+.navbar-brand {
+    color: #c3c31a; /* Color del texto de la marca */
+    font-size: 2.1rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+}
+
+.navbar-brand:hover {
+    color: #38f83e; /* Color del texto de la marca al pasar el cursor */
+}

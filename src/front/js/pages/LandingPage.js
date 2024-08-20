@@ -19,18 +19,18 @@ const LandingPage = () => {
                     <button className="btn btn-primary me-2" onClick={() => navigate("/RegistroUsuarios")}>
                         Nuevo usuario
                     </button>
-                    <button className="btn btn-secondary" onClick={() => navigate("/inicioSesion")}>
+                    <button className="btn btn-primary" onClick={() => navigate("/inicioSesion")}>
                         Iniciar sesión
                     </button>
                 </div>
             </div>
             <div className="row justify-content-center m-0">
                 <div className="col-12 text-center">
-                    <h1>Te damos la bienvenida a KuentasKlaras®</h1>
+                    <h1 className="landingh1">Te damos la bienvenida a KuentasKlaras®</h1>
                     <br></br>
-                    <h3>Somos una herramienta fácil y gratuita, para ayudarte a monitorizar tus ingresos y gastos.</h3>
+                    <h3 className="landingh3">Somos una herramienta fácil y gratuita, para ayudarte a monitorizar tus ingresos y gastos.</h3>
                     <br></br>
-                    <p>Con nuestras funcionalidades, podrás llevar un registro de forma sencilla y otras cosas como planificar ingresos, crear alertas programadas, fijar objetivos de ahorro y planificar eventos específicos, todo personalizado a tu gusto.</p>
+                    <p className="landingp">Con nuestras funcionalidades, podrás llevar un registro de forma sencilla y otras cosas como planificar ingresos, crear alertas programadas, fijar objetivos de ahorro y planificar eventos específicos, todo personalizado a tu gusto.</p>
                 </div>
             </div>
             <div className="row w-100 p-1">

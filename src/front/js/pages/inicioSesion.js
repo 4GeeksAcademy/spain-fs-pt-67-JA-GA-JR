@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Context } from "../store/appContext";
-import "../../styles/registroUsuarios.css";
+
 
 export const InicioSesion = () => {
     const [email, setEmail] = useState('');
@@ -91,6 +91,7 @@ export const InicioSesion = () => {
                                     />
                                     {error.password && <div className="text-danger">{error.password}</div>}
                                 </div>
+                                <i class="fa-solid fa-arrow-down fa-bounce fa-xl"></i>
                                 <div className="mb-3 form-check">
                                     <input
                                         type="checkbox"
@@ -112,12 +113,12 @@ export const InicioSesion = () => {
                                 </button>
                             </form>
                             <div className="text-center mt-3">
-                                <button onClick={handleRegisterClick} className="btn btn-warning btn-block w-100" disabled={!isChecked}>
+                                <button onClick={handleRegisterClick} className="btn btn-primary btn-block w-100" disabled={!isChecked}>
                                     Me quiero registrar
                                 </button>
                             </div>
                             <div className="text-center mt-3">
-                                <a href="/forgot-password">Olvidé mi contraseña</a>
+                                <a href="/forgot-password">¡Olvidé mi contraseña!</a>
                             </div>
                         </div>
                     </div>

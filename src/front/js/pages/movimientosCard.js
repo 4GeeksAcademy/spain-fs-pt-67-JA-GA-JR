@@ -70,7 +70,7 @@ export const MovimientosCard = () => {
     <div className="card">
     <div className="card-body text-center">
         <h2 className="card-title">Movimientos</h2>
-        <p className="card-description">Aquí puedes ver todos los movimientos que has hecho.</p>
+        <p className="card-description">Aquí puedes ver todas las transacciones que has hecho:</p>
         <div className="movements">
             <ul className="movements-list">
             {Array.isArray(movements) && movements.length > 0 ? (
@@ -79,7 +79,7 @@ export const MovimientosCard = () => {
                     key={index} 
                     className={`movement-item ${movement.tipo_movimiento.toLowerCase()}`}
                 >
-                    {movement.nombre} - {movement.monto} - {movement.tipo_movimiento}
+                    Nombre: "{movement.nombre}" / Monto: "{movement.monto}€" / Tipo: "{movement.tipo_movimiento}".
                 </li>
             ))
         ) : (
@@ -94,7 +94,7 @@ export const MovimientosCard = () => {
                     </button>
 
         </div>
-        <p className="total-available"><strong>Total disponible:</strong> {totalAvailable.toFixed(2)}</p>
+        <p className="total-available"><strong>Total disponible:</strong> {totalAvailable.toFixed(2)}€</p>
     </div>
    
 </div>

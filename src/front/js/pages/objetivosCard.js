@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../styles/cardObjetivos.css";
+
 
 export const CardObjetivos = () => {
     const [showMore, setShowMore] = useState(false);
