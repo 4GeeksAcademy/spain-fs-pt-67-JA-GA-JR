@@ -4,6 +4,7 @@ import { HomeObjetivos } from './homeObjetivos';
 import { HomeEventos } from './homeEventos';
 import { useNavigate } from 'react-router-dom';
 import { HomeAlertas } from './homeAlertas';
+import '../../styles/home.css';
 
 export const Home = () => {
     const navigate = useNavigate();

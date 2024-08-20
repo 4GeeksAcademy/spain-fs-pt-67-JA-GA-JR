@@ -1,0 +1,51 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1; /* Hace que el contenedor principal ocupe todo el espacio disponible */
+}
+
+.footer {
+    background-color: #333; /* Fondo oscuro */
+    color: #ecf0f1; /* Texto claro */
+    padding: 20px 0; /* Espaciado interno */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.9); /* Sombra en la parte superior */
+    text-align: center; /* Centra el contenido del footer */
+}
+
+.footer p {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.footer strong {
+    color: #00ec14; /* Color para destacar "teamwork" */
+}
+
+.footer i.fa-heart {
+    color: #c3c31a; /* Corazón en amarillo */
+    margin: 0 5px;
+}
+
+.footer a {
+    color: #00ec14; /* Color de los enlaces */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: #09a30e; /* Color de los enlaces al pasar el cursor */
+    text-decoration: underline;
+}
+
+.text-center {
+    text-align: center;
+}
