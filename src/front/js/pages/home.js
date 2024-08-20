@@ -34,7 +34,7 @@ export const Home = () => {
         navigate('/alertas');
     };
     const handleSeeMoreAlerts = () => {
-        navigate('/homeAlertas');
+        navigate('/homealertas');
     };
 
     return (
