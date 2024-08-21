@@ -42,6 +42,31 @@ export const CardObjetivos = () => {
         }
     };
 
+    const handleDeleteGoal = async (goalId) => {
+        const confirmed = window.confirm("¿Nos confirmas que quieres eliminar este objetivo?");
+        if (confirmed) {
+            try {
+                const response = await fetch(`${process.env.BACKEND_URL}/api/objetivo/${goalId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    setGoals((prevGoals) => prevGoals.filter(goal => goal.id !== goalId));
+                    alert("Objetivo eliminado exitosamente.");
+                } else {
+                    alert("Hubo un problema al eliminar el objetivo.");
+                }
+            } catch (error) {
+                console.error("Error al eliminar el objetivo:", error);
+                alert("Error al eliminar el objetivo.");
+            }
+        }
+    };
+
     const handleToggleShowMore = () => {
         setShowMore(!showMore);
     };
@@ -92,6 +117,12 @@ export const CardObjetivos = () => {
                                             <p className="card-text"><strong>Cuota mensual:</strong> {goal.cuota_mensual?.toFixed(2)} EUR</p>
                                             <p className="card-text"><strong>Tiempo restante hasta el objetivo:</strong> {monthsUntilDate} meses</p>
                                             <p className="card-text"><strong>Tiempo necesario para ahorrar:</strong> {monthsToSave} meses</p>
+                                            <button
+                                                className="btn btn-danger"
+                                                onClick={() => handleDeleteGoal(goal.id)}
+                                            >
+                                                Eliminar
+                                            </button>
                                         </div>
                                     </div>
                                 );

@@ -17,6 +17,32 @@ export const MovimientosCard = () => {
     return amount
   };
 
+  const handleDeleteMovement = async (movementId) => {
+    const confirmed = window.confirm("¿Nos confirmas que quieres eliminar este movimiento?");
+    if (confirmed) {
+        try {
+            const response = await fetch(`${process.env.BACKEND_URL}/api/movimientos/${movementId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                }
+            });
+
+            if (response.ok) {
+                // Eliminar el movimiento del estado local
+                setMovements((prevMovements) => prevMovements.filter(movement => movement.id !== movementId));
+                alert("Movimiento eliminado exitosamente.");
+            } else {
+                alert("Hubo un problema al eliminar el movimiento.");
+            }
+        } catch (error) {
+            console.error("Error al eliminar el movimiento:", error);
+            alert("Error al eliminar el movimiento.");
+        }
+    }
+};
+
   // judit Calcular el total disponible
   const totalAvailable = movements.reduce((total, movement) => {
     const amount = parseAmount(movement.monto);
@@ -70,7 +96,13 @@ export const MovimientosCard = () => {
                   key={index}
                   className={`movement-item ${movement.tipo_movimiento.toLowerCase()}`}
                 >
-                  Nombre: "{movement.nombre}" / Monto: "{movement.monto}€" / Tipo: "{movement.tipo_movimiento}".
+                  Nombre: "{movement.nombre}" / Monto: "{movement.monto}€" / Motivo: "{movement.motivo}" Tipo: "{movement.tipo_movimiento}".
+                  <button
+                    className="btn btn-danger btn-sm ms-3"
+                    onClick={() => handleDeleteMovement(movement.id)}  // Llama a la función de eliminación
+                  >
+                    Eliminar
+                  </button>
                 </li>
               ))
             ) : (

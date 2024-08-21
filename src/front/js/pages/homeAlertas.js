@@ -104,11 +104,37 @@ export const HomeAlertas = () => {
     setShowMore(prevShowMore => !prevShowMore);
   };
 
+  const handleDeleteAlert = async (alertId) => {
+    const confirmed = window.confirm("¿Confirmas que quieres eliminar esta alerta?");
+    if (confirmed) {
+      try {
+        const authToken = localStorage.getItem('authToken');
+        const response = await fetch(`${process.env.BACKEND_URL}/api/alertas_programadas/${alertId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          }
+        });
+
+        if (response.ok) {
+          setAlerts((prevAlerts) => prevAlerts.filter(alert => alert.id !== alertId));
+          alert("Alerta eliminada exitosamente.");
+        } else {
+          alert("Hubo un problema al eliminar la alerta.");
+        }
+      } catch (error) {
+        console.error("Error al eliminar la alerta:", error);
+        alert("Error al eliminar la alerta.");
+      }
+    }
+  };
+
   return (
     <div className="card card-main">
       <div className="card-body text-center">
         <h1 className="card-title">Alertas Programadas</h1>
-        <p className="card-description">Aquí puedes ver todas las alertas programadas.</p>
+        <p className="card-description">Aquí puedes administrar todas las alertas programadas.</p>
         <div className="alerts">
           {alerts.length > 0 ? (
             <div className="alerts-list">
@@ -119,6 +145,12 @@ export const HomeAlertas = () => {
                     <p className="card-text"><strong>Fecha programada:</strong> {alert.fecha_esperada}</p>
                     <p className="card-text"><strong>Motivo:</strong> {alert.motivo}</p>
                     <p className="card-text"><strong>Monto:</strong> {alert.monto}€</p>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleDeleteAlert(alert.id)}
+                    >
+                      Eliminar
+                    </button>
                   </div>
                 </div>
               ))}

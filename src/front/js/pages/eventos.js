@@ -3,19 +3,14 @@ import '../../styles/eventos.css';
 import { Context } from "../store/appContext";
 import { useNavigate } from 'react-router-dom';
 
-
 export const Eventos = () => {
   const [formData, setFormData] = useState({
     nombre: '',
-
   });
 
   const [errors, setErrors] = useState({});
   const { actions } = useContext(Context);
   const navigate = useNavigate();
-
-
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,8 +28,6 @@ export const Eventos = () => {
       formErrors.nombre = "El nombre es obligatorio.";
       isValid = false;
     }
-
-
 
     setErrors(formErrors);
     return isValid;
@@ -67,7 +60,7 @@ export const Eventos = () => {
 
         });
 
-        alert('Formulario enviado correctamente!');
+        alert('¡Evento creado correctamente!');
       } catch (error) {
         console.error('Error al enviar el formulario:', error);
         if (error.response) {
@@ -77,7 +70,6 @@ export const Eventos = () => {
       }
     }
   };
-
 
   return (
     <div className="form-container">
@@ -97,8 +89,6 @@ export const Eventos = () => {
               />
               {errors.nombre && <div className="form-error">{errors.nombre}</div>}
             </div>
-
-
             <button type="submit" className="btn-primary">Guardar</button>
           </form>
         </div>
