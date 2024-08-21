@@ -115,8 +115,9 @@ def get_usuario():
 @api.route('/movimientos', methods=['GET'])
 @jwt_required()
 def handle_movimientos():
-    movimientos = Movimientos.query.all()
-    movimientos_serialized = list(map(lambda item:item.serialize(), movimientos))
+    user_id = get_jwt_identity()
+    movimientos = Movimientos.query.filter_by(usuarios_relacion=user_id).all()
+    movimientos_serialized = list(map(lambda item: item.serialize(), movimientos))
     response_body = {
         "msg": "OK",
         "data": movimientos_serialized
@@ -126,8 +127,9 @@ def handle_movimientos():
 @api.route('/alertas_programadas', methods=['GET'])
 @jwt_required()
 def handle_alertas_programadas():
-    alertas_programadas = Alertas_programadas.query.all()
-    alertas_programadas_serialized = list(map(lambda item:item.serialize(), alertas_programadas))
+    user_id = get_jwt_identity()
+    alertas_programadas = Alertas_programadas.query.filter_by(usuarios_relacion=user_id).all()
+    alertas_programadas_serialized = list(map(lambda item: item.serialize(), alertas_programadas))
     response_body = {
         "msg": "OK",
         "data": alertas_programadas_serialized
@@ -137,8 +139,9 @@ def handle_alertas_programadas():
 @api.route('/objetivo', methods=['GET'])
 @jwt_required()
 def handle_objetivo():
-    objetivo = Objetivo.query.all()
-    objetivo_serialized = list(map(lambda item:item.serialize(), objetivo))
+    user_id = get_jwt_identity()
+    objetivo = Objetivo.query.filter_by(usuarios_relacion=user_id).all()
+    objetivo_serialized = list(map(lambda item: item.serialize(), objetivo))
     response_body = {
         "msg": "OK",
         "data": objetivo_serialized
@@ -148,8 +151,9 @@ def handle_objetivo():
 @api.route('/eventos', methods=['GET'])
 @jwt_required()
 def handle_eventos():
-    eventos = Eventos.query.all()
-    eventos_serialized = list(map(lambda item:item.serialize(), eventos))
+    user_id = get_jwt_identity()
+    eventos = Eventos.query.filter_by(usuarios_relacion=user_id).all()
+    eventos_serialized = list(map(lambda item: item.serialize(), eventos))
     response_body = {
         "msg": "OK",
         "data": eventos_serialized

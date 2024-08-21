@@ -118,6 +118,7 @@ export const HomeAlertas = () => {
                     <h5 className="card-title">{alert.nombre}</h5>
                     <p className="card-text"><strong>Fecha programada:</strong> {alert.fecha_esperada}</p>
                     <p className="card-text"><strong>Motivo:</strong> {alert.motivo}</p>
+                    <p className="card-text"><strong>Monto:</strong> {alert.monto}€</p>
                   </div>
                 </div>
               ))}
