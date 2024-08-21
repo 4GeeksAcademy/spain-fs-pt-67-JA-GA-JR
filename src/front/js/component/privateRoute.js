@@ -8,17 +8,13 @@ const PrivateRoute = ({ element }) => {
     const authToken = store.authToken || localStorage.getItem('authToken');
     const [loading, setLoading] = useState(true);
 
-    console.log('AuthToken:', authToken);
-    console.log('Store User:', store.user);
-
     useEffect(() => {
         const fetchUser = async () => {
             if (authToken && !store.user) {
                 try {
-                    console.log("Fetching user data...");
+
                     const response = await actions.getUsuario();
                     if (response.ok && response.data) {
-                        console.log("User data fetched successfully:", response.data);
                         actions.setStore({ user: response.data });
                     } else {
                         console.error("Failed to fetch user data:", response);
@@ -42,9 +38,8 @@ const PrivateRoute = ({ element }) => {
     }
 
     if (authToken) {
-        return element;  // Render the requested component if authenticated
+        return element;  // Judit -> Render the requested component if authenticated
     }
-    console.log("Redirecting to /inicioSesion");
     return <Navigate to="/inicioSesion" state={{ from: location }} />;
 };
 

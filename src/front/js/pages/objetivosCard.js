@@ -1,35 +1,28 @@
 import React, { useState, useEffect } from "react";
 
-
 export const CardObjetivos = () => {
     const [showMore, setShowMore] = useState(false);
-    const [goals, setGoals] = useState([]);  // Almacena los objetivos localmente en este componente
+    const [goals, setGoals] = useState([]);  // Jorge -> almacena los objetivos localmente en este componente
     const [authToken, setAuthToken] = useState(null);
 
     // Jorge -> useEffect para obtener el authToken desde localStorage
     useEffect(() => {
         const token = localStorage.getItem('authToken');
-        console.log("useEffect: authToken desde localStorage", token);
         if (token) {
             setAuthToken(token);
         }
     }, []);
 
     // judit useEffect para obtener los objetivos cuando authToken esté disponible
-    // Jorge -> useEffect para obtener los objetivos cuando authToken esté disponible
     useEffect(() => {
         if (authToken) {
-            console.log("useEffect: authToken presente, llamando a getGoals");
             getGoals(authToken);
         } else {
-            console.log("useEffect: authToken no presente");
         }
     }, [authToken]);
 
-    // judit función para obtener los objetivos desde el backend
     // Jorge -> Función para obtener los objetivos desde el backend
     const getGoals = async (token) => {
-        console.log("getGoals: Ejecutando función getGoals con token", token);
         try {
             const response = await fetch(`${process.env.BACKEND_URL}/api/objetivo`, {
                 method: 'GET',
@@ -38,14 +31,11 @@ export const CardObjetivos = () => {
                 }
             });
 
-            console.log("getGoals: Estado de la respuesta:", response.status);
-
             if (!response.ok) {
                 throw new Error('Error al obtener los objetivos');
             }
 
             const data = await response.json();
-            console.log("getGoals: Objetivos obtenidos:", data.data);
             setGoals(data.data || []);
         } catch (error) {
             console.error('Error al obtener los objetivos:', error);
@@ -89,7 +79,7 @@ export const CardObjetivos = () => {
                 <div className="goals">
                     {goals.length > 0 ? (
                         <div className="goals-list">
-                            {goals.slice(0, showMore ? goals.length : 5).map(goal => {
+                            {goals.slice(0, showMore ? goals.length : 3).map(goal => {
                                 const monthsUntilDate = calculateMonthsUntilDate(goal.fecha_objetivo);
                                 const monthsToSave = calculateMonthsToSave(goal.monto, goal.cuota_mensual);
 
@@ -110,7 +100,7 @@ export const CardObjetivos = () => {
                     ) : (
                         <p className="no-goals">No hay objetivos pendientes.</p>
                     )}
-                     <button
+                    <button
                         className="btn btn-primary"
                         onClick={handleToggleShowMore}
                     >

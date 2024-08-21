@@ -33,14 +33,10 @@ const injectContext = PassedComponent => {
 			const token = localStorage.getItem('authToken'); // Jorge -> intento de solución de carga de Objetivos.
 			if (token) {
 				state.actions.setAuthToken(token);
-				console.log("AuthToken establecido en el store desde localStorage:", token);
 			} else {
-				console.log("No se encontró un authToken en localStorage.");
 			}
-			console.log("Estado inicial en StoreWrapper:", state);
 
 			state.actions.getMessage(); // <---- llamando a esta función desde las acciones en flux.js
-
 		}, []);
 
 		// El valor inicial para el contexto ya no es null, sino el estado actual de este componente,

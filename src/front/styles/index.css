@@ -4,6 +4,10 @@
 /*Jorge -> Aquí lo relativo al BODY de manera común para todas las vistas*/
 body {
     background-color: #333;
+    /*background-image: url('/docs/assets/arreglo-elementos-financieros-vista-superior-bloc-notas-vacio_23-2148749479.jpg');*/
+    /*background-size: cover;
+    background-position: center;
+    background-attachment: fixed;*/
 }
 
 /*Jorge -> Aquí lo relativo a los BOTONES + Menús desplegables*/
@@ -76,7 +80,7 @@ button[type="submit"]:hover {
     color: #011118; /* Texto del botón al pasar el cursor */
 }
 
-.btn-primary { /*Normalmente se utiliza para botones secundarios, que no sean submit*/
+.btn-primary { /*Jorge -> Normalmente se utiliza para botones secundarios, que no sean submit*/
     background-color: #09475f;
     padding: 10px;
     font-size: 1.1rem;
@@ -85,7 +89,7 @@ button[type="submit"]:hover {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 10px;
+    margin: 15px;
     border-color: #011118;
     color: #FFD700;
 }

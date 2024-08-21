@@ -58,12 +58,12 @@ const ModificarPerfilUsuario = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         if (!formData.nombre || !formData.email || !formData.telefono) {
             setError('Por favor, completa todos los campos.');
             return;
         }
-    
+
         setLoading(true);
         setError('');
         const userId = store.user ? store.user.id : null;
@@ -74,10 +74,10 @@ const ModificarPerfilUsuario = () => {
         if (formData.foto_perfil) {
             formDataToSend.append('foto_perfil', formData.foto_perfil);
         }
-    
+
         const response = await actions.updateUsuario(userId, formDataToSend);
         setLoading(false);
-    
+
         if (response.ok) {
             setMessage('Datos actualizados correctamente');
             // Jorge -> aquí forzamos el refresh de perfilUsuario.js para que muestre ya los cambios actualizados.
@@ -87,7 +87,7 @@ const ModificarPerfilUsuario = () => {
             setError(response.error || 'Error al actualizar los datos');
         }
     };
-    
+
 
     return (
         <div className="modificar-perfil-usuario">

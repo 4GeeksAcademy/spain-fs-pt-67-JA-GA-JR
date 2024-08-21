@@ -1,4 +1,4 @@
-/* Contenedor del formulario */
+/* Contenedor del formulario
 .form-container {
   margin-top: 50px;
   display: flex;
@@ -8,36 +8,36 @@
   padding: 20px;
 }
 
-/* Tarjeta del formulario */
+/* Tarjeta del formulario
 .form-card {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  border: 2px solid #FFD700; /* Borde dorado */
-  background-color: #333; /* Fondo oscuro */
+  border: 2px solid #FFD700; /* Borde dorado 
+  background-color: #333; /* Fondo oscuro 
   width: 100%;
   max-width: 500px;
   margin: 20px auto;
 }
 
-/* Cuerpo de la tarjeta */
+/* Cuerpo de la tarjeta
 .form-card-body {
   padding: 30px;
 }
 
-/* Encabezado del formulario */
+/* Encabezado del formulario
 .form-heading {
   margin-bottom: 20px;
-  color: #FFD700; /* Texto dorado */
+  color: #FFD700; /* Texto dorado
   font-size: 24px;
   text-align: center;
 }
 
-/* Campo de entrada del formulario */
+/* Campo de entrada del formulario
 .form-control {
   border-radius: 5px;
-  border: 1px solid #444; /* Borde gris oscuro */
-  background-color: #222; /* Fondo más oscuro */
-  color: #fff; /* Texto blanco */
+  border: 1px solid #444; /* Borde gris oscuro
+  background-color: #222; /* Fondo más oscuro
+  color: #fff; /* Texto blanco
   padding: 10px;
   font-size: 16px;
   width: 100%;
@@ -45,37 +45,37 @@
   margin-bottom: 15px;
 }
 
-/* Placeholder para los campos del formulario */
+/* Placeholder para los campos del formulario
 .form-control::placeholder {
-  color: #aaa; /* Texto de placeholder gris claro */
+  color: #aaa; /* Texto de placeholder gris claro
 }
 
-/* Etiquetas del formulario */
+/* Etiquetas del formulario
 .form-label {
-  color: #FFD700; /* Texto dorado */
+  color: #FFD700; /* Texto dorado
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
 }
 
-/* Botón de enviar */
+/* Botón de enviar
 .btn-primary {
-  background-color: #87ceeb; /* Azul claro */
+  background-color: #87ceeb; /* Azul claro
   border-color: #729BF4;
   border-radius: 5px;
   font-size: 16px;
   padding: 10px 20px;
-  color: #000; /* Texto negro */
+  color: #000; /* Texto negro
   text-align: center;
   cursor: pointer;
   border: none;
   width: 100%;
 }
 
-/* Estilo hover para el botón */
+/* Estilo hover para el botón
 .btn-primary:hover {
-  background-color: #FFD700; /* Fondo dorado */
-  border-color: black; /* Borde negro */
-  color: #000; /* Texto negro */
+  background-color: #FFD700; /* Fondo dorado
+  border-color: black; /* Borde negro
+  color: #000; /* Texto negro
   transition: background-color 0.3s ease-in-out;
-}
+}*/

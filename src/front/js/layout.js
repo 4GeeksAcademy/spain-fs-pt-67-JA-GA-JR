@@ -48,11 +48,10 @@ const LayoutWithScroll = () => {
                 <Route path="/objetivos" element={<PrivateRoute element={<Objetivos />} />} />
                 <Route path="/homeObjetivos" element={<PrivateRoute element={<HomeObjetivos />} />} />
                 <Route path="/eventos" element={<PrivateRoute element={<Eventos />} />} />
-                <Route path="/homeEventos" element={<PrivateRoute element={<HomeEventos/>} />} />
-                <Route path="/alertas" element={<PrivateRoute element={<Alertas/>} />} />
-                <Route path="/homealertas"  element={<PrivateRoute element={<HomeAlertas/>} />} />
-                
-                <Route path="/privacy-policy" element={<PrivacyPolicy />} />  {/* Nueva ruta */}
+                <Route path="/homeEventos" element={<PrivateRoute element={<HomeEventos />} />} />
+                <Route path="/alertas" element={<PrivateRoute element={<Alertas />} />} />
+                <Route path="/homealertas" element={<PrivateRoute element={<HomeAlertas />} />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route element={<h1>Not found!</h1>} />
             </Routes>
             <Footer />

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import '../../styles/eventos.css';
 import { Context } from "../store/appContext";
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 
 export const Eventos = () => {
@@ -12,7 +12,7 @@ export const Eventos = () => {
 
   const [errors, setErrors] = useState({});
   const { actions } = useContext(Context);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
 
 
@@ -45,32 +45,23 @@ export const Eventos = () => {
 
     if (validateForm()) {
       try {
-       
+
         const eventData = {
           nombre: formData.nombre
         };
 
-        
-          
-
-
-
         const eventResponse = await actions.postEvent(eventData);
-        console.log('Tipo de eventResponse:', typeof eventResponse);
-        console.log('eventResponse:', eventResponse);
-        navigate('/homeEventos'); 
+        navigate('/homeEventos');
 
         if (!eventResponse.ok) {
-         
+
           const errorData = await eventResponse.json();
           throw new Error(`Error ${eventResponse.status}: ${errorData.message || 'Error desconocido'}`);
         }
 
         // judit si todo esta bien, parsea la respuesta JSON
         const jsonResponse = await eventResponse.json();
-        console.log('Respuesta JSON:', jsonResponse);
 
-        
         setFormData({
           nombre: '',
 

@@ -7,16 +7,16 @@ export const InicioSesion = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState({});
-    const [isChecked, setIsChecked] = useState(false); // Nueva variable de estado para la casilla de verificación
+    const [isChecked, setIsChecked] = useState(false); // Jorge -> variable de estado para la casilla de verificación
     const navigate = useNavigate();
-    const { store, actions } = useContext(Context);  // Añadido store para acceder al authToken
+    const { store, actions } = useContext(Context);  // Jorge -> store para acceder al authToken
     const location = useLocation();
 
     useEffect(() => {
         if (store.authToken || localStorage.getItem('authToken')) {
             navigate('/home');
         }
-    }, [ ]);
+    }, []);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -25,7 +25,7 @@ export const InicioSesion = () => {
     };
 
     const handleCheckboxChange = (e) => {
-        setIsChecked(e.target.checked); // Actualizar el estado cuando se marque/desmarque la casilla
+        setIsChecked(e.target.checked); // Jorge -> Actualizar el estado cuando se marque/desmarque la casilla
     };
 
     const validate = () => {
@@ -127,4 +127,3 @@ export const InicioSesion = () => {
         </div>
     );
 };
-

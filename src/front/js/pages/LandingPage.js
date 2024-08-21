@@ -38,7 +38,7 @@ const LandingPage = () => {
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">Movimientos</h5>
-                            <p>Visualiza de manera fácil todos los ingresos y gastos que vayas registrando en tu día a día.</p> 
+                            <p>Visualiza de manera fácil todos los ingresos y gastos que vayas registrando en tu día a día.</p>
                             <br></br>
                             <p>En la parte baja de la herramienta, verás el balance general según el cálculo automático de toda la info que vayas ingresando.</p>
                         </div>
