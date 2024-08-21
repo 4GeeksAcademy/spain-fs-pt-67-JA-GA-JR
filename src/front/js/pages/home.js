@@ -66,7 +66,7 @@ export const Home = () => {
                     <div className="card-body">
                         <HomeAlertas />
                         <button className="btn-primary" onClick={handleSeeMoreAlerts}>Ir a la pagina principal de alertas programadas</button>
-                        <button className="btn-primary" onClick={createAlert}>Crear una nueva alertas programadas</button>
+                        <button className="btn-primary" onClick={createAlert}>Crear una nueva alerta programada</button>
                     </div>
                 </div>
             </main>
