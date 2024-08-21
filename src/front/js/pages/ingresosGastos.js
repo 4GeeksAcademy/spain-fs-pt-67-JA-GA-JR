@@ -1,8 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from "../store/appContext";
-
-
 
 export const IngresosGastos = () => {
     const navigate = useNavigate();
@@ -19,7 +17,35 @@ export const IngresosGastos = () => {
     });
 
     const [error, setError] = useState({});
-    const { actions } = useContext(Context)
+    const [eventos, setEventos] = useState([]);
+    const { actions } = useContext(Context);
+
+    // Cargar los eventos cuando el componente se monta
+    useEffect(() => {
+        const fetchEventos = async () => {
+            const authToken = localStorage.getItem('authToken'); // Obtener el token de autenticación
+
+            try {
+                const response = await fetch(`${process.env.BACKEND_URL}/api/eventos`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error al obtener los eventos');
+                }
+
+                const data = await response.json();
+                setEventos(data.data || []); // Jorge-> Guardamos los eventos en el estado
+            } catch (error) {
+                console.error('Error al obtener los eventos:', error);
+            }
+        };
+
+        fetchEventos();
+    }, []);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -43,7 +69,6 @@ export const IngresosGastos = () => {
             return;
         }
 
-
         const cleanedData = {  //judit copia los datos de formData a cleanData 
             ...formData,
             eventos_relacion: formData.eventos_relacion.trim() || null, //.trim limpia los espacios en blanco 
@@ -56,7 +81,6 @@ export const IngresosGastos = () => {
         } catch (error) {
             throw new Error("Error al crear el movimiento");
         }
-
 
     };
 
@@ -115,23 +139,27 @@ export const IngresosGastos = () => {
                                     />
                                     {error.motivo && <div className="text-danger">{error.motivo}</div>}
                                 </div>
-
-                                {/* Jorge -> se ocultan los inputs de eventos_relación y objetivo_relación porque no ha dado tiempo
-                                a tener lista la funcionalidad en el momento de la entrega del proyecto final, dado el imprevisto
-                                de uno menos en el equipo a 15 días de la entrega final.
-                                No obstante, en un futuro se pueden reactivar, lo necesario para que funcione está al 50%.
-                                
                                 <div className="mb-3">
                                     <label htmlFor="eventos_relacion" className="form-label">Evento Relacionado</label>
-                                    <input
-                                        type="text"
+                                    <select
                                         className="form-control"
                                         id="eventos_relacion"
                                         value={formData.eventos_relacion}
                                         onChange={handleChange}
-                                    />
+                                    >
+                                        <option value="">Seleccione un evento</option>
+                                        {eventos.map(evento => (
+                                            <option key={evento.id} value={evento.id}>
+                                                {evento.nombre}
+                                            </option>
+                                        ))}
+                                    </select>
                                     {error.eventos_relacion && <div className="text-danger">{error.eventos_relacion}</div>}
-                                </div>*/}
+                                </div>
+                                {/* Jorge -> se ocultan el input de objetivo_relación porque no ha dado tiempo
+                                a tener lista la funcionalidad en el momento de la entrega del proyecto final, dado el imprevisto
+                                de uno menos en el equipo a 15 días de la entrega final.
+                                No obstante, en un futuro se puede reactivar, lo necesario para que funcione está al 50%.*/}
                                 {/*<div className="mb-3">
                                     <label htmlFor="objetivo_relacion" className="form-label">Objetivo</label>
                                     <input
