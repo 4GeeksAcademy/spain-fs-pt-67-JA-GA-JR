@@ -19,7 +19,7 @@ export const IngresosGastos = () => {
     });
 
     const [error, setError] = useState({});
-    const {actions} = useContext(Context)
+    const { actions } = useContext(Context)
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -36,7 +36,7 @@ export const IngresosGastos = () => {
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         const validationErrors = validate();
         if (Object.keys(validationErrors).length > 0) {
             setError(validationErrors);
@@ -53,11 +53,11 @@ export const IngresosGastos = () => {
         try {
             const result = await actions.createTransaction(cleanedData); //judit llama a la funcion createTransaction
             navigate('/homeMovimientos');
-        }catch(error){
+        } catch (error) {
             throw new Error("Error al crear el movimiento");
         }
-		
-		
+
+
     };
 
     return (
@@ -115,6 +115,12 @@ export const IngresosGastos = () => {
                                     />
                                     {error.motivo && <div className="text-danger">{error.motivo}</div>}
                                 </div>
+
+                                {/* Jorge -> se ocultan los inputs de eventos_relación y objetivo_relación porque no ha dado tiempo
+                                a tener lista la funcionalidad en el momento de la entrega del proyecto final, dado el imprevisto
+                                de uno menos en el equipo a 15 días de la entrega final.
+                                No obstante, en un futuro se pueden reactivar, lo necesario para que funcione está al 50%.
+                                
                                 <div className="mb-3">
                                     <label htmlFor="eventos_relacion" className="form-label">Evento Relacionado</label>
                                     <input
@@ -125,8 +131,8 @@ export const IngresosGastos = () => {
                                         onChange={handleChange}
                                     />
                                     {error.eventos_relacion && <div className="text-danger">{error.eventos_relacion}</div>}
-                                </div>
-                                <div className="mb-3">
+                                </div>*/}
+                                {/*<div className="mb-3">
                                     <label htmlFor="objetivo_relacion" className="form-label">Objetivo</label>
                                     <input
                                         type="text"
@@ -135,7 +141,7 @@ export const IngresosGastos = () => {
                                         value={formData.objetivo_relacion}
                                         onChange={handleChange}
                                     />
-                                </div>
+                                </div>*/}
                                 <div className="mb-3">
                                     <label htmlFor="fecha" className="form-label">Fecha</label>
                                     <input

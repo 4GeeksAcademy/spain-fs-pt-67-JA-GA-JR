@@ -17,6 +17,9 @@ export const Navbar = () => {
             <div className="container">
                 <Link to="/home">
                     <span className="navbar-brand mb-0 h1">KuentasKlaras®</span>
+                    <div style={{ color: "#38f83e" }}>
+                        <i class="fa-solid fa-person-walking-arrow-loop-left fa-beat fa-xl"></i>
+                    </div>
                 </Link>
                 <div className="ml-auto d-flex align-items-center">
                     {/* Jorge -> Menú desplegable para perfil de usuario */}

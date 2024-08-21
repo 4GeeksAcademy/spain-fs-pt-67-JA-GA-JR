@@ -5,7 +5,7 @@ export const PrivacyPolicy = () => {
     const handleClose = () => { // Jorge -> esto es para manejar el cierre de la pestaña con el botón de "Entendido"
         window.close();
     }
-    
+
     return (
         <div className="privacy-policy-container">
             <h1>Política de Privacidad y Protección de Datos</h1>

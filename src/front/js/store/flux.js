@@ -31,7 +31,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						})
 					});
 
-
 					if (!response.ok) {
 						throw new Error('El usuario no ha sido creado correctamente');
 					}
@@ -43,7 +42,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (error) {
 				}
 			},
-
 
 			login: async (email, password, setError) => {
 				try {
@@ -63,15 +61,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 						})
 					});
 
-
 					if (!response.ok) {
 						const errorData = await response.json();
 						const errorMessage = errorData.message || 'Email o contraseña incorrectos';
 						setError({ general: errorMessage });
 
-
 						return false;
-
 					}
 					const data = await response.json();
 					const token = data.access_token;
@@ -82,8 +77,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					localStorage.setItem('authToken', token);
 					setStore({ user: data.user, authToken: token });  // judit actualiza el estado del usuario
 					return true;
-
-
 
 				} catch (error) {
 					setError(error.message);
@@ -96,13 +89,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ user: null, authToken: null });  //  Judit Limpia el estado del usuario
 			},
 
-
-
 			createTransaction: async (formData) => {
 				try {
 					const authToken = localStorage.getItem('authToken');
-
-
 					if (!authToken) {
 						throw new Error('Token de autenticación no encontrado.');
 					}
@@ -116,14 +105,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 						body: JSON.stringify(formData)
 					});
-					const responseBody = await response.json(); 
-
+					const responseBody = await response.json();
 					if (!response.ok) {
-						throw new Error(`El movimiento no ha sido creado correctamente: ${responseBody.msg || response.statusText}`); 
+						throw new Error(`El movimiento no ha sido creado correctamente: ${responseBody.msg || response.statusText}`);
 					}
 					if (response.ok) {
 					}
-
 
 					return responseBody;
 				} catch (error) {
@@ -133,7 +120,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getMovement: async () => {
 				try {
 					const authToken = localStorage.getItem('authToken');
-
 					const response = await fetch(`${process.env.BACKEND_URL}/api/movimientos`, {
 						method: 'GET',
 						headers: {
@@ -141,7 +127,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 							'Authorization': `Bearer ${authToken}`
 						}
 					});
-
 
 					if (!response.ok) {
 						throw new Error('Error al obtener todos tus movimientos');
@@ -155,32 +140,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-
 			postGoal: async (newGoal) => {
 				try {
-
 					const authToken = localStorage.getItem('authToken');
-
-
 					if (!authToken) {
 						throw new Error('Token de autenticación no encontrado.');
 					}
-
 
 					const resp = await fetch(process.env.BACKEND_URL + "/api/objetivo", {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/json',
 							'Authorization': `Bearer ${authToken}`,
-
-
 						},
-						
 
 						body: JSON.stringify(newGoal),
 
 					});
-					console.log(localStorage.getItem('authToken'));
 
 					if (!resp.ok) {
 						const errorData = await resp.text();
@@ -197,7 +173,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			setStore: (updatedStore) => {
-				console.log("setStore: updatedStore:", updatedStore);
 				setStore({
 					...getStore(),
 					...updatedStore
@@ -206,15 +181,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			setAuthToken: (token) => {
 				setStore({ authToken: token });
-				console.log("setAuthToken: authToken establecido en el store:", token);
 			},
 
-			
 			getGoals: async () => {
-				console.log("getGoals: Ejecutando función getGoals");
 				try {
 					const authToken = getStore().authToken || localStorage.getItem('authToken');
-					console.log("getGoals: authToken:", authToken);
 					if (!authToken) {
 						throw new Error("Token de autenticación no encontrado");
 					}
@@ -225,8 +196,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 							'Authorization': `Bearer ${authToken}`
 						}
 					});
-
-					console.log("getGoals: Estado de la respuesta:", response.status);
 
 					if (!response.ok) {
 						throw new Error('Error al obtener los objetivos');
@@ -255,10 +224,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 						},
 						body: JSON.stringify(eventData)
 					});
-					console.log('Tipo de response:', typeof response);
-					console.log('response:', response);
+
 					if (!response.ok) {
-						const errorText = await response.text(); 
+						const errorText = await response.text();
 						console.error(`Error ${response.status}:`, errorText);
 						throw new Error(`Error ${response.status}: ${errorText || 'Error desconocido'}`);
 					}
@@ -272,7 +240,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getEvents: async () => {
 				try {
 					const authToken = localStorage.getItem('authToken');
-					console.log('Auth Token:', authToken);
 					const response = await fetch(`${process.env.BACKEND_URL}/api/eventos`, {
 						method: 'GET',
 						headers: {
@@ -284,19 +251,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 						throw new Error('Error al obtener los eventos');
 					}
 					const data = await response.json();
-					
+
 					setStore(prevStore => ({
 						...prevStore,
-						events: data.data || [] // Actualiza `store.alerts` con los datos o un array vacío
+						events: data.data || [] //Judit -> Actualiza `store.alerts` con los datos o un array vacío
 					}));
-					
-					return data.data || []; // Retorna los datos o un array vacío
+
+					return data.data || []; // Judit -> Retorna los datos o un array vacío
 				} catch (error) {
 					console.error('Error al obtener los eventos:', error);
-					return []; // Retorna un array vacío en caso de error
+					return []; // Judit -> Retorna un array vacío en caso de error
 				}
 			},
-
 
 			postAlert: async (alertData) => {
 				try {
@@ -304,7 +270,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (!authToken) {
 						throw new Error('No se encontró el token de autenticación.');
 					}
-			
+
 					const response = await fetch(`${process.env.BACKEND_URL}/api/alertas_programadas`, {
 						method: 'POST',
 						headers: {
@@ -312,13 +278,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 							'Authorization': `Bearer ${authToken}`
 						},
 						body: JSON.stringify(alertData)
-						
 					});
 
 					if (!response || typeof response.json !== 'function') {
 						throw new Error('La respuesta no es del tipo esperado');
 					}
-			
+
 					return response;
 				} catch (error) {
 					console.error('Error en la solicitud:', error);
@@ -326,35 +291,31 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			getAlerts: async () => {
-    try {
-        const authToken = localStorage.getItem('authToken');
-        console.log('Auth Token:', authToken);
-        const response = await fetch(`${process.env.BACKEND_URL}/api/alertas_programadas`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
-            }
-        });
-        if (!response.ok) {
-            throw new Error('Error al obtener las alertas');
-        }
-        const data = await response.json();
-        
-        setStore(prevStore => ({
-            ...prevStore,
-            alerts: data.data || [] // Actualiza `store.alerts` con los datos o un array vacío
-        }));
-        
-        return data.data || []; // Retorna los datos o un array vacío
-    } catch (error) {
-        console.error('Error al obtener las alertas:', error);
-        return []; // Retorna un array vacío en caso de error
-    }
-},
+				try {
+					const authToken = localStorage.getItem('authToken');
+					const response = await fetch(`${process.env.BACKEND_URL}/api/alertas_programadas`, {
+						method: 'GET',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${authToken}`
+						}
+					});
+					if (!response.ok) {
+						throw new Error('Error al obtener las alertas');
+					}
+					const data = await response.json();
 
+					setStore(prevStore => ({
+						...prevStore,
+						alerts: data.data || [] // Judit -> Actualiza `store.alerts` con los datos o un array vacío
+					}));
 
-
+					return data.data || []; // Judit -> Retorna los datos o un array vacío
+				} catch (error) {
+					console.error('Error al obtener las alertas:', error);
+					return []; // Judit -> Retorna un array vacío en caso de error
+				}
+			},
 
 			createUser: async (formData) => {
 				try {

@@ -3,7 +3,6 @@ import { Context } from "../store/appContext";
 import { useNavigate } from 'react-router-dom';
 
 export const Alertas = () => {
-    console.log('componente Alertas montado');
     const [formData, setFormData] = useState({
         nombre: '',
         fecha_esperada: '',
@@ -55,11 +54,10 @@ export const Alertas = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Formulario enviado');
 
         if (validateForm()) {
             try {
-                // Preparar datos para el endpoint de eventos
+                // Judit -> Preparar datos para el endpoint de eventos
                 const alertData = {
                     nombre: formData.nombre,
                     fecha_esperada: formData.fecha_esperada,
@@ -69,24 +67,22 @@ export const Alertas = () => {
                     motivo: formData.motivo
                 };
 
-                // Enviar datos usando la función postAlert del contexto
+                // Judit -> Enviar datos usando la función postAlert del contexto
                 const response = await actions.postAlert(alertData);
                 navigate('/homealertas');
-                // Verifica el objeto de respuesta
-                console.log(response);
 
-                // Asegúrate de que no se ha usado ya el cuerpo de la respuesta
+                // Judit -> Aseguramos de que no se ha usado ya el cuerpo de la respuesta
                 if (!response.ok) {
-                    // Extraer detalles del error del servidor
+                    // Judit -> Extraer detalles del error del servidor
                     const errorData = await response.json();
                     throw new Error(`Error ${response.status}: ${errorData.msg || 'Error desconocido'}`);
                 }
 
-                // Extraer datos en formato JSON sólo si es necesario
+                // Judit ->  Extraer datos en formato JSON sólo si es necesario
                 const responseData = await response.json();
-                console.log('Datos de la respuesta:', responseData);
 
-                // Limpiar el formulario después de un envío exitoso
+
+                // Judit -> Limpiar el formulario después de un envío exitoso
                 setFormData({
                     nombre: '',
                     fecha_esperada: '',

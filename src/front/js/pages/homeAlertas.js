@@ -13,56 +13,50 @@ export const HomeAlertas = () => {
   const requestNotificationPermission = async () => {
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
-        console.log('Permiso concedido para mostrar notificaciones.');
     } else {
-        console.log('Permiso denegado para mostrar notificaciones.');
-    }
-};
-
-// Llama a esta función cuando inicies tu aplicación o cuando sea relevante
-requestNotificationPermission();
-
-  
-
-  // Función para mostrar notificaciones
-  const showNotification = (title, body) => {
-    console.log('Mostrando notificación:', title, body);
-    if (Notification.permission === 'granted') {
-      const notification = new Notification(title, {
-        body: body,
-       
-      });
-      notification.onclick = () => {
-        window.focus(); // Opcional: hace que la ventana del navegador reciba el foco
-        // Aquí podrías redirigir a la página de alertas, por ejemplo:
-        window.location.href = "/homeAlertas";
-      };
-    } else {
-      console.log('No se ha concedido permiso para mostrar notificaciones.');
     }
   };
 
-  // Función para notificar alertas próximas
+  // Judit -> Llama a esta función cuando inicies tu aplicación o cuando sea relevante
+  requestNotificationPermission();
+
+
+
+  // Judit -> Función para mostrar notificaciones
+  const showNotification = (title, body) => {
+    if (Notification.permission === 'granted') {
+      const notification = new Notification(title, {
+        body: body,
+
+      });
+      notification.onclick = () => {
+        window.focus(); // Judit -> Opcional: hace que la ventana del navegador reciba el foco
+        // Judit -> Aquí redirigimos a la página de alertas:
+        window.location.href = "/homeAlertas";
+      };
+    } else {
+    }
+  };
+
+  // Judit -> Función para notificar alertas próximas
   const notifyUpcomingAlerts = (alerts) => {
     const now = new Date(); // Fecha actual
-  
+
     alerts.forEach(alert => {
-      // Convertir la fecha esperada a un objeto Date
+      // Judit -> Convertir la fecha esperada a un objeto Date
       const alertDate = new Date(alert.fecha_esperada);
-  
-      // Convertir antelación en días a milisegundos
+
+      // Judit -> Convertir antelación en días a milisegundos
       const anticipationDays = parseInt(alert.antelacion, 10);
       const anticipationMilliseconds = anticipationDays * 24 * 60 * 60 * 1000;
-  
-      // Calcular la fecha de notificación restando la antelación de la fecha esperada
+
+      // Judit -> Calcular la fecha de notificación restando la antelación de la fecha esperada
       const notificationDate = new Date(alertDate.getTime() - anticipationMilliseconds);
-  
-      // Calcular el tiempo hasta la notificación
+
+      // Judit -> Calcular el tiempo hasta la notificación
       const timeToNotification = notificationDate - now;
-  
-      console.log(`Alerta: ${alert.nombre}, Fecha de notificación: ${notificationDate}, Tiempo hasta notificación: ${timeToNotification} ms`);
-  
-      // Verifica si la notificación está dentro del rango de 10 minutos a partir de ahora
+
+      // Judit -> Verifica si la notificación está dentro del rango de 10 minutos a partir de ahora
       if (timeToNotification > 0 && timeToNotification <= 10 * 60 * 1000) { // 10 minutos
         showNotification(
           `Alerta: ${alert.nombre}`,
@@ -71,12 +65,12 @@ requestNotificationPermission();
       }
     });
   };
-  
-  
-  useEffect(() => {
-    let isMounted = true; // Verificar si el componente sigue montado
 
-    // Solicita permiso de notificación al cargar el componente
+
+  useEffect(() => {
+    let isMounted = true; // Judit -> Verificar si el componente sigue montado
+
+    // Judit -> Solicita permiso de notificación al cargar el componente
     requestNotificationPermission();
     showNotification("Título de Prueba", "Cuerpo de la notificación de prueba.");
     const fetchAlerts = async () => {
@@ -85,7 +79,7 @@ requestNotificationPermission();
         if (isMounted) {
           setAlerts(data);
           setLoading(false);
-          notifyUpcomingAlerts(data); // Notifica alertas próximas
+          notifyUpcomingAlerts(data); // Judit -> Notifica alertas próximas
         }
       } catch (err) {
         if (isMounted) {
@@ -118,7 +112,7 @@ requestNotificationPermission();
         <div className="alerts">
           {alerts.length > 0 ? (
             <div className="alerts-list">
-              {alerts.slice(0, showMore ? alerts.length : 5).map(alert => (
+              {alerts.slice(0, showMore ? alerts.length : 3).map(alert => (
                 <div key={alert.id} className="card alert-item">
                   <div className="card-body">
                     <h5 className="card-title">{alert.nombre}</h5>

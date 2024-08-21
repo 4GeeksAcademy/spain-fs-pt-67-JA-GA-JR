@@ -3,28 +3,28 @@ import { useNavigate } from 'react-router-dom';
 import { Context } from "../store/appContext";
 export const Registro = () => {
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: "",
         phone: "",
         email: "",
         password: "",
         confirmPassword: ""
-      });
+    });
 
-      const [errors, setErrors] = useState({}); 
-      const {actions} = useContext(Context)
+    const [errors, setErrors] = useState({});
+    const { actions } = useContext(Context)
 
-      // judit Manejar cambios en los campos del formulario
-      const handleChange = (e) => {
+    // judit Manejar cambios en los campos del formulario
+    const handleChange = (e) => {
         const { id, value } = e.target;
         setFormData((prevData) => ({
-          ...prevData,
-          [id]: value
+            ...prevData,
+            [id]: value
         }));
-      };
+    };
 
-      const validate = () => {
+    const validate = () => {
         const newErrors = {};
         if (!formData.name) newErrors.name = "El nombre es obligatorio.";
         if (!formData.phone) newErrors.phone = "El teléfono es obligatorio.";
@@ -33,12 +33,12 @@ export const Registro = () => {
         if (formData.password.length < 6) newErrors.password = "La contraseña debe tener al menos 6 caracteres.";
         if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = "Las contraseñas no coinciden.";
         return newErrors;
-      };
+    };
 
-      //judit Manejar el envío del formulario
-      const handleSubmit = async (e) => {
+    //judit Manejar el envío del formulario
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         const validationErrors = validate();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -48,15 +48,15 @@ export const Registro = () => {
         try {
             const result = await actions.createUser(formData);
             navigate('/home');
-        } catch(error){
-          throw new Error("Error al crear el usuario");
+        } catch (error) {
+            throw new Error("Error al crear el usuario");
         }
-      };
+    };
 
-      // Manejar la navegación a la página de inicio de sesión
-      const handleBackToLogin = () => {
+    // Jorge -> Navegación a la página de inicio de sesión
+    const handleBackToLogin = () => {
         navigate('/inicioSesion');
-      };
+    };
 
     return (
         <div className="container mt-5">

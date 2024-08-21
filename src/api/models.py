@@ -114,4 +114,3 @@ class Alertas_programadas(db.Model):
             "fecha_esperada": self.fecha_esperada,
             "usuarios_relacion": self.usuarios_relacion
         }  
-

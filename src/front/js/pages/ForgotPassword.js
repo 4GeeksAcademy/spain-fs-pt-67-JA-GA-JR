@@ -30,7 +30,7 @@ const ForgotPassword = () => {
                 setMessage("Por favor revisa tu correo, te hemos enviado un mensaje con lo necesario.");
                 setTimeout(() => {
                     navigate('/inicioSesion');
-                }, 5000); // Redirigir después de 5 segundos
+                }, 5000); // Jorge -> Redirigimos después de 5 segundos
             } else {
                 setError("No se encontró una cuenta con ese correo electrónico.");
             }
@@ -59,7 +59,7 @@ const ForgotPassword = () => {
                                         required 
                                     />
                                 </div>
-                                <button type="submit" className="btn btn-primary btn-block">
+                                <button type="submit" className="btn btn-primary btn-block mx-auto">
                                     Enviar correo de restablecimiento
                                 </button>
                             </form>

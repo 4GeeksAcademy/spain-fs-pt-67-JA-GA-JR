@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import { Context } from "../store/appContext";
 
 export const Objetivos = () => {
@@ -8,14 +8,14 @@ export const Objetivos = () => {
     const [expectedDate, setExpectedDate] = useState('');
     const [monthlySavings, setMonthlySavings] = useState('');
     const { actions } = useContext(Context);
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     let isMounted = true;
     useEffect(() => {
-      return () => {
-          isMounted = false;
-      };
-  }, []);
+        return () => {
+            isMounted = false;
+        };
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -37,7 +37,7 @@ export const Objetivos = () => {
         return cleaned;
     };
 
-    const handleAddGoal = async () => { 
+    const handleAddGoal = async () => {
         const newGoal = {
             nombre: goalName,
             monto: parseFloat(amount) || null,
@@ -46,16 +46,13 @@ export const Objetivos = () => {
         };
 
         const cleanedData = cleanData(newGoal);
-        console.log('Datos del objetivo después de limpieza:', cleanedData);
 
         try {
-            const result = await actions.postGoal(cleanedData); 
+            const result = await actions.postGoal(cleanedData);
             if (result) {
-                console.log("Objetivo creado con éxito:", result);
-                navigate('/homeObjetivos'); 
+                navigate('/homeObjetivos');
             }
 
-           
             setGoalName('');
             setAmount('');
             setExpectedDate('');

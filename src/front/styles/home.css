@@ -1,14 +1,9 @@
-body {
-    background-color: #09475f; /* Fondo azul oscuro */
-    color: #fff; /* Texto blanco por defecto */
-}
-
 .home-container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 40px;
+    padding: 30px;
 }
 
 .home-content {
@@ -20,37 +15,4 @@ body {
     background: #09475f;
     padding: 20px;
     border-radius: 20px;
-}
-
-.card {
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra */
-    border: 2px solid #FFD700; /* Borde dorado */
-    background-color: #333; /* Fondo gris oscuro */
-}
-
-.card-body {
-    padding: 30px; /* Espaciado interno */
-}
-
-.card-title {
-    margin-bottom: 20px;
-    color: #FFD700; /* Texto dorado */
-    font-size: 1.5em; /* Tamaño de fuente */
-}
-
-.card-description {
-    color: #aaa; /* Texto gris claro */
-    font-size: 1.1em; /* Tamaño de fuente */
-}
-
-.btn-primary {
-    background-color: #FFD700; /* Fondo dorado */
-    border: none;
-    color: #09475f; /* Texto azul oscuro */
-    padding: 10px 20px;
-    border-radius: 5px; /* Bordes redondeados */
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease; /* Transición suave */
 }
