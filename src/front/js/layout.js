@@ -37,7 +37,7 @@ const LayoutWithScroll = () => {
             {showNavbar && <Navbar />}
             <Routes>
                 <Route element={<LandingPage />} path="/" />
-                <Route element={<Home />} path="/home" />
+                <Route path="/home" element={<PrivateRoute element={<Home />} />} />
                 <Route element={<Registro />} path="/RegistroUsuarios" />
                 <Route path="/perfilUsuario" element={<PrivateRoute element={<PerfilUsuario />} />} />
                 <Route path="/modificarPerfilUsuario" element={<PrivateRoute element={<ModificarPerfilUsuario />} />} />
